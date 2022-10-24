@@ -1,0 +1,97 @@
+/*No needed*/
+body {
+  padding: 20px;
+  background: #aeaeae;
+}
+h2 {
+  color: white;
+  text-shadow:1px 1px 1px #333;
+  font-family: Arial;
+}
+
+/*Mixin gradient*/
+.gradient(@color: #F5F5F5, @start: #EEE, @stop: #FFF) {
+  background: @color;
+  background: -webkit-gradient(linear,
+  left bottom,
+  left top,
+  color-stop(0, @start),
+  color-stop(1, @stop));
+  background: -ms-linear-gradient(bottom,
+  @start,
+  @stop);
+  background: -moz-linear-gradient(center bottom,
+  @start 0%,
+  @stop 100%);
+  background: -o-linear-gradient(@stop,
+  @start);
+  filter: e(%("progid:DXImageTransform.Microsoft.gradient(startColorstr='%d', endColorstr='%d', GradientType=0)",@stop,@start));
+}
+
+
+/*Code for calculate the colors*/
+.color-bt(@color) {
+
+  .color-font (@bg-color) when (lightness(@bg-color) >= 30%) {
+    color: #333;
+  }
+  .color-font (@text-color) when (lightness(@text-color) < 70%) {
+    color: #fff;
+  }
+
+  font: bold 1em/1.2em Arial;
+  .color-font(@color);
+  text-shadow: 0px -1px 1px #333;
+  text-decoration: none;
+  border-radius:4px;
+  padding: 5px 10px;
+  border: 1px solid darken(@color, 10%);
+  box-shadow:0px 0px 4px #333, inset 0px 0px 2px lighten(@color, 20%);
+  /*Gradient  */
+  .gradient(@color,
+          darken(@color, 10%),
+          lighten(@color, 10%));
+
+  &:hover {
+    .gradient(@color,
+            lighten(@color, 10%),
+            darken(@color, 10%));
+  }
+  &:active {
+    box-shadow:0px 0px 1px #333, inset 0px 0px 10px #000;
+  }
+}
+/*Colors (change the color to your own)*/
+@roxo: rgba(112,42,211,0.8);
+@red: red;
+@cor-fb:#3B5998;
+
+/*Or just create a class with your color*/
+.btn-roxo {
+  .color-bt(@roxo);
+}
+
+.btn-red {
+  .color-bt(@red);
+}
+
+.btn-black {
+  .color-bt(black);
+}
+
+.btn-something {
+  .color-bt(rgb(255,255,255));
+}
+.btn-light {
+  .color-bt(#bbb);
+}
+.btn-green {
+  .color-bt(green);
+}
+
+.thiago{
+  .color-bt(#333);
+}
+.blue{
+  .color-bt(@cor-fb);
+}

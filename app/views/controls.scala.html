@@ -1,0 +1,12 @@
+@(allRoutes: String)
+
+    @main("HTWG Malefiz") {
+        <div id="info_panel">
+            <button class="get-back-csstest" role="button" onclick="location.href='/'">Get back to the game</button>
+            <p class="text">How to play this game in the current Branch</p>
+
+            <p class="text">Enter routes to play the game.</p>
+
+            <textarea id="information" rows="25" cols="38">@allRoutes</textarea id="information" rows="25" cols="38">
+        </div>
+    }

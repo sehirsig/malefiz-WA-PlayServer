@@ -1,0 +1,317 @@
+@(controller: controllers.MalefizController, game: String, gameMessage: String, diceRolled: String, currentplayer: String, atLeast2: String)
+@welcome = @{
+    0
+}
+@loaded = @{
+    1
+}
+@saved = @{
+    2
+}
+@gamewinner = @{
+    3
+}
+@choosefig = @{
+    4
+}
+@idle = @{
+    5
+}
+@ready1 = @{
+    6
+}
+@ready2 = @{
+    7
+}
+@player0 = @{
+    8
+}
+@player1 = @{
+    9
+}
+@player2 = @{
+    10
+}
+@player3 = @{
+    11
+}
+@player4 = @{
+    12
+}
+@playing = @{
+    13
+}
+@moving = @{
+    14
+}
+@entername = @{
+    15
+}
+@error = @{
+    -1
+}
+
+@start1cell = @{
+    controller.gameController.getpureCell("Start1Cell")
+}
+@start2cell = @{
+    controller.gameController.getpureCell("Start2Cell")
+}
+@start3cell = @{
+    controller.gameController.getpureCell("Start3Cell")
+}
+@start4cell = @{
+    controller.gameController.getpureCell("Start4Cell")
+}
+@freecell = @{
+    controller.gameController.getpureCell("FreeCell")
+}
+@blockedcell = @{
+    controller.gameController.getpureCell("BlockedCell")
+}
+@securecell = @{
+    controller.gameController.getpureCell("SecureCell")
+}
+@goalcell = @{
+    controller.gameController.getpureCell("GoalCell")
+}
+@invalidcell = @{
+    controller.gameController.getpureCell("InvalidCell")
+}
+@playercell11 = @{
+    controller.gameController.getpureCell("PlayerCell11")
+}
+@playercell12 = @{
+    controller.gameController.getpureCell("PlayerCell12")
+}
+@playercell13 = @{
+    controller.gameController.getpureCell("PlayerCell13")
+}
+@playercell14 = @{
+    controller.gameController.getpureCell("PlayerCell14")
+}
+@playercell15 = @{
+    controller.gameController.getpureCell("PlayerCell15")
+}
+@playercell21 = @{
+    controller.gameController.getpureCell("PlayerCell21")
+}
+@playercell22 = @{
+    controller.gameController.getpureCell("PlayerCell22")
+}
+@playercell23 = @{
+    controller.gameController.getpureCell("PlayerCell23")
+}
+@playercell24 = @{
+    controller.gameController.getpureCell("PlayerCell24")
+}
+@playercell25 = @{
+    controller.gameController.getpureCell("PlayerCell25")
+}
+@playercell31 = @{
+    controller.gameController.getpureCell("PlayerCell31")
+}
+@playercell32 = @{
+    controller.gameController.getpureCell("PlayerCell32")
+}
+@playercell33 = @{
+    controller.gameController.getpureCell("PlayerCell33")
+}
+@playercell34 = @{
+    controller.gameController.getpureCell("PlayerCell34")
+}
+@playercell35 = @{
+    controller.gameController.getpureCell("PlayerCell35")
+}
+@playercell41 = @{
+    controller.gameController.getpureCell("PlayerCell41")
+}
+@playercell42 = @{
+    controller.gameController.getpureCell("PlayerCell42")
+}
+@playercell43 = @{
+    controller.gameController.getpureCell("PlayerCell43")
+}
+@playercell44 = @{
+    controller.gameController.getpureCell("PlayerCell44")
+}
+@playercell45 = @{
+    controller.gameController.getpureCell("PlayerCell45")
+}
+
+
+@main("HTWG Malefiz") {
+    <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("/stylesheets/game.css")">
+    <div class="page-wrapper">
+        <nav class="navMenu">
+            <a href="/">Game</a>
+            <a href="/htmltest">HTML</a>
+            <a href="/csstest">CSS</a>
+            <a href="/controls">Controls</a>
+            <a href="/about">About</a>
+            <div class="dot"></div>
+        </nav>
+        <div class="gamescreen-panel">
+            <table class="no-spacing">
+            @for(i <- 0 until controller.gameController.gameboard.getStandardXYsize._1) {
+                <tr>
+                @for(j <- 0 until controller.gameController.gameboard.getStandardXYsize._2) {
+                    <td>
+                        @if(controller.gameController.gameboard.rows(i)(j).equals(invalidcell)) {
+                            <img src="@routes.Assets.versioned("/images/game/invalid.png")" id="game-field"/>
+                        } else if(controller.gameController.gameboard.rows(i)(j).equals(start1cell)) {
+                    <img src="@routes.Assets.versioned("/images/game/start1.png")" id="game-field"/>
+                        } else if (controller.gameController.gameboard.rows(i)(j).equals(start2cell) ) {
+                    <img src="@routes.Assets.versioned("/images/game/start2.png")" id="game-field"/>
+                        } else if (controller.gameController.gameboard.rows(i)(j).equals(start3cell) ) {
+                    <img src="@routes.Assets.versioned("/images/game/start3.png")" id="game-field"/>
+                        } else if (controller.gameController.gameboard.rows(i)(j).equals(start4cell) ) {
+                    <img src="@routes.Assets.versioned("/images/game/start4.png")" id="game-field"/>
+                        } else if (controller.gameController.gameboard.rows(i)(j).equals(freecell) ) {
+                    <img src="@routes.Assets.versioned("/images/game/free.png")" id="game-field"/>
+                        } else if (controller.gameController.gameboard.rows(i)(j).equals(blockedcell) ) {
+                    <img src="@routes.Assets.versioned("/images/game/blocked.png")" id="game-field"/>
+                        } else if (controller.gameController.gameboard.rows(i)(j).equals(securecell) ) {
+                    <img src="@routes.Assets.versioned("/images/game/free.png")" id="game-field"/>
+                        } else if (controller.gameController.gameboard.rows(i)(j).equals(goalcell) ) {
+                    <img src="@routes.Assets.versioned("/images/game/goal.png")" id="game-field"/>
+                        } else if (controller.gameController.gameboard.rows(i)(j).equals(playercell11) ) {
+                    <img src="@routes.Assets.versioned("/images/game/player11.png")" id="game-field"/>
+                        } else if (controller.gameController.gameboard.rows(i)(j).equals(playercell12) ) {
+                    <img src="@routes.Assets.versioned("/images/game/player12.png")" id="game-field"/>
+                        } else if (controller.gameController.gameboard.rows(i)(j).equals(playercell13) ) {
+                    <img src="@routes.Assets.versioned("/images/game/player13.png")" id="game-field"/>
+                        } else if (controller.gameController.gameboard.rows(i)(j).equals(playercell14) ) {
+                    <img src="@routes.Assets.versioned("/images/game/player14.png")" id="game-field"/>
+                        } else if (controller.gameController.gameboard.rows(i)(j).equals(playercell15) ) {
+                    <img src="@routes.Assets.versioned("/images/game/player15.png")" id="game-field"/>
+                        } else if (controller.gameController.gameboard.rows(i)(j).equals(playercell21) ) {
+                    <img src="@routes.Assets.versioned("/images/game/player21.png")" id="game-field"/>
+                        } else if (controller.gameController.gameboard.rows(i)(j).equals(playercell22) ) {
+                    <img src="@routes.Assets.versioned("/images/game/player22.png")" id="game-field"/>
+                        } else if (controller.gameController.gameboard.rows(i)(j).equals(playercell23) ) {
+                    <img src="@routes.Assets.versioned("/images/game/player23.png")" id="game-field"/>
+                        } else if (controller.gameController.gameboard.rows(i)(j).equals(playercell24) ) {
+                    <img src="@routes.Assets.versioned("/images/game/player24.png")" id="game-field"/>
+                        } else if (controller.gameController.gameboard.rows(i)(j).equals(playercell25) ) {
+                    <img src="@routes.Assets.versioned("/images/game/player25.png")" id="game-field"/>
+                        } else if (controller.gameController.gameboard.rows(i)(j).equals(playercell31) ) {
+                    <img src="@routes.Assets.versioned("/images/game/player31.png")" id="game-field"/>
+                        } else if (controller.gameController.gameboard.rows(i)(j).equals(playercell32) ) {
+                    <img src="@routes.Assets.versioned("/images/game/player32.png")" id="game-field"/>
+                        } else if (controller.gameController.gameboard.rows(i)(j).equals(playercell33) ) {
+                    <img src="@routes.Assets.versioned("/images/game/player33.png")" id="game-field"/>
+                        } else if (controller.gameController.gameboard.rows(i)(j).equals(playercell34) ) {
+                    <img src="@routes.Assets.versioned("/images/game/player34.png")" id="game-field"/>
+                        } else if (controller.gameController.gameboard.rows(i)(j).equals(playercell35) ) {
+                    <img src="@routes.Assets.versioned("/images/game/player35.png")" id="game-field"/>
+                        } else if (controller.gameController.gameboard.rows(i)(j).equals(playercell41) ) {
+                    <img src="@routes.Assets.versioned("/images/game/player41.png")" id="game-field"/>
+                        } else if (controller.gameController.gameboard.rows(i)(j).equals(playercell42) ) {
+                    <img src="@routes.Assets.versioned("/images/game/player42.png")" id="game-field"/>
+                        } else if (controller.gameController.gameboard.rows(i)(j).equals(playercell43) ) {
+                    <img src="@routes.Assets.versioned("/images/game/player43.png")" id="game-field"/>
+                        } else if (controller.gameController.gameboard.rows(i)(j).equals(playercell44) ) {
+                    <img src="@routes.Assets.versioned("/images/game/player44.png")" id="game-field"/>
+                        } else if (controller.gameController.gameboard.rows(i)(j).equals(playercell45) ) {
+                    <img src="@routes.Assets.versioned("/images/game/player45.png")" id="game-field"/>
+                        }
+                    </td>
+                }
+                </tr>
+            }
+            </table>
+        </div>
+        <div class="information-panel">
+            @if(controller.getStatusID() == ready1
+                    || controller.getStatusID() == ready2) {
+                <p class="info_text">@gameMessage</p>
+            } else if(controller.getStatusID() == playing) {
+            <p class="info_text">@currentplayer</p>
+            <p class="info_text">@diceRolled</p>
+            } else if(controller.getStatusID() == choosefig) {
+            <p class="info_text">@diceRolled</p>
+            } else if(controller.getStatusID() == moving) {
+            <p class="info_text">@currentplayer</p>
+            <p class="info_text">@diceRolled</p>
+            } else if(controller.getStatusID() == welcome
+            || controller.getStatusID() == ready1
+            || controller.getStatusID() == idle) {
+            <p class="info_text">@atLeast2</p>
+            }
+        </div>
+        <div class="input-panel-group">
+            <div class="input-critical-panel">
+                <form method="get" action="@routes.MalefizController.resetGame">
+                    <input id="reset-button" type="submit" value="Reset Game &#8634">
+                </form>
+            </div>
+            <div class="input-normal-panel">
+                @if(controller.getStatusID() == ready1
+                        || controller.getStatusID() == ready2) {
+                    <div class="start-category">
+                        <form method="get" action="@routes.MalefizController.start">
+                            <input class="input-normal-button" id="start-button" type="submit" value="Start Game">
+                        </form>
+                    </div>
+                }
+                @if(controller.getStatusID() == playing) {
+                    <div class="rolldice-category">
+                        <form method="get" action="@routes.MalefizController.rollDice">
+                            <input class="input-normal-button" id="roll-dice-button" type="submit" value="Roll Dice">
+                        </form>
+                    </div>
+                }
+                @if(controller.getStatusID() == choosefig) {
+                    <div class="choosefig-category">
+                        <form method="get" action="@routes.MalefizController.selectFigure(1)">
+                            <input class="input-normal-button" id="select-figure-1-button" type="submit" value="Figure 1">
+                        </form>
+                        <form method="get" action="@routes.MalefizController.selectFigure(2)">
+                            <input class="input-normal-button" id="select-figure-2-button" type="submit" value="Figure 2">
+                        </form>
+                        <form method="get" action="@routes.MalefizController.selectFigure(3)">
+                            <input class="input-normal-button" id="select-figure-3-button" type="submit" value="Figure 3">
+                        </form>
+                        <form method="get" action="@routes.MalefizController.selectFigure(4)">
+                            <input class="input-normal-button" id="select-figure-4-button" type="submit" value="Figure 4">
+                        </form>
+                        <form method="get" action="@routes.MalefizController.selectFigure(5)">
+                            <input class="input-normal-button" id="select-figure-5-button" type="submit" value="Figure 5">
+                        </form>
+                    </div>
+                }
+                @if(controller.getStatusID() == moving) {
+                    <div class="move-category">
+                        <form method="get" action="@routes.MalefizController.move("w")">
+                            <input class="input-normal-button" id="move-up-button" type="submit" value="&#9650">
+                        </form>
+                        <div class="move-lower">
+                            <form method="get" action="@routes.MalefizController.move("a")">
+                                <input class="input-normal-button" id="move-left-button" type="submit" value="&#9668">
+                            </form>
+                            <form method="get" action="@routes.MalefizController.move("s")">
+                                <input class="input-normal-button" id="move-down-button" type="submit" value="&#9660">
+                            </form>
+                            <form method="get" action="@routes.MalefizController.move("d")">
+                                <input class="input-normal-button" id="move-right-button" type="submit" value="&#9658">
+                            </form>
+                        </div>
+                        <form method="get" action="@routes.MalefizController.skip">
+                            <input class="input-normal-button" id="move-skip-button" type="submit" value="Skip">
+                        </form>
+                    </div>
+                }
+                @if(controller.getStatusID() == welcome
+                        || controller.getStatusID() == ready1
+                        || controller.getStatusID() == idle) {
+                    <div class="addplayer-category">
+                        <input class="input-normal-text" type="text" id="name" size="25" maxlength="255">
+                        <input class="input-normal-button" id="select-figure-1-button" type="submit" value="Add Player" onclick="addPlayer()">
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <script src='@routes.Assets.versioned("javascripts/addPlayer.js")' type="text/javascript"></script>
+}

@@ -1,0 +1,14 @@
+logs
+target
+/.bsp
+/.idea
+/.idea_modules
+/.classpath
+/.project
+/.settings
+/RUNNING_PID
+
+null
+project/project
+gameboard.json
+gameboard.xml
