@@ -24,11 +24,13 @@ body {
   background-repeat: no-repeat;
   overflow: hidden;
 }
+
 html {
   font-family: @game_font;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
 }
+
 .information-panel {
   border-style: solid;
   border-color: @border_color_game;
@@ -43,6 +45,7 @@ html {
   position: fixed;
   background-color: @background_color_information_panel;
   background-image: url(../images/wood-pattern.png);
+
   .info_text {
     top: 50%;
     left: 15%;
@@ -63,12 +66,14 @@ html {
   padding: 7px 7px 7px 7px;
   align-items: center;
   background-image: url(../images/wood-pattern.png);
+
   .input-critical-panel {
     margin-bottom: 20px;
     alignment: center;
     align-items: center;
     text-align: center;
   }
+
   .input-normal-panel {
     margin-top: 20px;
     margin-bottom: 20px;
@@ -83,6 +88,7 @@ html {
     background-color: @background_color_gameboard;
   }
 }
+
 .gamescreen-panel {
   position: fixed;
   top: 10%;
@@ -90,19 +96,30 @@ html {
   align-content: normal;
   margin-top: 20px;
   margin-bottom: 20px;
+  width: 30%;
+  height: 60%;
   background-color: @background_color_gameboard;
   background-image: url(../images/wood-pattern.png);
   border-style: solid;
   border-color: @border_color_game;
   border-width: 5px;
   border-radius: 50px;
-  #game-field {
+  .game-field {
     width: @gamecell_size;
     height: @gamecell_size;
     max-height: @gamecell_maximum;
     max-width: @gamecell_maximum;
   }
+
 }
+.row {
+  float: left;
+ }
+
+.col {
+  float: left;
+}
+
 .input-critical-panel {
   input {
     color: @input_color;
@@ -112,6 +129,7 @@ html {
     background: rgba(34, 34, 34, 0.75);
     text-align: center;
     transition: all 0.3s ease 0s;
+
     &:hover {
       background-color: @background_color_critical_hover;
       box-shadow: 0px 15px 20px rgba(255, 4, 4, 0.4);
@@ -120,6 +138,7 @@ html {
     }
   }
 }
+
 .input-normal-panel {
   .input-normal-button {
     color: @input_color;
@@ -131,6 +150,7 @@ html {
     width: fit-content;
     margin-bottom: 20px;
     transition: all 0.3s ease 0s;
+
     &:hover {
       background-color: @background_color_normal_hover;
       box-shadow: 0px 15px 20px rgba(255, 165, 0, 0.4);
@@ -139,6 +159,7 @@ html {
     }
   }
 }
+
 .input-normal-text {
   float: left;
   color: @input_color;
@@ -152,13 +173,21 @@ html {
   margin-bottom: 20px;
   margin-right: 10px;
   transition: all 0.3s ease 0s;
+
+  &:hover {
+    box-shadow: 0px 15px 20px rgba(255, 165, 0, 0.1);
+    color: @input_hover_color;
+    transform: translateY(-2px);
+  }
 }
+
 .navMenu {
   position: absolute;
   top: 5%;
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
+
   a {
     min-height: 20px;
     min-width: 0px;
@@ -170,7 +199,6 @@ html {
     width: 120px;
     -webkit-transition: all 0.2s ease-in-out;
     transition: all 0.2s ease-in-out;
-    background-color: @background_color_nav_item;
     text-align: center;
     text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
     text-transform: uppercase;
@@ -181,12 +209,14 @@ html {
     padding: 7px 7px;
     background-color: @background_color_gameboard;
     background-image: url(../images/wood-pattern.png);
+
     &:hover {
       color: @nav_item_hover_color;
     }
+
     &:nth-child(1) {
       &:hover {
-        &~.dot {
+        & ~ .dot {
           -webkit-transform: translateX(67px);
           transform: translateX(67px);
           -webkit-transition: all 0.2s ease-in-out;
@@ -195,9 +225,10 @@ html {
         }
       }
     }
+
     &:nth-child(2) {
       &:hover {
-        &~.dot {
+        & ~ .dot {
           -webkit-transform: translateX(204px);
           transform: translateX(204px);
           -webkit-transition: all 0.2s ease-in-out;
@@ -206,9 +237,10 @@ html {
         }
       }
     }
+
     &:nth-child(3) {
       &:hover {
-        &~.dot {
+        & ~ .dot {
           -webkit-transform: translateX(342px);
           transform: translateX(342px);
           -webkit-transition: all 0.2s ease-in-out;
@@ -217,9 +249,10 @@ html {
         }
       }
     }
+
     &:nth-child(4) {
       &:hover {
-        &~.dot {
+        & ~ .dot {
           -webkit-transform: translateX(480px);
           transform: translateX(480px);
           -webkit-transition: all 0.2s ease-in-out;
@@ -228,9 +261,10 @@ html {
         }
       }
     }
+
     &:nth-child(5) {
       &:hover {
-        &~.dot {
+        & ~ .dot {
           -webkit-transform: translateX(617px);
           transform: translateX(617px);
           -webkit-transition: all 0.2s ease-in-out;
@@ -240,6 +274,7 @@ html {
       }
     }
   }
+
   .dot {
     width: 6px;
     height: 6px;
@@ -252,24 +287,30 @@ html {
     transition: all 0.2s ease-in-out;
   }
 }
+
 .move-category {
   .move-lower {
     display: flex;
     justify-content: center;
     align-items: center;
+
     #move-left-button {
       padding: 20px 25px;
     }
+
     #move-down-button {
       padding: 20px 25px;
     }
+
     #move-right-button {
       padding: 20px 25px;
     }
   }
+
   #move-up-button {
     padding: 20px 25px;
   }
+
   #move-skip-button {
     padding-left: 20px;
     padding-right: 20px;

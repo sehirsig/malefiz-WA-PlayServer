@@ -152,75 +152,73 @@
             <div class="dot"></div>
         </nav>
         <div class="gamescreen-panel">
-            <table class="no-spacing">
             @for(i <- 0 until controller.gameController.gameboard.getStandardXYsize._1) {
-                <tr>
+                <div class="row">
                 @for(j <- 0 until controller.gameController.gameboard.getStandardXYsize._2) {
-                    <td>
+                    <div class="col">
                         @if(controller.gameController.gameboard.rows(i)(j).equals(invalidcell)) {
-                            <img src="@routes.Assets.versioned("/images/game/invalid.png")" id="game-field"/>
+                            <img src="@routes.Assets.versioned("/images/game/invalid.png")" class="game-field"/>
                         } else if(controller.gameController.gameboard.rows(i)(j).equals(start1cell)) {
-                    <img src="@routes.Assets.versioned("/images/game/start1.png")" id="game-field"/>
+                    <img src="@routes.Assets.versioned("/images/game/start1.png")" class="game-field"/>
                         } else if (controller.gameController.gameboard.rows(i)(j).equals(start2cell) ) {
-                    <img src="@routes.Assets.versioned("/images/game/start2.png")" id="game-field"/>
+                    <img src="@routes.Assets.versioned("/images/game/start2.png")" class="game-field"/>
                         } else if (controller.gameController.gameboard.rows(i)(j).equals(start3cell) ) {
-                    <img src="@routes.Assets.versioned("/images/game/start3.png")" id="game-field"/>
+                    <img src="@routes.Assets.versioned("/images/game/start3.png")" class="game-field"/>
                         } else if (controller.gameController.gameboard.rows(i)(j).equals(start4cell) ) {
-                    <img src="@routes.Assets.versioned("/images/game/start4.png")" id="game-field"/>
+                    <img src="@routes.Assets.versioned("/images/game/start4.png")" class="game-field"/>
                         } else if (controller.gameController.gameboard.rows(i)(j).equals(freecell) ) {
-                    <img src="@routes.Assets.versioned("/images/game/free.png")" id="game-field"/>
+                    <img src="@routes.Assets.versioned("/images/game/free.png")" class="game-field"/>
                         } else if (controller.gameController.gameboard.rows(i)(j).equals(blockedcell) ) {
-                    <img src="@routes.Assets.versioned("/images/game/blocked.png")" id="game-field"/>
+                    <img src="@routes.Assets.versioned("/images/game/blocked.png")" class="game-field"/>
                         } else if (controller.gameController.gameboard.rows(i)(j).equals(securecell) ) {
-                    <img src="@routes.Assets.versioned("/images/game/free.png")" id="game-field"/>
+                    <img src="@routes.Assets.versioned("/images/game/free.png")" class="game-field"/>
                         } else if (controller.gameController.gameboard.rows(i)(j).equals(goalcell) ) {
-                    <img src="@routes.Assets.versioned("/images/game/goal.png")" id="game-field"/>
+                    <img src="@routes.Assets.versioned("/images/game/goal.png")" class="game-field"/>
                         } else if (controller.gameController.gameboard.rows(i)(j).equals(playercell11) ) {
-                    <img src="@routes.Assets.versioned("/images/game/player11.png")" id="game-field"/>
+                    <img src="@routes.Assets.versioned("/images/game/player11.png")" class="game-field"/>
                         } else if (controller.gameController.gameboard.rows(i)(j).equals(playercell12) ) {
-                    <img src="@routes.Assets.versioned("/images/game/player12.png")" id="game-field"/>
+                    <img src="@routes.Assets.versioned("/images/game/player12.png")" class="game-field"/>
                         } else if (controller.gameController.gameboard.rows(i)(j).equals(playercell13) ) {
-                    <img src="@routes.Assets.versioned("/images/game/player13.png")" id="game-field"/>
+                    <img src="@routes.Assets.versioned("/images/game/player13.png")" class="game-field"/>
                         } else if (controller.gameController.gameboard.rows(i)(j).equals(playercell14) ) {
-                    <img src="@routes.Assets.versioned("/images/game/player14.png")" id="game-field"/>
+                    <img src="@routes.Assets.versioned("/images/game/player14.png")" class="game-field"/>
                         } else if (controller.gameController.gameboard.rows(i)(j).equals(playercell15) ) {
-                    <img src="@routes.Assets.versioned("/images/game/player15.png")" id="game-field"/>
+                    <img src="@routes.Assets.versioned("/images/game/player15.png")" class="game-field"/>
                         } else if (controller.gameController.gameboard.rows(i)(j).equals(playercell21) ) {
-                    <img src="@routes.Assets.versioned("/images/game/player21.png")" id="game-field"/>
+                    <img src="@routes.Assets.versioned("/images/game/player21.png")" class="game-field"/>
                         } else if (controller.gameController.gameboard.rows(i)(j).equals(playercell22) ) {
-                    <img src="@routes.Assets.versioned("/images/game/player22.png")" id="game-field"/>
+                    <img src="@routes.Assets.versioned("/images/game/player22.png")" class="game-field"/>
                         } else if (controller.gameController.gameboard.rows(i)(j).equals(playercell23) ) {
-                    <img src="@routes.Assets.versioned("/images/game/player23.png")" id="game-field"/>
+                    <img src="@routes.Assets.versioned("/images/game/player23.png")" class="game-field"/>
                         } else if (controller.gameController.gameboard.rows(i)(j).equals(playercell24) ) {
-                    <img src="@routes.Assets.versioned("/images/game/player24.png")" id="game-field"/>
+                    <img src="@routes.Assets.versioned("/images/game/player24.png")" class="game-field"/>
                         } else if (controller.gameController.gameboard.rows(i)(j).equals(playercell25) ) {
-                    <img src="@routes.Assets.versioned("/images/game/player25.png")" id="game-field"/>
+                    <img src="@routes.Assets.versioned("/images/game/player25.png")" class="game-field"/>
                         } else if (controller.gameController.gameboard.rows(i)(j).equals(playercell31) ) {
-                    <img src="@routes.Assets.versioned("/images/game/player31.png")" id="game-field"/>
+                    <img src="@routes.Assets.versioned("/images/game/player31.png")" class="game-field"/>
                         } else if (controller.gameController.gameboard.rows(i)(j).equals(playercell32) ) {
-                    <img src="@routes.Assets.versioned("/images/game/player32.png")" id="game-field"/>
+                    <img src="@routes.Assets.versioned("/images/game/player32.png")" class="game-field"/>
                         } else if (controller.gameController.gameboard.rows(i)(j).equals(playercell33) ) {
-                    <img src="@routes.Assets.versioned("/images/game/player33.png")" id="game-field"/>
+                    <img src="@routes.Assets.versioned("/images/game/player33.png")" class="game-field"/>
                         } else if (controller.gameController.gameboard.rows(i)(j).equals(playercell34) ) {
-                    <img src="@routes.Assets.versioned("/images/game/player34.png")" id="game-field"/>
+                    <img src="@routes.Assets.versioned("/images/game/player34.png")" class="game-field"/>
                         } else if (controller.gameController.gameboard.rows(i)(j).equals(playercell35) ) {
-                    <img src="@routes.Assets.versioned("/images/game/player35.png")" id="game-field"/>
+                    <img src="@routes.Assets.versioned("/images/game/player35.png")" class="game-field"/>
                         } else if (controller.gameController.gameboard.rows(i)(j).equals(playercell41) ) {
-                    <img src="@routes.Assets.versioned("/images/game/player41.png")" id="game-field"/>
+                    <img src="@routes.Assets.versioned("/images/game/player41.png")" class="game-field"/>
                         } else if (controller.gameController.gameboard.rows(i)(j).equals(playercell42) ) {
-                    <img src="@routes.Assets.versioned("/images/game/player42.png")" id="game-field"/>
+                    <img src="@routes.Assets.versioned("/images/game/player42.png")" class="game-field"/>
                         } else if (controller.gameController.gameboard.rows(i)(j).equals(playercell43) ) {
-                    <img src="@routes.Assets.versioned("/images/game/player43.png")" id="game-field"/>
+                    <img src="@routes.Assets.versioned("/images/game/player43.png")" class="game-field"/>
                         } else if (controller.gameController.gameboard.rows(i)(j).equals(playercell44) ) {
-                    <img src="@routes.Assets.versioned("/images/game/player44.png")" id="game-field"/>
+                    <img src="@routes.Assets.versioned("/images/game/player44.png")" class="game-field"/>
                         } else if (controller.gameController.gameboard.rows(i)(j).equals(playercell45) ) {
-                    <img src="@routes.Assets.versioned("/images/game/player45.png")" id="game-field"/>
+                    <img src="@routes.Assets.versioned("/images/game/player45.png")" class="game-field"/>
                         }
-                    </td>
+                    </div>
                 }
-                </tr>
+                </div>
             }
-            </table>
         </div>
         <div class="information-panel">
             @if(controller.getStatusID() == ready1
