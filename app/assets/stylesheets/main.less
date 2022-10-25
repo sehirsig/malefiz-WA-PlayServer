@@ -1,0 +1,89 @@
+@header_color: #fcedd8;
+@header_font: 'Niconne', cursive;
+@get_back_color: rgb(255, 255, 255);
+@background_color: lightsteelblue;
+@border_color: black;
+
+@keyframes glowing-get-back-csstest {
+  0% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: 400% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
+body {
+  background: rgb(2,0,36);
+  background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(116,67,171,1) 21%, rgba(0,255,59,1) 88%);
+}
+#header_text {
+  clear: both;
+  font-size: 75px;
+  color: @header_color;
+  font-family: @header_font;
+  text-shadow: 5px 5px 0px #eb452b, 10px 10px 0px #efa032, 12px 12px 0px #46b59b, 14px 14px 0px #017e7f, 16px 16px 0px #052939, 18px 18px 0px #c11a2b;
+}
+#info_panel {
+  background: rgb(2,0,36);
+  background: radial-gradient(circle, rgba(2,0,36,1) 0%, rgba(67,171,161,1) 21%, rgba(255,239,0,1) 88%);
+  border-style: solid;
+  border-color: @border_color;
+  border-width: 5px;
+  border-radius: 20px;
+  padding: 7px 7px 7px 7px;
+  top: 25%;
+  left: 25%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  align-content: normal;
+  position: fixed;
+  background-color: @background_color;
+  #information {
+    background: rgb(0,156,15);
+    background: radial-gradient(circle, rgba(0,156,15,0.7819502801120448) 0%, rgba(171,67,67,1) 21%, rgba(175,131,64,1) 56%, rgba(0,255,196,1) 88%);
+  }
+}
+.get-back-csstest {
+  padding: 0.6em 2em;
+  border: none;
+  outline: none;
+  color: @get_back_color;
+  background: #111;
+  cursor: pointer;
+  position: relative;
+  z-index: 0;
+  border-radius: 10px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  &:before {
+    content: "";
+    background: linear-gradient( 45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000 );
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    background-size: 400%;
+    z-index: -1;
+    filter: blur(5px);
+    -webkit-filter: blur(5px);
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    animation: glowing-get-back-csstest 20s linear infinite;
+    transition: opacity 0.3s ease-in-out;
+    border-radius: 10px;
+  }
+  &:after {
+    z-index: -1;
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #222;
+    left: 0;
+    top: 0;
+    border-radius: 10px;
+  }
+}
