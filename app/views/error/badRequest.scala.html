@@ -2,17 +2,23 @@
 
 @main("400 Bad Request") {
     <html>
-    <head>
-        <title>Oops...</title>
-        <meta http-equiv="refresh" content="10, / " />
-    </head>
-    <body>
-    <div id="main">
-        <h1>400</h1>
-        <p> Malefiz received a malformed Request</p>
-        <p> You will be redirected to the home page in 10 seconds</p>
-        <a href="/">Take me back</a>
-    </div>
-    </body>
+        <head>
+            <title>Oops...</title>
+            <meta http-equiv="refresh" content="10, / " />
+            <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/error.css")" >
+
+        </head>
+        <body>
+            <div class="main">
+                <div class="mainerr">4</div>
+                <div class="zero">0</div>
+                <div class="errcode">0</div>
+                <div class="msg">
+                    Malefiz received a malformed Request. <br>
+                    You will be redirected to the home page in 10 seconds...
+                    <p>Take me <a href="/">back</a></p>
+                </div>
+            </div>
+        </body>
     </html>
 }

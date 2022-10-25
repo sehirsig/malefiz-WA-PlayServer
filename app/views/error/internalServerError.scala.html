@@ -2,17 +2,20 @@
 
 @main("500 Something went Wrong") {
     <html>
-    <head>
-        <title>Oops...</title>
-        <meta http-equiv="refresh" content="10, / " />
-    </head>
-    <body>
-    <div id="main">
-        <h1>500</h1>
-        <p> An Internal Server Error occurred, sorry...</p>
-        <p> You will be redirected to the home page in 10 seconds</p>
-        <a href="/">Take me back</a>
-    </div>
-    </body>
+        <head>
+            <title>Oops...</title>
+            <meta http-equiv="refresh" content="10, / " />
+            <link rel="stylesheet"  media="screen" href="@routes.Assets.versioned("stylesheets/error.css")" >
+        </head>
+        <body>
+            <div class="main">
+                <div class="mainerr">500</div>
+                <div class="msg">
+                    An Internal Server Error occurred, sorry... <br>
+                    You will be redirected to the home page in 10 seconds...
+                    <p>Take me <a href="/">back</a></p>
+                </div>
+            </div>
+        </body>
     </html>
 }
