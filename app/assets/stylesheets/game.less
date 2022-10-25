@@ -14,6 +14,8 @@
 //responsive gamefield
 @gamecell_size: 100%;
 @gamecell_maximum: 30px;
+@gamefield_width: calc(@gamecell_maximum * 19);
+@gamefield_heigth: calc(@gamecell_maximum * 21);
 
 body {
   background: #EDEBED url(../images/malefiz-background.jpg);
@@ -96,8 +98,8 @@ html {
   align-content: normal;
   margin-top: 20px;
   margin-bottom: 20px;
-  width: 30%;
-  height: 60%;
+  max-width: @gamefield_width;
+  max-height: @gamefield_heigth;
   background-color: @background_color_gameboard;
   background-image: url(../images/wood-pattern.png);
   border-style: solid;
@@ -114,6 +116,7 @@ html {
 }
 .row {
   float: left;
+  width: calc(@gamecell_size * 19);
  }
 
 .col {
