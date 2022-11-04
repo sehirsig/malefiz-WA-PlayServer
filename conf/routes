@@ -11,16 +11,6 @@ GET     /about                      controllers.MalefizController.about
 
 GET     /controls                   controllers.MalefizController.controls
 
-GET     /htmltest                   controllers.MalefizController.htmltest
-
-GET     /csstest                    controllers.MalefizController.csstest
-
-GET     /zengardendefault           controllers.MalefizController.zengardendefault
-
-GET     /robot                      controllers.MalefizController.robot
-
-GET     /lesstest                   controllers.MalefizController.lesstest
-
 GET     /start                      controllers.MalefizController.start
 
 GET     /addplayer/:playername      controllers.MalefizController.addplayer(playername: String)

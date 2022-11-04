@@ -32,10 +32,6 @@ class MalefizController @Inject()(cc: ControllerComponents) extends AbstractCont
     Ok(views.html.controls(allRoutes))
   }
 
-  def lesstest = Action {
-    Ok(views.html.csstest.lesstest())
-  }
-
   def home = Action {
     addText
   }
@@ -101,22 +97,6 @@ class MalefizController @Inject()(cc: ControllerComponents) extends AbstractCont
   }
 
   val gameData = new gameData()
-
-  def htmltest = Action {
-    Ok(views.html.htmltest())
-  }
-
-  def csstest = Action {
-    Ok(views.html.csstest.csstestmain())
-  }
-
-  def zengardendefault = Action {
-    Ok(views.html.csstest.zengardendefault())
-  }
-
-  def robot = Action {
-    Ok(views.html.csstest.robot())
-  }
 
   def getStatusID(): Int = {
     return gameController.gameStatus match {
