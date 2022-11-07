@@ -16,7 +16,11 @@ class MalefizController @Inject()(cc: ControllerComponents) extends AbstractCont
 
   def addText = {
     val gameMessage = GameStatus.gameMessage(gameController.gameStatus)
-    val atLeast2Players = "You need to add at least 2 Players.\nCurrent Players: " + gameController.game.players.map(x => x.toString())
+    val atLeast2Players = {
+      val tmp = gameController.game.players.map(x => x.toString())
+      val text = "You need to add at least 2 Players.\nCurrent Players: "
+      if (tmp.isEmpty) text + "None" else text + gameController.game.players.count(x => true)
+    }
     val currentplayer = "Turn of Player: " + gameController.playerStatus.getCurrentPlayer.toString
     val diceRolled = "You rolled a " + gameController.savedGame.lastFullDice + "." + " Moves left: " + gameController.moveCounter
     Ok(views.html.game(this, malefizAsText, gameMessage, diceRolled, currentplayer, atLeast2Players))
