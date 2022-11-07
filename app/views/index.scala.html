@@ -3,9 +3,20 @@
 @main("HTWG Malefiz") {
     <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/index.css")">
 
-    <div class="get_back">
-        <button class="get-back-csstest" role="button" onclick="location.href='/'">Get back to the game</button>
-    </div>
+    <nav class="navbar navbar-expand-lg bg-transparent">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Navigation</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-link" href="/">Home</a>
+                    <a class="nav-link active" aria-current="page" href="/about">About</a>
+                </div>
+            </div>
+        </div>
+    </nav>
     <div class="readme-section">
         <h1 id="htwg-constance-ain-6-web-applications">HTWG Constance - AIN 6 - Web Applications</h1>
         <h1 id="scala-project-play-server-malefiz-game">Scala Project Play Server - Malefiz Game</h1>

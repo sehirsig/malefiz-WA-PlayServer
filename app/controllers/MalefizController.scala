@@ -27,11 +27,6 @@ class MalefizController @Inject()(cc: ControllerComponents) extends AbstractCont
   def about = Action {
     Ok(views.html.index())
   }
-
-  def controls = Action {
-    Ok(views.html.controls(allRoutes))
-  }
-
   def home = Action {
     addText
   }

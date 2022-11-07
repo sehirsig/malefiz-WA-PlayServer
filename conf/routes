@@ -9,8 +9,6 @@ GET     /                           controllers.MalefizController.home
 
 GET     /about                      controllers.MalefizController.about
 
-GET     /controls                   controllers.MalefizController.controls
-
 GET     /start                      controllers.MalefizController.start
 
 GET     /addplayer/:playername      controllers.MalefizController.addplayer(playername: String)
