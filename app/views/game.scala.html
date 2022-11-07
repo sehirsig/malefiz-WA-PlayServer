@@ -247,10 +247,33 @@
         </div>
         <div class="input-panel-group">
             <div class="input-critical-panel">
-                <form method="get" action="@routes.MalefizController.resetGame">
-                    <input id="reset-button" type="submit" value="Reset Game &#8634">
-                </form>
+                    <!-- Button trigger modal -->
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#resetModal">
+                    Reset Game &#8634
+                </button>
+
+                    <!-- Modal -->
+                <div class="modal fade" id="resetModal" tabindex="-1" role="dialog" aria-labelledby="resetModalLabel" aria-hidden="true" data-backdrop="false">
+                    <div class="modal-dialog modal-dialog-centered" role="document" >
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="resetModalLabel">Are you sure?</h5>
+                            </div>
+                            <div class="modal-body">
+                                Do you really want to reset the game?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <form method="get" action="@routes.MalefizController.resetGame">
+                                    <button type="submit" class="btn btn-danger" >Reset</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+
+
             <div class="input-normal-panel">
                 @if(controller.getStatusID() == ready1
                         || controller.getStatusID() == ready2) {
