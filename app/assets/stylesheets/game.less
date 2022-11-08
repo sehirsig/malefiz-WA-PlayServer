@@ -11,10 +11,10 @@
 @background_color_nav_item: rgba(136, 89, 61, 0.85);
 @border_color_game: black;
 
-//responsive gamefield
+//responsive
 @gamecell_size: 2vw;
 @gamefield_width: calc(@gamecell_size * 19);
-@gamefield_heigth: calc(@gamecell_size * 21);
+@gamefield_heigth: calc(@gamecell_size * 20);
 
 body {
   background: #EDEBED url(../images/malefiz-background.jpg);
@@ -32,103 +32,48 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
+#no-padding {
+  padding: 0 !important;
+  margin: 0 !important;
+}
 
 .modal-backdrop {
   z-index: -1;
 }
 
-.information-panel {
+#information-panel {
   border-style: solid;
   border-color: @border_color_game;
   border-width: 0.2vw;
   border-radius: 0.8vw;
   font-size: 1vw;
-  max-width: 20vw;
-  padding: 0.22vw 0.22vw 0.22vw 0.22vw;
-  top: 30%;
-  left: 15%;
-  margin-top: 0.8vw;
-  margin-bottom: 0.8vw;
-  align-content: normal;
-  position: fixed;
   background-color: @background_color_information_panel;
   background-image: url(../images/wood-pattern.png);
-
-  .info_text {
-    top: 50%;
-    left: 15%;
-  }
 }
-.input-panel-group {
-  position: fixed;
-  top: 50%;
-  left: 15%;
-  margin-top: 0.8vw;
-  margin-bottom: 0.8vw;
-  align-content: normal;
+
+#input-panel-group {
   background-color: @background_color_input_panel_group;
   border-style: solid;
   border-color: @border_color_game;
   border-width: 0.25vw;
   border-radius: 0.8vw;
-  padding: 0.3vw 0.3vw 0.3vw 0.3vw;
-  align-items: center;
   background-image: url(../images/wood-pattern.png);
-  max-height: 17vw;
-
-  .input-critical-panel {
-    max-height: 5vw;
-    margin-bottom: 0.8vw;
-    alignment: center;
-    align-items: center;
-    text-align: center;
-  }
-
-  .input-normal-panel {
-    align-content: normal;
-    border-style: solid;
-    border-color: @border_color_game;
-    border-width: 0.25vw;
-    padding: 0.3vw 0.3vw 0.3vw 0.3vw;
-    max-height: 10vw;
-    overflow: auto;
-    text-align: center;
-    background-image: url(../images/wood-pattern.png);
-    background-color: @background_color_gameboard;
-  }
 }
 
-.gamescreen-panel {
-  position: fixed;
-  top: 10%;
-  left: 50%;
-  align-content: normal;
-  margin-top: 0.8vw;
-  margin-bottom: 0.8vw;
-  padding-top: 1vw;
-  padding-bottom: 2vw;
-  max-width: @gamefield_width;
-  max-height: @gamefield_heigth;
-  background-color: @background_color_gameboard;
+#gamepanel {
   background-image: url(../images/wood-pattern.png);
-  border-style: solid;
-  border-color: @border_color_game;
   border-width: 0.25vw;
   border-radius: 2vw;
-  .game-field {
-    width: @gamecell_size;
-    height: @gamecell_size;
-  }
-
+  border-style: solid;
+  border-color: @border_color_game;
+  background-color: @background_color_gameboard;
+  min-width: @gamefield_width;
+  min-height: @gamefield_heigth;
 }
-.row {
-  float: left;
- }
 
-.col {
-  float: left;
-  width: @gamecell_size;
+.game-field {
   height: @gamecell_size;
+  width: @gamecell_size;
 }
 
 .input-critical-panel {
