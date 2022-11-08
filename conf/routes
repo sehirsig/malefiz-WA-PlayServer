@@ -31,10 +31,6 @@ GET     /redo                       controllers.MalefizController.redoGame
 
 GET     /reset                      controllers.MalefizController.resetGame
 
-GET     /bootstraptest              controllers.MalefizController.bootstrapTest
-
-GET     /navigationtest             controllers.MalefizController.navigationTest
-
 GET     /errors/notfound            controllers.ErrorController.notFound
 
 GET     /errors/badrequest          controllers.ErrorController.badRequest

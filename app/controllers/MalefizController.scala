@@ -95,14 +95,6 @@ class MalefizController @Inject()(cc: ControllerComponents) extends AbstractCont
     addText
   }
 
-  def bootstrapTest = Action {
-    Ok(views.html.bootstraptest())
-  }
-
-  def navigationTest = Action {
-    Ok(views.html.navigationtest())
-  }
-
   val gameData = new gameData()
 
   def getStatusID(): Int = {
