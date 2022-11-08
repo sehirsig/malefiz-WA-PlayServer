@@ -33,7 +33,7 @@ GET     /reset                      controllers.MalefizController.resetGame
 
 GET     /bootstraptest              controllers.MalefizController.bootstrapTest
 
-GET     /navigationtest              controllers.MalefizController.navigationTest
+GET     /navigationtest             controllers.MalefizController.navigationTest
 
 GET     /errors/notfound            controllers.ErrorController.notFound
 
