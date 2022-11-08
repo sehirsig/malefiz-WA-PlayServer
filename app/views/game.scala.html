@@ -243,9 +243,11 @@
                         @if(controller.getStatusID() == ready1
                                 || controller.getStatusID() == ready2) {
                             <div class="row" id="start-category">
-                                <form method="get" action="@routes.MalefizController.start">
-                                    <input class="btn btn-success form-control" id="startbutton" type="submit" value="Start Game">
-                                </form>
+                                <div class="col">
+                                    <form method="get" action="@routes.MalefizController.start">
+                                        <input class="btn btn-success form-control" id="startbutton" type="submit" value="Start Game">
+                                    </form>
+                                </div>
                             </div>
                         }
                         @if(controller.getStatusID() == playing) {
@@ -277,7 +279,7 @@
                         @if(controller.getStatusID() == moving) {
                             <div class="container col" id="move-category">
                                 <div class="row">
-                                    <div class="col justify-content-center">
+                                    <div class="col justify-content-center m-1">
                                         <form method="get" action="@routes.MalefizController.move("w")">
                                             <input class="btn btn-primary form-control" id="move-up-button" type="submit" value="&#9650">
                                         </form>
@@ -301,10 +303,12 @@
                                     </div>
                                 </div>
 
-                                <div class="row m-1">
-                                    <form method="get" action="@routes.MalefizController.skip">
-                                        <input class="btn btn-warning form-control" id="move-skip-button" type="submit" value="Skip">
-                                    </form>
+                                <div class="row">
+                                    <div class="col justify-content-center m-1">
+                                        <form method="get" action="@routes.MalefizController.skip">
+                                            <input class="btn btn-warning form-control" id="move-skip-button" type="submit" value="Skip">
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         }
