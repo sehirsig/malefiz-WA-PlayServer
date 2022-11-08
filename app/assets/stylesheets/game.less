@@ -26,18 +26,26 @@ body {
   overflow: hidden;
 }
 
-@media (max-width: 1120px) {
+@media (max-width: 992px) {
   body {
     background: #efa032 url(../images/wood-pattern.png);
   }
   #information-panel {
     font-size: 2.5vw
   }
+  .game-field {
+    height: @gamecell_size * 1.7;
+    width: @gamecell_size * 1.7;
+  }
 }
 
 @media (min-width: 1400px) {
   #information-panel {
     font-size: 1vw
+  }
+  .game-field {
+    height: @gamecell_size;
+    width: @gamecell_size;
   }
 }
 
@@ -83,11 +91,6 @@ html {
   background-color: @background_color_gameboard;
   min-width: @gamefield_width;
   min-height: @gamefield_heigth;
-}
-
-.game-field {
-  height: @gamecell_size;
-  width: @gamecell_size;
 }
 
 #resetbutton:hover {

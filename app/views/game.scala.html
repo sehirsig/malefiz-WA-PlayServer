@@ -185,7 +185,7 @@
     </nav>
     <div class="container">
         <div class="row">
-            <div class="col">
+            <div class="col-lg-4">
                 <div class="container m-1" id="information-panel">
                     @if(controller.getStatusID() == ready1
                             || controller.getStatusID() == ready2) {
@@ -326,7 +326,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col">
+            <div class="col-lg-8">
                 <div class="container p-0 m-1" id="gamepanel">
                 @for(i <- 0 until controller.gameController.gameboard.getStandardXYsize._1) {
                     <div class="row justify-content-center">
