@@ -83,65 +83,19 @@ html {
   width: @gamecell_size;
 }
 
-.input-critical-panel {
-  input {
-    color: @input_color;
-    border: 0.2vw solid white;
-    text-shadow: none;
-    font-size: 2vw;
-    background: rgba(34, 34, 34, 0.75);
-    text-align: center;
-    transition: all 0.3s ease 0s;
-
-    &:hover {
-      background-color: @background_color_critical_hover;
-      box-shadow: 0vw 0.6vw 0.8vw rgba(255, 4, 4, 0.4);
-      color: @input_hover_color;
-      transform: translateY(-2px);
-    }
-  }
+#resetbutton:hover {
+  background-color: @background_color_critical_hover;
+  box-shadow: 0px 15px 20px rgba(255, 165, 0, 0.4);
+  color: @input_hover_color;
+  transform: translateY(-2px);
 }
 
-.input-normal-panel {
-  .input-normal-button {
-    color: @input_color;
-    border: 0.2vw solid white;
-    text-shadow: none;
-    font-size: 90%;
-    background: rgba(34, 34, 34, 0.75);
-    text-align: center;
-    width: fit-content;
-    height: fit-content;
-    transition: all 0.3s ease 0s;
 
-    &:hover {
-      background-color: @background_color_normal_hover;
-      box-shadow: 0px 15px 20px rgba(255, 165, 0, 0.4);
-      color: @input_hover_color;
-      transform: translateY(-2px);
-    }
-  }
-}
-
-.input-normal-text {
-  float: left;
-  color: @input_color;
-  border: 0.2vw solid white;
-  text-shadow: none;
-  font-size: 1vw;
-  background: rgba(34, 34, 34, 0.75);
-  text-align: center;
-  width: fit-content;
-  padding: 0.18vw;
-  margin-bottom: 0.8vw;
-  margin-right: 0.4vw;
-  transition: all 0.3s ease 0s;
-
-  &:hover {
-    box-shadow: 0px 15px 20px rgba(255, 165, 0, 0.1);
-    color: @input_hover_color;
-    transform: translateY(-2px);
-  }
+#startbutton:hover {
+  background-color: @background_color_normal_hover;
+  box-shadow: 0px 15px 20px rgba(255, 165, 0, 0.4);
+  color: @input_hover_color;
+  transform: translateY(-2px);
 }
 
 .move-category {

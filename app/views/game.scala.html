@@ -183,7 +183,7 @@
                 <div class="container m-1" id="input-panel-group">
                     <div class="row m-1 justify-content-center" id="input-critical-panel">
                             <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#resetModal">
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#resetModal" id="resetbutton">
                             Reset Game &#8634
                         </button>
 
@@ -220,7 +220,7 @@
                                 || controller.getStatusID() == ready2) {
                             <div class="row" id="start-category">
                                 <form method="get" action="@routes.MalefizController.start">
-                                    <input class="btn btn-success form-control" id="start-button" type="submit" value="Start Game">
+                                    <input class="btn btn-success form-control" id="startbutton" type="submit" value="Start Game">
                                 </form>
                             </div>
                         }

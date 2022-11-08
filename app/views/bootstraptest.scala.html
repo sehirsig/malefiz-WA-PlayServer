@@ -1431,4 +1431,87 @@
   <a class="visually-hidden-focusable" href="#content">Skip to main content</a>
   <div class="visually-hidden-focusable">A container with a <a href="#">focusable element</a>.</div>
 
+
+  <div class="d-flex flex-row mb-3">
+    <div class="p-2">Flex item 1</div>
+    <div class="p-2">Flex item 2</div>
+    <div class="p-2">Flex item 3</div>
+  </div>
+  <div class="d-flex flex-row-reverse">
+    <div class="p-2">Flex item 1</div>
+    <div class="p-2">Flex item 2</div>
+    <div class="p-2">Flex item 3</div>
+  </div>
+
+
+  <p><a href="#" class="pe-none" tabindex="-1" aria-disabled="true">This link</a> can not be clicked.</p>
+  <p><a href="#" class="pe-auto">This link</a> can be clicked (this is default behavior).</p>
+  <p class="pe-none"><a href="#" tabindex="-1" aria-disabled="true">This link</a> can not be clicked because the <code>pointer-events</code> property is inherited from its parent. However, <a href="#" class="pe-auto">this link</a> has a <code>pe-auto</code> class and can be clicked.</p>
+
+  <div class="opacity-100">...</div>
+  <div class="opacity-75">...</div>
+  <div class="opacity-50">...</div>
+  <div class="opacity-25">...</div>
+
+
+  <div class="position-relative">
+    <div class="position-absolute top-0 start-0"></div>
+    <div class="position-absolute top-0 end-0"></div>
+    <div class="position-absolute top-50 start-50"></div>
+    <div class="position-absolute bottom-50 end-50"></div>
+    <div class="position-absolute bottom-0 start-0"></div>
+    <div class="position-absolute bottom-0 end-0"></div>
+  </div>
+
+  <div class="shadow-none p-3 mb-5 bg-light rounded">No shadow</div>
+  <div class="shadow-sm p-3 mb-5 bg-body rounded">Small shadow</div>
+  <div class="shadow p-3 mb-5 bg-body rounded">Regular shadow</div>
+  <div class="shadow-lg p-3 mb-5 bg-body rounded">Larger shadow</div>
+
+  <div style="height: 100px; background-color: rgba(255,0,0,0.1);">
+    <div class="h-25 d-inline-block" style="width: 120px; background-color: rgba(0,0,255,.1)">Height 25%</div>
+    <div class="h-50 d-inline-block" style="width: 120px; background-color: rgba(0,0,255,.1)">Height 50%</div>
+    <div class="h-75 d-inline-block" style="width: 120px; background-color: rgba(0,0,255,.1)">Height 75%</div>
+    <div class="h-100 d-inline-block" style="width: 120px; background-color: rgba(0,0,255,.1)">Height 100%</div>
+    <div class="h-auto d-inline-block" style="width: 120px; background-color: rgba(0,0,255,.1)">Height auto</div>
+  </div>
+
+  <p class="text-break">mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm</p>
+
+
+  <p class="text-lowercase">Lowercased text.</p>
+  <p class="text-uppercase">Uppercased text.</p>
+  <p class="text-capitalize">CapiTaliZed text.</p>
+
+  <p class="fs-1">.fs-1 text</p>
+  <p class="fs-2">.fs-2 text</p>
+  <p class="fs-3">.fs-3 text</p>
+  <p class="fs-4">.fs-4 text</p>
+  <p class="fs-5">.fs-5 text</p>
+  <p class="fs-6">.fs-6 text</p>
+
+  <span class="align-baseline">baseline</span>
+  <span class="align-top">top</span>
+  <span class="align-middle">middle</span>
+  <span class="align-bottom">bottom</span>
+  <span class="align-text-top">text-top</span>
+  <span class="align-text-bottom">text-bottom</span>
+
+  <table style="height: 100px;">
+    <tbody>
+      <tr>
+        <td class="align-baseline">baseline</td>
+        <td class="align-top">top</td>
+        <td class="align-middle">middle</td>
+        <td class="align-bottom">bottom</td>
+        <td class="align-text-top">text-top</td>
+        <td class="align-text-bottom">text-bottom</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="visible">...</div>
+  <div class="invisible">...</div>
+
+
 }
