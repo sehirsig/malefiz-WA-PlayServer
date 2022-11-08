@@ -153,6 +153,8 @@
                 <div class="navbar-nav">
                     <a class="nav-link active" aria-current="page" href="/">Home</a>
                     <a class="nav-link" href="/about">About</a>
+                    <a class="nav-link" href="/bootstraptest">Bootstrap Tests</a>
+                    <a class="nav-link" href="/navigationtest">Navigation Test</a>
                 </div>
             </div>
         </div>
@@ -193,7 +195,13 @@
                                         <h5 class="modal-title" id="resetModalLabel">Are you sure?</h5>
                                     </div>
                                     <div class="modal-body">
+                                        <div class="spinner-grow text-danger" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
                                         Do you really want to reset the game?
+                                        <div class="spinner-grow text-danger" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -210,7 +218,7 @@
                     <div class="row m-1 justify-content-center" id="input-normal-panel">
                         @if(controller.getStatusID() == ready1
                                 || controller.getStatusID() == ready2) {
-                            <div class="col" id="start-category">
+                            <div class="row" id="start-category">
                                 <form method="get" action="@routes.MalefizController.start">
                                     <input class="btn btn-success form-control" id="start-button" type="submit" value="Start Game">
                                 </form>
@@ -243,7 +251,7 @@
                             </div>
                         }
                         @if(controller.getStatusID() == moving) {
-                            <div class="col container" id="move-category">
+                            <div class="container col" id="move-category">
                                 <div class="row">
                                     <div class="col justify-content-center">
                                         <form method="get" action="@routes.MalefizController.move("w")">
@@ -251,7 +259,7 @@
                                         </form>
                                     </div>
                                 </div>
-                                <div class="row m-1 ">
+                                <div class="row">
                                     <div class="col justify-content-center m-1">
                                         <form method="get" action="@routes.MalefizController.move("a")">
                                             <input class="btn btn-primary form-control" id="move-left-button" type="submit" value="&#9668">
@@ -279,9 +287,12 @@
                         @if(controller.getStatusID() == welcome
                                 || controller.getStatusID() == ready1
                                 || controller.getStatusID() == idle) {
-                            <div class="addplayer-category">
-                                <input type="text" class="form-control m-1" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" id="name">
-                                <input class="btn btn-primary form-control m-1" id="select-figure-1-button" type="submit" value="Add Player" onclick="addPlayer()">
+                            <div class="row">
+                                <div class="addplayer-category">
+                                    <input type="text" class="form-control m-1" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" id="name">
+                                    <input class="btn btn-primary form-control m-1" id="add-player-button" type="submit" value="Add Player" onclick="addPlayer()">
+                                </div>
+                                <div id="alertPlaceholder"></div>
                             </div>
                         }
                     </div>
