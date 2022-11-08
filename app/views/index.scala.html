@@ -2,8 +2,7 @@
 
 @main("HTWG Malefiz") {
     <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/index.css")">
-
-    <nav class="navbar navbar-expand-lg bg-transparent">
+    <nav class="navbar navbar-expand-lg bg-light">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Navigation</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -17,11 +16,12 @@
             </div>
         </div>
     </nav>
+    @header()
     <div class="readme-section">
         <h1 id="htwg-constance-ain-6-web-applications">HTWG Constance - AIN 6 - Web Applications</h1>
         <h1 id="scala-project-play-server-malefiz-game">Scala Project Play Server - Malefiz Game</h1>
         <h2 id="game-project-for-the-lecture-wa">Game Project For The Lecture WA</h2>
-        <p><img src="https://user-images.githubusercontent.com/81407658/114448533-f96ce480-9bd3-11eb-93a7-74dc0941f6c1.jpg" alt="gamepicture"></p>
+        <p><img class="img-fluid rounded" src="https://user-images.githubusercontent.com/81407658/114448533-f96ce480-9bd3-11eb-93a7-74dc0941f6c1.jpg" alt="gamepicture"></p>
         <h1 id="game-rules">Game Rules</h1>
         <p>Malefiz is a board game for 2 to 4 players. Each player has 5 figures to play with. Every figure starts in their base, at the bottom of the board. The beginning player rolls the dice. The thrown number has to be pulled completly. While walking with the figure, change of direction is not allowed. If a player lands on an enemys figure, the enemy has to put his figure back to his base. Figures are allowed to jump over other figures, but not over barricades. If a player lands on the barricade (with the exact number), he has to set the barricade anywhere on the game board, all black fields are allowed, except the lowest row.</p>
         <h2 id="goal-of-the-game">Goal Of The Game</h2>
@@ -151,4 +151,5 @@
         <p><em>Project Malefiz written by <a href="https://github.com/sehirsig/">
             sehirsig</a> &amp; <a href="https://github.com/jojoGraff/">jojoGraff</a></em></p>
     </div>
+    @footer()
 }
