@@ -163,23 +163,23 @@
                 <div class="container m-1" id="information-panel">
                     @if(controller.getStatusID() == ready1
                             || controller.getStatusID() == ready2) {
-                        <p class="info_text">@gameMessage</p>
+                        <p class="text-center">@gameMessage</p>
                     } else if(controller.getStatusID() == playing) {
-                    <p class="info_text">@currentplayer</p>
-                    <p class="info_text">@diceRolled</p>
+                    <p class="text-center">@currentplayer</p>
+                    <p class="text-center">@diceRolled</p>
                     } else if(controller.getStatusID() == choosefig) {
-                    <p class="info_text">@diceRolled</p>
+                    <p class="text-center">@diceRolled</p>
                     } else if(controller.getStatusID() == moving) {
-                    <p class="info_text">@currentplayer</p>
-                    <p class="info_text">@diceRolled</p>
+                    <p class="text-center">@currentplayer</p>
+                    <p class="text-center">@diceRolled</p>
                     } else if(controller.getStatusID() == welcome
                     || controller.getStatusID() == ready1
                     || controller.getStatusID() == idle) {
-                    <p class="info_text">@atLeast2</p>
+                    <p class="text-center">@atLeast2</p>
                     }
                 </div>
                 <div class="container m-1" id="input-panel-group">
-                    <div class="row p-1 m-1 justify-content-center" id="input-critical-panel">
+                    <div class="row m-1 justify-content-center" id="input-critical-panel">
                             <!-- Button trigger modal -->
                         <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#resetModal">
                             Reset Game &#8634
@@ -207,24 +207,24 @@
                     </div>
 
 
-                    <div class="p-1 m-1 justify-content-center" id="input-normal-panel">
+                    <div class="row m-1 justify-content-center" id="input-normal-panel">
                         @if(controller.getStatusID() == ready1
                                 || controller.getStatusID() == ready2) {
-                            <div class="start-category">
+                            <div class="col" id="start-category">
                                 <form method="get" action="@routes.MalefizController.start">
-                                    <input class="btn btn-primary" id="start-button" type="submit" value="Start Game">
+                                    <input class="btn btn-success form-control" id="start-button" type="submit" value="Start Game">
                                 </form>
                             </div>
                         }
                         @if(controller.getStatusID() == playing) {
-                            <div class="rolldice-category">
+                            <div class="col" id="rolldice-category">
                                 <form method="get" action="@routes.MalefizController.rollDice">
-                                    <input class="btn btn-primary" id="roll-dice-button" type="submit" value="Roll Dice">
+                                    <input class="btn btn-primary form-control" id="roll-dice-button" type="submit" value="Roll Dice">
                                 </form>
                             </div>
                         }
                         @if(controller.getStatusID() == choosefig) {
-                            <div class="btn-group justify-content-center" role="group" aria-label="First group">
+                            <div class="col btn-group justify-content-center" role="group" aria-label="First group">
                                 <form method="get" action="@routes.MalefizController.selectFigure(1)">
                                     <input class="btn btn-primary m-1" id="select-figure-1-button" type="submit" value="1">
                                 </form>
@@ -243,33 +243,35 @@
                             </div>
                         }
                         @if(controller.getStatusID() == moving) {
-                            <div class="container" id="move-category">
-                                <div class="row ">
-                                    <form method="get" action="@routes.MalefizController.move("w")">
-                                        <input class="btn btn-primary" id="move-up-button" type="submit" value="&#9650">
-                                    </form>
-                                </div>
+                            <div class="col container" id="move-category">
                                 <div class="row">
-                                    <div class="col">
+                                    <div class="col justify-content-center">
+                                        <form method="get" action="@routes.MalefizController.move("w")">
+                                            <input class="btn btn-primary form-control" id="move-up-button" type="submit" value="&#9650">
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="row m-1 ">
+                                    <div class="col justify-content-center m-1">
                                         <form method="get" action="@routes.MalefizController.move("a")">
-                                            <input class="btn btn-primary" id="move-left-button" type="submit" value="&#9668">
+                                            <input class="btn btn-primary form-control" id="move-left-button" type="submit" value="&#9668">
                                         </form>
                                     </div>
-                                    <div class="col justify-content-center">
+                                    <div class="col justify-content-center m-1">
                                         <form method="get" action="@routes.MalefizController.move("s")">
-                                            <input class="btn btn-primary" id="move-down-button" type="submit" value="&#9660">
+                                            <input class="btn btn-primary form-control" id="move-down-button" type="submit" value="&#9660">
                                         </form>
                                     </div>
-                                    <div class="col justify-content-center">
+                                    <div class="col justify-content-center m-1">
                                         <form method="get" action="@routes.MalefizController.move("d")">
-                                            <input class="btn btn-primary" id="move-right-button" type="submit" value="&#9658">
+                                            <input class="btn btn-primary form-control" id="move-right-button" type="submit" value="&#9658">
                                         </form>
                                     </div>
                                 </div>
 
-                                <div class="row">
+                                <div class="row m-1">
                                     <form method="get" action="@routes.MalefizController.skip">
-                                        <input class="btn btn-primary id="move-skip-button" type="submit" value="Skip">
+                                        <input class="btn btn-warning form-control" id="move-skip-button" type="submit" value="Skip">
                                     </form>
                                 </div>
                             </div>
@@ -278,8 +280,8 @@
                                 || controller.getStatusID() == ready1
                                 || controller.getStatusID() == idle) {
                             <div class="addplayer-category">
-                                <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" id="name">
-                                <input class="btn btn-primary" id="select-figure-1-button" type="submit" value="Add Player" onclick="addPlayer()">
+                                <input type="text" class="form-control m-1" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" id="name">
+                                <input class="btn btn-primary form-control m-1" id="select-figure-1-button" type="submit" value="Add Player" onclick="addPlayer()">
                             </div>
                         }
                     </div>
