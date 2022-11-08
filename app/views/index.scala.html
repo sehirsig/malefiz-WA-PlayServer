@@ -2,17 +2,17 @@
 
 @main("HTWG Malefiz") {
     <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/index.css")">
-    <nav class="navbar navbar-expand-lg bg-light">
+    <nav class="navbar navbar-dark navbar-expand-lg bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Malefiz</a>
+            <a class="navbar-brand" href="/">Malefiz</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
-                    <a class="nav-link" href="/">Home</a>
-                    <a class="nav-link active" aria-current="page" href="/about">About</a>
-                    <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#infoModal" >
+                    <a class="nav-link hoverable text-center" href="/">Home</a>
+                    <a class="nav-link active hoverable text-center" aria-current="page" href="/about">About</a>
+                    <button type="button" class="btn btn-dark hoverable" data-bs-toggle="modal" data-bs-target="#infoModal" >
                         <i class="bi-info-circle"></i>
                         Game Instructions
                     </button>
@@ -24,7 +24,7 @@
                                 </div>
                                 <div class="modal-body">
                                     <h3>Game Rules</h3>
-                                    <em>TMalefiz is a board game for 2 to 4 players. Each player has 5 figures to play with. Every figure starts in their base, at the bottom of the board. The beginning player rolls the dice. The thrown number has to be pulled completly. While walking with the figure, change of direction is not allowed. If a player lands on an enemys figure, the enemy has to put his figure back to his base. Figures are allowed to jump over other figures, but not over barricades. If a player lands on the barricade (with the exact number), the barricade gets set anywhere on the game board, all black fields are allowed, except the lowest row.
+                                    <em>Malefiz is a board game for 2 to 4 players. Each player has 5 figures to play with. Every figure starts in their base, at the bottom of the board. The beginning player rolls the dice. The thrown number has to be pulled completly. While walking with the figure, change of direction is not allowed. If a player lands on an enemys figure, the enemy has to put his figure back to his base. Figures are allowed to jump over other figures, but not over barricades. If a player lands on the barricade (with the exact number), the barricade gets set anywhere on the game board, all black fields are allowed, except the lowest row.
                                     </em>
                                     <h4>Goal Of The Game</h4>
                                     <em>The player reaching the top of the gameboard first (with the exact number rolled with the dice) with one figure wins the game.

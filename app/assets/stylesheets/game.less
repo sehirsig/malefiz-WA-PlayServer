@@ -16,20 +16,7 @@
 @gamefield_width: calc(@gamecell_size * 19);
 @gamefield_heigth: calc(@gamecell_size * 20);
 
-body {
-  background: #EDEBED url(../images/malefiz-background.jpg);
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  background-repeat: no-repeat;
-  overflow: hidden;
-}
-
 @media (max-width: 992px) {
-  body {
-    background: #efa032 url(../images/wood-pattern.png);
-  }
   #information-panel {
     font-size: 2.5vw
   }
@@ -70,7 +57,8 @@ html {
   border-width: 0.2vw;
   border-radius: 0.8vw;
   background-color: @background_color_information_panel;
-  background-image: url(../images/wood-pattern.png);
+  background-image: url(../images/background_picture.jpg);
+  color:white
 }
 
 #input-panel-group {
@@ -79,7 +67,7 @@ html {
   border-color: @border_color_game;
   border-width: 0.25vw;
   border-radius: 0.8vw;
-  background-image: url(../images/wood-pattern.png);
+  background-image: url(../images/background_picture.jpg);
 }
 
 #gamepanel {
