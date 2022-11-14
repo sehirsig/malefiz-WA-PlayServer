@@ -13,6 +13,10 @@ GET     /start                      controllers.MalefizController.start
 
 GET     /addplayer/:playername      controllers.MalefizController.addplayer(playername: String)
 
+GET     /addDEBUG                   controllers.MalefizController.debugWinTest
+
+GET     /addROLL                    controllers.MalefizController.debugRoll
+
 GET     /selectfig/:figurenum       controllers.MalefizController.selectFigure(figurenum: Int)
 
 GET     /move/:input                controllers.MalefizController.move(input: String)

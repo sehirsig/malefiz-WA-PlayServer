@@ -23,7 +23,16 @@ class MalefizController @Inject()(cc: ControllerComponents) extends AbstractCont
     }
     val currentplayer = "Turn of Player: " + gameController.playerStatus.getCurrentPlayer.toString
     val diceRolled = "You rolled a " + gameController.savedGame.lastFullDice + "." + " Moves left: " + gameController.moveCounter
-    Ok(views.html.game(this, malefizAsText, gameMessage, diceRolled, currentplayer, atLeast2Players))
+
+    val gamewinner = gameController.gameWon._2
+
+    val playing = Ok(views.html.malefiz.gameboard(this, malefizAsText, gameMessage, diceRolled, currentplayer, atLeast2Players))
+    val winner = Ok(views.html.malefiz.winner(this, gamewinner))
+
+    gameController.gameStatus match {
+      case GAMEWINNER => winner
+      case _ => playing
+    }
   }
 
   def badRequest(errorMessage: String) = BadRequest(errorMessage + "\nPlease return to the last site")
@@ -31,6 +40,18 @@ class MalefizController @Inject()(cc: ControllerComponents) extends AbstractCont
   def about = Action {
     Ok(views.html.index())
   }
+
+  def debugWinTest = Action {
+    gameController.addPlayerDEBUGWINTEST("Debug")
+    gameController.addPlayerDEBUGWINTEST("Debug")
+    addText
+  }
+
+  def debugRoll = Action {
+    gameController.debugDice()
+    addText
+  }
+
   def home = Action {
     addText
   }
