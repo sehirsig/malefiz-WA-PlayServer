@@ -48,3 +48,9 @@ function figMove(direction) {
 function skipMove() {
     window.location.href = "/skip";
 }
+
+function startDiceAudio() {
+    var audio = document.getElementById("diceAudio");
+    audio.loop = true;
+    audio.play();
+}

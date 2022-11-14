@@ -144,3 +144,149 @@ html {
 #name {
   margin-bottom: 4px;
 }
+
+#restartButton {
+  width: 50%
+}
+
+.box {
+  animation: spin infinite 500s;
+}
+
+.cube {
+  font-size: 80px;
+  width: 160px;
+  height: 160px;
+  margin: 80px auto;
+  transform-style: preserve-3d;
+  box-shadow: 5px 5px 150px #666;
+  // border-radius: 20px;
+  perspective: 1000px;
+  animation: move-origin infinite 500s;
+}
+
+.side {
+  position: absolute;
+  width: 160px;
+  height: 160px;
+  border-radius: 8px;
+  box-shadow: inset 0px 0px 40px #666;
+
+  background: red;
+
+  color: white;
+  text-align: center;
+  line-height: 2em;
+}
+
+
+.front {
+  transform: rotateX(0deg) translateZ(80px);
+}
+
+.top {
+  transform: rotateX(90deg) translateZ(80px);
+}
+
+.right {
+  transform: rotateY(90deg) translateZ(80px);
+}
+
+.left {
+  transform: rotateY(-90deg) translateZ(80px);
+}
+
+.bottom {
+  transform: rotateX(-90deg) translateZ(80px);
+}
+
+.back {
+  transform: rotateY(-180deg) translateZ(80px);
+}
+
+
+.cube {
+  perspective-origin: 0% 100%;
+}
+
+
+@keyframes move-origin {
+  0% {
+    perspective-origin: 200% 200%;
+  }
+  100% {
+    perspective-origin: 200% 200%;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360000deg);
+  }
+}
+
+#diceModal {
+  background-color: rgba(0, 0, 0, 0);
+  border: transparent;
+}
+
+@import url("https://fonts.googleapis.com/css?family=Sacramento&display=swap");
+
+#winner {
+  font-size: calc(150px + 18vh);
+  line-height: calc(150px + 20vh);
+  text-shadow: 0 0 5px #f562ff, 0 0 15px #f562ff, 0 0 25px #f562ff,
+  0 0 20px #f562ff, 0 0 30px #890092, 0 0 80px #890092, 0 0 80px #890092;
+  color: #fccaff;
+  font-family: "Sacramento", cursive;
+  text-align: center;
+  animation: blink 12s infinite;
+  -webkit-animation: blink 12s infinite;
+}
+
+@-webkit-keyframes blink {
+  20%,
+  24%,
+  55% {
+    color: #111;
+    text-shadow: none;
+  }
+
+  0%,
+  19%,
+  21%,
+  23%,
+  25%,
+  54%,
+  56%,
+  100% {
+    color: #fccaff;
+    text-shadow: 0 0 5px #f562ff, 0 0 15px #f562ff, 0 0 25px #f562ff,
+    0 0 20px #f562ff, 0 0 30px #890092, 0 0 80px #890092, 0 0 80px #890092;
+  }
+}
+
+@keyframes blink {
+  20%,
+  24%,
+  55% {
+    color: #111;
+    text-shadow: none;
+  }
+
+  0%,
+  19%,
+  21%,
+  23%,
+  25%,
+  54%,
+  56%,
+  100% {
+    color: #fccaff;
+    text-shadow: 0 0 5px #f562ff, 0 0 15px #f562ff, 0 0 25px #f562ff,
+    0 0 20px #f562ff, 0 0 30px #890092, 0 0 80px #890092, 0 0 80px #890092;
+  }
+}
