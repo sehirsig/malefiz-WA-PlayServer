@@ -1,4 +1,4 @@
-@(controller: controllers.MalefizController, game: String, gameMessage: String, diceRolled: String, currentplayer: String, atLeast2: String)
+@(controller: controllers.MalefizController, game: String, gameMessage: String, diceRolled: String, currentplayer: String, atLeast2: String, players: String)
 @welcome = @{
     0
 }
@@ -152,6 +152,7 @@
                 <div class="navbar-nav">
                     <a class="nav-link active hoverable text-center" aria-current="page" href="/">Home</a>
                     <a class="nav-link hoverable text-center" href="/about">About</a>
+                    <a class="nav-link hoverable text-center" href="/jstest">JS Test</a>
                     <button type="button" class="btn btn-dark hoverable" data-bs-toggle="modal" data-bs-target="#infoModal" >
                         <i class="bi-info-circle"></i>
                         Game Instructions
@@ -187,6 +188,7 @@
                     @if(controller.getStatusID() == ready1
                             || controller.getStatusID() == ready2) {
                         <p class="text-center">@gameMessage</p>
+                        <p class="text-center">@players</p>
                     } else if(controller.getStatusID() == playing) {
                     <p class="text-center">@currentplayer</p>
                     <p class="text-center">@diceRolled</p>
@@ -199,6 +201,7 @@
                     || controller.getStatusID() == ready1
                     || controller.getStatusID() == idle) {
                     <p class="text-center">@atLeast2</p>
+                    <p class="text-center">@players</p>
                     }
                 </div>
                 <div class="container m-1" id="input-panel-group">
@@ -206,30 +209,9 @@
                         <div class="row m-1">
                             <div class="col text-center">
                                     <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-danger input-critical-button" data-bs-toggle="modal" data-bs-target="#resetModal">
+                                <button type="button" class="btn btn-danger input-critical-button" onclick="resetGame()">
                                     Reset Game &#8634
                                 </button>
-
-                                    <!-- Modal -->
-                                <div class="modal fade" id="resetModal" tabindex="-1" role="dialog" aria-labelledby="resetModalLabel" aria-hidden="true" data-backdrop="false">
-                                    <div class="modal-dialog modal-dialog-centered" role="document" >
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="resetModalLabel">Are you sure?</h5>
-                                            </div>
-                                            <div class="modal-body">
-                                                Do you really want to reset the game?
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                                    Close</button>
-                                                <form method="get" action="@routes.MalefizController.resetGame">
-                                                    <button type="submit" class="btn btn-danger" >Reset</button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -241,16 +223,16 @@
                                 || controller.getStatusID() == ready2) {
                             <div class="row">
                                 <div class="col text-center">
-                                    <button type="button" class="btn btn-success btn-block input-normal-button" onclick="startGame()">
+                                    <button type="button" class="btn btn-warning btn-block input-warning-button" onclick="startGame()">
                                         Start Game</button>
                                 </div>
                             </div>
                         }
                         @if(controller.getStatusID() == playing) {
-
+                            <script src='@routes.Assets.versioned("javascripts/inputDice.js")' type="text/javascript"></script>
                             <div class="row">
                                 <div class="col">
-                                    <button type="button" class="btn btn-success btn-block input-normal-button" data-bs-toggle="modal" data-bs-target="#rollModal" onclick="startDiceAudio()">
+                                    <button type="button" id="diceButton" class="btn btn-success btn-block input-normal-button" data-bs-toggle="modal" data-bs-target="#rollModal" onclick="startDiceAudio()">
                                         Roll Dice</button>
                                     <div class="modal" id="rollModal" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true" data-backdrop="false" onclick="rollDice()">
                                         <div class="modal-dialog modal-dialog-centered" role="document" >
@@ -266,7 +248,7 @@
                                                             <div class="side bottom">5</div>
                                                         </div>
                                                     </div>
-                                                    <audio autoplay id="diceAudio" type="audio/mpeg" src="@routes.Assets.versioned("audio/dice-shaking.mp3")">
+                                                    <audio id="diceAudio" type="audio/mpeg" src="@routes.Assets.versioned("audio/dice-shaking.mp3")">
                                                     </audio>
                                                 </div>
                                             </div>
@@ -324,10 +306,14 @@
                             <div class="row m-1">
                                 <div class="col text-center">
                                     <input type="text" class="form-control text-center" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" id="name">
-                                    <button type="button" class="btn btn-primary input-normal-button" onclick="addPlayer()">
+                                    <button type="button" class="btn btn-success input-normal-button" onclick="addPlayer()">
                                         Add Player</button>
                                 </div>
-                                <div id="alertPlaceholder"></div>
+                            </div>
+                            <div class="row m-1">
+                                <div class="col text-center">
+                                    <div id="alertPlaceholder"></div>
+                                </div>
                             </div>
                         }
                     </div>
@@ -406,4 +392,5 @@
             </div>
         </div>
     </div>
+    <script src='@routes.Assets.versioned("javascripts/malefiz.js")' type="text/javascript"></script>
 }

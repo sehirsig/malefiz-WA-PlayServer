@@ -16,22 +16,16 @@ class MalefizController @Inject()(cc: ControllerComponents) extends AbstractCont
 
   def addText = {
     val gameMessage = GameStatus.gameMessage(gameController.gameStatus)
-    val atLeast2Players = {
-      val tmp = gameController.game.players.map(x => x.toString())
-      val text = "You need to add at least 2 Players.\nCurrent Players: "
-      if (tmp.isEmpty) text + "None" else text + gameController.game.players.count(x => true)
-    }
+    val atLeast2Players = "You need to add at least 2 Players."
+    val players = "Current Players: " + gameController.game.players.mkString(" ")
     val currentplayer = "Turn of Player: " + gameController.playerStatus.getCurrentPlayer.toString
     val diceRolled = "You rolled a " + gameController.savedGame.lastFullDice + "." + " Moves left: " + gameController.moveCounter
 
     val gamewinner = gameController.gameWon._2
 
-    val playing = Ok(views.html.malefiz.gameboard(this, malefizAsText, gameMessage, diceRolled, currentplayer, atLeast2Players))
-    val winner = Ok(views.html.malefiz.winner(this, gamewinner))
-
     gameController.gameStatus match {
-      case GAMEWINNER => winner
-      case _ => playing
+      case GAMEWINNER => Ok(views.html.malefiz.winner(this, gamewinner))
+      case _ => Ok(views.html.malefiz.gameboard(this, malefizAsText, gameMessage, diceRolled, currentplayer, atLeast2Players, players))
     }
   }
 
@@ -42,14 +36,22 @@ class MalefizController @Inject()(cc: ControllerComponents) extends AbstractCont
   }
 
   def debugWinTest = Action {
-    gameController.addPlayerDEBUGWINTEST("Debug")
-    gameController.addPlayerDEBUGWINTEST("Debug")
+    gameController.addPlayerDEBUGWINTEST("Herbert")
+    gameController.addPlayerDEBUGWINTEST("Gustav")
+    gameController.startGame()
+    gameController.debugDice()
+    gameController.selectFigure(1)
     addText
   }
 
   def debugRoll = Action {
     gameController.debugDice()
     addText
+  }
+
+
+  def jstest = Action {
+    Ok(views.html.jstest())
   }
 
   def home = Action {

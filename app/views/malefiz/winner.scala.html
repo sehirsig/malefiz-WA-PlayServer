@@ -41,11 +41,9 @@
             </div>
         </div>
     </nav>
-    <audio autoplay id="winAudio" type="audio/mpeg" src="@routes.Assets.versioned("audio/win.mp3")" onload="startWinAudio()">
+    <audio autoplay loop id="winAudio" type="audio/mpeg" src="@routes.Assets.versioned("audio/win.mp3")" onload="startWinAudio()">
     </audio>
     <div class="row justify-content-center p-5">
-        <button type="button" class="btn btn-warning input-warning-button" onclick="startWinAudio()">
-            CELEBRATE</button>
         <p class="text-center">We have a winner!</p>
         <h1 id="winner">@gameWinner</h1>
     </div>

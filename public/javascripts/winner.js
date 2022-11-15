@@ -62,18 +62,24 @@ function arrayCleanup() {
     fireworks = dump1;
 
     particles.map((particle) => {
-        if (particle.size > 0) dump2.push(particle);
+        if (particle.size > 0) {
+            dump2.push(particle)
+        }
+        ;
     });
     particles = dump2;
 
     circles.map((circle) => {
-        if (circle.size < circle.endSize) dump3.push(circle);
+        if (circle.size < circle.endSize) {
+            dump3.push(circle)
+        }
+        ;
     });
     circles = dump3;
 }
 
 function createFireworks(x, y, hue) {
-    for (let i = 0; i < 10; i++) {
+    for (i = 0; i < 10; i++) {
         particles.push(new Particle(x, y, hue, i));
     }
     circles.push(new Circle(x, y, hue));
@@ -97,6 +103,7 @@ class Firework {
         this.tick = 0;
         this.ttl = getRandomInt(120, 180);
     }
+
     draw() {
         if (this.tick <= this.ttl) {
             ctx.beginPath();
@@ -106,6 +113,7 @@ class Firework {
             ctx.closePath();
         }
     }
+
     update() {
         let progress = 1 - (this.ttl - this.tick) / this.ttl;
 
@@ -125,6 +133,7 @@ class Particle {
         this.speed = getRandomInt(30, 40) / 10;
         this.angle = getRandomInt(0, 36) + 36 * i;
     }
+
     draw() {
         if (this.size > 0) {
             ctx.beginPath();
@@ -134,6 +143,7 @@ class Particle {
             ctx.closePath();
         }
     }
+
     update() {
         this.radian = (Math.PI / 180) * this.angle;
         this.x += this.speed * Math.sin(this.radian);
@@ -150,6 +160,7 @@ class Circle {
         this.size = 0;
         this.endSize = getRandomInt(100, 130);
     }
+
     draw() {
         if (this.size < this.endSize) {
             ctx.beginPath();
@@ -159,6 +170,7 @@ class Circle {
             ctx.closePath();
         }
     }
+
     update() {
         this.size += 15;
     }
@@ -168,7 +180,11 @@ window.addEventListener("DOMContentLoaded", init);
 window.addEventListener("resize", resizeReset);
 
 function startWinAudio() {
-    var audio = document.getElementById("winAudio");
+    let audio = document.getElementById("winAudio");
     audio.loop = true;
     audio.play();
+}
+
+function restartGame() {
+    window.location.href = "/reset";
 }

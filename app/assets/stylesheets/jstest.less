@@ -1,0 +1,28 @@
+#chessBoard span{
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+}
+
+#chessBoard div:nth-child(odd) span:nth-child(even),
+#chessBoard div:nth-child(even) span:nth-child(odd){
+  background-color: black;
+}
+#chessBoard div:nth-child(even) span:nth-child(even),
+#chessBoard div:nth-child(odd) span:nth-child(odd){
+  background-color: silver;
+}
+
+#gate {
+  cursor: pointer;
+  margin-bottom: 100px;
+  width: 83px;
+  height: 46px;
+}
+
+#ball {
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+}
+
