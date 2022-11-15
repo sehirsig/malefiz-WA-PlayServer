@@ -2,9 +2,9 @@ name: Scala CI
 
 on:
   push:
-    branches: [ development ]
+    branches: [ WA-07-jQuery_AJAX ]
   pull_request:
-    branches: [ development ]
+    branches: [ WA-07-jQuery_AJAX ]
 
 jobs:
   build:
