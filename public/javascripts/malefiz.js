@@ -64,3 +64,69 @@ function startDiceAudio() {
     audio.loop = true;
     audio.play();
 }
+
+function ready() {
+    document.getElementById("addPlayerBtn").onclick = function(){
+        addPlayer();
+    }
+
+    document.getElementById("resetButton").onclick = function(){
+        resetGame();
+    }
+
+    document.getElementById("startButton").onclick = function(){
+        startGame();
+    }
+
+    document.getElementById("diceButton").onclick = function(){
+        startDiceAudio();
+    }
+
+    document.getElementById("rollModal").onclick = function(){
+        rollDice();
+    }
+
+    document.getElementById("selectFigButton1").onclick = function(){
+        selectFig(1);
+    }
+
+    document.getElementById("selectFigButton2").onclick = function(){
+        selectFig(2);
+    }
+
+    document.getElementById("selectFigButton3").onclick = function(){
+        selectFig(3);
+    }
+
+    document.getElementById("selectFigButton4").onclick = function(){
+        selectFig(4);
+    }
+
+    document.getElementById("selectFigButton5").onclick = function(){
+        selectFig(5);
+    }
+
+    document.getElementById("moveUpBtn").onclick = function(){
+        figMove("w");
+    }
+
+    document.getElementById("moveLeftBtn").onclick = function(){
+        figMove("a");
+    }
+
+    document.getElementById("moveDownBtn").onclick = function(){
+        figMove("s");
+    }
+
+    document.getElementById("moveRightBtn").onclick = function(){
+        figMove("d");
+    }
+
+    document.getElementById("moveSkipBtn").onclick = function(){
+        skipMove();
+    }
+}
+document.addEventListener("DOMContentLoaded", ready);
+
+
+

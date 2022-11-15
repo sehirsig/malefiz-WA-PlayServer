@@ -1,3 +1,4 @@
+
 let canvas, ctx, w, h;
 let fireworks = [],
     particles = [],
@@ -188,3 +189,11 @@ function startWinAudio() {
 function restartGame() {
     window.location.href = "/reset";
 }
+
+document.getElementById("restartButton").addEventListener("click", function(){
+    alert("hi");
+});
+
+document.getElementById("winAudio").onload = function(){
+    startWinAudio();
+};
