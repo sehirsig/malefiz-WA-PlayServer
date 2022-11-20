@@ -322,9 +322,9 @@
             <div class="col-lg-8">
                 <div class="container p-0 m-1" id="gamepanel">
                 @for(i <- 0 until controller.gameController.gameboard.getStandardXYsize._1) {
-                    <div class="row justify-content-center">
+                    <div class="row justify-content-center" id="row@i">
                     @for(j <- 0 until controller.gameController.gameboard.getStandardXYsize._2) {
-                        <div class="col" id="no-padding">
+                        <div class="col p-0 m-0" id="col@j">
                             @if(controller.gameController.gameboard.rows(i)(j).equals(invalidcell)) {
                                 <img src="@routes.Assets.versioned("/images/game/invalid.png")" class="game-field"/>
                             } else if(controller.gameController.gameboard.rows(i)(j).equals(start1cell)) {

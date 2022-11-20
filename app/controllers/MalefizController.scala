@@ -49,11 +49,6 @@ class MalefizController @Inject()(cc: ControllerComponents) extends AbstractCont
     addText
   }
 
-
-  def jstest = Action {
-    Ok(views.html.jstest())
-  }
-
   def home = Action {
     addText
   }

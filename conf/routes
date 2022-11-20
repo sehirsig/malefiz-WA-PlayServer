@@ -31,8 +31,6 @@ GET     /load                       controllers.MalefizController.loadGame
 
 GET     /undo                       controllers.MalefizController.undoGame
 
-GET     /jstest                     controllers.MalefizController.jstest
-
 GET     /redo                       controllers.MalefizController.redoGame
 
 GET     /reset                      controllers.MalefizController.resetGame
