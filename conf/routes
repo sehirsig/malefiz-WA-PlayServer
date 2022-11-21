@@ -19,14 +19,6 @@ GET     /addDEBUG                   controllers.MalefizController.debugWinTest
 
 GET     /addROLL                    controllers.MalefizController.debugRoll
 
-GET     /save                       controllers.MalefizController.saveGame
-
-GET     /load                       controllers.MalefizController.loadGame
-
-GET     /undo                       controllers.MalefizController.undoGame
-
-GET     /redo                       controllers.MalefizController.redoGame
-
 GET     /errors/notfound            controllers.ErrorController.notFound
 
 GET     /errors/badrequest          controllers.ErrorController.badRequest

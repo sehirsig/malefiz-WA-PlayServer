@@ -21,12 +21,8 @@ class MalefizController @Inject()(cc: ControllerComponents) extends AbstractCont
     val players = "Current Players: " + gameController.game.players.mkString(" ")
     val currentplayer = "Turn of Player: " + gameController.playerStatus.getCurrentPlayer.toString
     val diceRolled = "You rolled a " + gameController.savedGame.lastFullDice + "." + " Moves left: " + gameController.moveCounter
-    val gamewinner = gameController.gameWon._2
 
-    gameController.gameStatus match {
-      case GAMEWINNER => Ok(views.html.malefiz.winner(this, gamewinner))
-      case _ => Ok(views.html.malefiz.gameboard(this, malefizAsText, gameMessage, diceRolled, currentplayer, atLeast2Players, players))
-    }
+    Ok(views.html.malefiz.gameboard(this, malefizAsText, gameMessage, diceRolled, currentplayer, atLeast2Players, players))
   }
 
   def badRequest(errorMessage: String) = BadRequest(errorMessage + "\nPlease return to the last site")
@@ -83,31 +79,25 @@ class MalefizController @Inject()(cc: ControllerComponents) extends AbstractCont
     gameController.move("skip", gameController.selectedFigNum)
   }
 
-  def saveGame = Action {
+  def saveGame = {
     gameController.save
-    addText
   }
 
-  def loadGame = Action {
+  def loadGame = {
     gameController.load
-    addText
   }
 
-  def undoGame = Action {
+  def undoGame = {
     gameController.undo
-    addText
   }
 
-  def redoGame = Action {
+  def redoGame = {
     gameController.redo
-    addText
   }
 
   def resetGame = {
     gameController.resetGame()
   }
-
-  val gameData = new gameData()
 
   def gameMessage() = GameStatus.gameMessage(gameController.gameStatus)
 
@@ -186,6 +176,14 @@ class MalefizController @Inject()(cc: ControllerComponents) extends AbstractCont
       addplayer(data.replace("\"", ""))
     } else if (cmd.equals("\"reset\"")) {
       resetGame
+    } else if (cmd.equals("\"save\"")) {
+      saveGame
+    } else if (cmd.equals("\"load\"")) {
+      loadGame
+    } else if (cmd.equals("\"undo\"")) {
+      undoGame
+    } else if (cmd.equals("\"redo\"")) {
+      redoGame
     }
     "Ok"
   }
