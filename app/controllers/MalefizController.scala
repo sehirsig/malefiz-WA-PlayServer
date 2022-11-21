@@ -6,6 +6,7 @@ import de.htwg.se.malefiz.Malefiz
 import de.htwg.se.malefiz.controller.controllerComponent.GameStatus
 import de.htwg.se.malefiz.controller.controllerComponent.GameStatus._
 import models._
+import play.api.libs.json.{JsValue, Json}
 
 
 @Singleton
@@ -20,7 +21,6 @@ class MalefizController @Inject()(cc: ControllerComponents) extends AbstractCont
     val players = "Current Players: " + gameController.game.players.mkString(" ")
     val currentplayer = "Turn of Player: " + gameController.playerStatus.getCurrentPlayer.toString
     val diceRolled = "You rolled a " + gameController.savedGame.lastFullDice + "." + " Moves left: " + gameController.moveCounter
-
     val gamewinner = gameController.gameWon._2
 
     gameController.gameStatus match {
@@ -53,39 +53,34 @@ class MalefizController @Inject()(cc: ControllerComponents) extends AbstractCont
     addText
   }
 
-  def addplayer(name: String) = Action {
+  def addplayer(name: String) = {
     gameController.addPlayer()
     gameController.addPlayerName(name)
-    addText
   }
 
-  def start = Action {
+  def start = {
     gameController.startGame()
-    addText
   }
 
-  def rollDice = Action {
+  def rollDice = {
     gameController.rollDice()
-    addText
   }
 
-  def selectFigure(figurenum: Int) = Action {
+  def selectFigure(figurenum: Int): String = {
     if (figurenum < 1 || figurenum > 5) {
-      badRequest("You need to choose a number between 1 - 5")
+      "Error: You need to choose a number between 1 - 5"
     } else {
       gameController.selectFigure(figurenum)
-      addText
+      "Ok"
     }
   }
 
-  def move(input: String) = Action {
+  def move(input: String) = {
     gameController.move(input, gameController.selectedFigNum)
-    addText
   }
 
-  def skip = Action {
+  def skip = {
     gameController.move("skip", gameController.selectedFigNum)
-    addText
   }
 
   def saveGame = Action {
@@ -108,12 +103,50 @@ class MalefizController @Inject()(cc: ControllerComponents) extends AbstractCont
     addText
   }
 
-  def resetGame = Action {
+  def resetGame = {
     gameController.resetGame()
-    addText
   }
 
   val gameData = new gameData()
+
+  def gameMessage() = GameStatus.gameMessage(gameController.gameStatus)
+
+  def atLeast2Players() = "You need to add at least 2 Players."
+
+  def players() = "Current Players: " + gameController.game.players.mkString(" ")
+
+  def currentplayer() = "Turn of Player: " + gameController.playerStatus.getCurrentPlayer.toString
+
+  def diceRolled() = "You rolled a " + gameController.savedGame.lastFullDice + "." + " Moves left: " + gameController.moveCounter
+
+  def gamewinner() = gameController.gameWon._2
+
+  def status = Action {
+    Ok(Json.obj(
+      "rows" -> Json.toJson(
+        for {
+          row <- 0 until gameController.gameboard.getStandardXYsize._1
+          col <- 0 until gameController.gameboard.getStandardXYsize._2
+        } yield {
+          Json.obj(
+            "row" -> row,
+            "col" -> col,
+            "cell" -> Json.toJson(gameController.gameboard.cellString(row, col))
+          )
+        }
+      ),
+      "row_size" -> gameController.gameboard.getStandardXYsize._1,
+      "col_size" -> gameController.gameboard.getStandardXYsize._2,
+      "gameStatusID" -> getStatusID(),
+      "string" -> Json.obj(
+        "gameMessage" -> gameMessage(),
+        "atLeast2Players" -> atLeast2Players(),
+        "players" -> players(),
+        "currentplayer" -> currentplayer(),
+        "diceRolled" -> diceRolled(),
+        "gamewinner" -> gamewinner())
+    ))
+  }
 
   def getStatusID(): Int = {
     return gameController.gameStatus match {
@@ -137,22 +170,71 @@ class MalefizController @Inject()(cc: ControllerComponents) extends AbstractCont
     }
   }
 
+  def processCommand(cmd: String, data: String): String = {
+    if (cmd.equals("\"start\"")) {
+      start
+    } else if (cmd.equals("\"rollDice\"")) {
+      rollDice
+    } else if (cmd.equals("\"selectFig\"")) {
+      val result = selectFigure(data.replace("\"", "").toInt)
+      return result
+    } else if (cmd.equals("\"figMove\"")) {
+      move(data.replace("\"", ""))
+    } else if (cmd.equals("\"skip\"")) {
+      skip
+    } else if (cmd.equals("\"addPlayer\"")) {
+      addplayer(data.replace("\"", ""))
+    } else if (cmd.equals("\"reset\"")) {
+      resetGame
+    }
+    "Ok"
+  }
+
+  def processRequest = Action {
+    implicit request => {
+      val req = request.body.asJson
+      val result = processCommand(req.get("cmd").toString(), req.get("data").toString())
+      if (result.contains("Error")) {
+        BadRequest(result)
+      } else {
+        Ok(Json.obj(
+          "rows" -> Json.toJson(
+            for {
+              row <- 0 until gameController.gameboard.getStandardXYsize._1
+              col <- 0 until gameController.gameboard.getStandardXYsize._2
+            } yield {
+              Json.obj(
+                "row" -> row,
+                "col" -> col,
+                "cell" -> Json.toJson(gameController.gameboard.cellString(row, col))
+              )
+            }
+          ),
+          "row_size" -> gameController.gameboard.getStandardXYsize._1,
+          "col_size" -> gameController.gameboard.getStandardXYsize._2,
+          "gameStatusID" -> getStatusID(),
+          "string" -> Json.obj(
+            "gameMessage" -> gameMessage(),
+            "atLeast2Players" -> atLeast2Players(),
+            "players" -> players(),
+            "currentplayer" -> currentplayer(),
+            "diceRolled" -> diceRolled(),
+            "gamewinner" -> gamewinner())
+        ))
+      }
+    }
+  }
+
   def allRoutes = {
     """
     GET  /
     GET  / about
-    GET  / controls
-    GET  / start
-    GET  / addplayer /: playername
-    GET  / selectfig /: figurenum
-    GET  / move /: input { w, a , s, d }
-    GET  / skip
-    GET  / rolldice
+    POST / command
+    GET  / status
     GET  / save
     GET  / load
     GET  / undo
     GET  / redo
-    GET  / reset
     GET  / errors / notfound
     """
   }

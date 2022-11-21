@@ -9,21 +9,15 @@ GET     /                           controllers.MalefizController.home
 
 GET     /about                      controllers.MalefizController.about
 
-GET     /start                      controllers.MalefizController.start
-
-GET     /addplayer/:playername      controllers.MalefizController.addplayer(playername: String)
+#JSON Command /command
++nocsrf
+POST    /command                    controllers.MalefizController.processRequest
+#Get all json Data with /status
+GET     /status                     controllers.MalefizController.status
 
 GET     /addDEBUG                   controllers.MalefizController.debugWinTest
 
 GET     /addROLL                    controllers.MalefizController.debugRoll
-
-GET     /selectfig/:figurenum       controllers.MalefizController.selectFigure(figurenum: Int)
-
-GET     /move/:input                controllers.MalefizController.move(input: String)
-
-GET     /skip                       controllers.MalefizController.skip
-
-GET     /rolldice                   controllers.MalefizController.rollDice
 
 GET     /save                       controllers.MalefizController.saveGame
 
@@ -32,8 +26,6 @@ GET     /load                       controllers.MalefizController.loadGame
 GET     /undo                       controllers.MalefizController.undoGame
 
 GET     /redo                       controllers.MalefizController.redoGame
-
-GET     /reset                      controllers.MalefizController.resetGame
 
 GET     /errors/notfound            controllers.ErrorController.notFound
 

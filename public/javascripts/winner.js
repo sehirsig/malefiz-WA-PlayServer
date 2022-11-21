@@ -187,13 +187,8 @@ function startWinAudio() {
 }
 
 function restartGame() {
-    window.location.href = "/reset";
+    alert("Yes!")
 }
-
-document.getElementById("restartButton").addEventListener("click", function(){
-    alert("hi");
-});
-
 document.getElementById("winAudio").onload = function(){
     startWinAudio();
 };
