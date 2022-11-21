@@ -43,63 +43,63 @@ function updateGameBoard() {
         let cellString = data.rows[i].cell
 
         if (cellString === "InvalidCell") {
-            $('#' + fieldID).attr("src","/assets/images/game/invalid.png");
+            $('#' + fieldID).attr("src", "/assets/images/game/invalid.png");
         } else if (cellString === "BlockedCell") {
-            $('#' + fieldID).attr("src","/assets/images/game/blocked.png");
+            $('#' + fieldID).attr("src", "/assets/images/game/blocked.png");
         } else if (cellString === "FreeCell") {
-            $('#' + fieldID).attr("src","/assets/images/game/free.png");
+            $('#' + fieldID).attr("src", "/assets/images/game/free.png");
         } else if (cellString === "SecureCell") {
-            $('#' + fieldID).attr("src","/assets/images/game/free.png");
+            $('#' + fieldID).attr("src", "/assets/images/game/free.png");
         } else if (cellString === "GoalCell") {
-            $('#' + fieldID).attr("src","/assets/images/game/goal.png");
+            $('#' + fieldID).attr("src", "/assets/images/game/goal.png");
         } else if (cellString === "Start1Cell") {
-            $('#' + fieldID).attr("src","/assets/images/game/start1.png");
+            $('#' + fieldID).attr("src", "/assets/images/game/start1.png");
         } else if (cellString === "Start2Cell") {
-            $('#' + fieldID).attr("src","/assets/images/game/start2.png");
+            $('#' + fieldID).attr("src", "/assets/images/game/start2.png");
         } else if (cellString === "Start3Cell") {
-            $('#' + fieldID).attr("src","/assets/images/game/start3.png");
+            $('#' + fieldID).attr("src", "/assets/images/game/start3.png");
         } else if (cellString === "Start4Cell") {
-            $('#' + fieldID).attr("src","/assets/images/game/start4.png");
+            $('#' + fieldID).attr("src", "/assets/images/game/start4.png");
         } else if (cellString === "PlayerCell11") {
-            $('#' + fieldID).attr("src","/assets/images/game/player11.png");
+            $('#' + fieldID).attr("src", "/assets/images/game/player11.png");
         } else if (cellString === "PlayerCell12") {
-            $('#' + fieldID).attr("src","/assets/images/game/player12.png");
+            $('#' + fieldID).attr("src", "/assets/images/game/player12.png");
         } else if (cellString === "PlayerCell13") {
-            $('#' + fieldID).attr("src","/assets/images/game/player13.png");
+            $('#' + fieldID).attr("src", "/assets/images/game/player13.png");
         } else if (cellString === "PlayerCell14") {
-            $('#' + fieldID).attr("src","/assets/images/game/player14.png");
+            $('#' + fieldID).attr("src", "/assets/images/game/player14.png");
         } else if (cellString === "PlayerCell15") {
-            $('#' + fieldID).attr("src","/assets/images/game/player15.png");
+            $('#' + fieldID).attr("src", "/assets/images/game/player15.png");
         } else if (cellString === "PlayerCell21") {
-            $('#' + fieldID).attr("src","/assets/images/game/player21.png");
+            $('#' + fieldID).attr("src", "/assets/images/game/player21.png");
         } else if (cellString === "PlayerCell22") {
-            $('#' + fieldID).attr("src","/assets/images/game/player22.png");
+            $('#' + fieldID).attr("src", "/assets/images/game/player22.png");
         } else if (cellString === "PlayerCell23") {
-            $('#' + fieldID).attr("src","/assets/images/game/player23.png");
+            $('#' + fieldID).attr("src", "/assets/images/game/player23.png");
         } else if (cellString === "PlayerCell24") {
-            $('#' + fieldID).attr("src","/assets/images/game/player24.png");
+            $('#' + fieldID).attr("src", "/assets/images/game/player24.png");
         } else if (cellString === "PlayerCell25") {
-            $('#' + fieldID).attr("src","/assets/images/game/player25.png");
+            $('#' + fieldID).attr("src", "/assets/images/game/player25.png");
         } else if (cellString === "PlayerCell31") {
-            $('#' + fieldID).attr("src","/assets/images/game/player31.png");
+            $('#' + fieldID).attr("src", "/assets/images/game/player31.png");
         } else if (cellString === "PlayerCell32") {
-            $('#' + fieldID).attr("src","/assets/images/game/player32.png");
+            $('#' + fieldID).attr("src", "/assets/images/game/player32.png");
         } else if (cellString === "PlayerCell33") {
-            $('#' + fieldID).attr("src","/assets/images/game/player33.png");
+            $('#' + fieldID).attr("src", "/assets/images/game/player33.png");
         } else if (cellString === "PlayerCell34") {
-            $('#' + fieldID).attr("src","/assets/images/game/player34.png");
+            $('#' + fieldID).attr("src", "/assets/images/game/player34.png");
         } else if (cellString === "PlayerCell35") {
-            $('#' + fieldID).attr("src","/assets/images/game/player35.png");
+            $('#' + fieldID).attr("src", "/assets/images/game/player35.png");
         } else if (cellString === "PlayerCell41") {
-            $('#' + fieldID).attr("src","/assets/images/game/player41.png");
+            $('#' + fieldID).attr("src", "/assets/images/game/player41.png");
         } else if (cellString === "PlayerCell42") {
-            $('#' + fieldID).attr("src","/assets/images/game/player42.png");
+            $('#' + fieldID).attr("src", "/assets/images/game/player42.png");
         } else if (cellString === "PlayerCell43") {
-            $('#' + fieldID).attr("src","/assets/images/game/player43.png");
+            $('#' + fieldID).attr("src", "/assets/images/game/player43.png");
         } else if (cellString === "PlayerCell44") {
-            $('#' + fieldID).attr("src","/assets/images/game/player44.png");
+            $('#' + fieldID).attr("src", "/assets/images/game/player44.png");
         } else if (cellString === "PlayerCell45") {
-            $('#' + fieldID).attr("src","/assets/images/game/player45.png");
+            $('#' + fieldID).attr("src", "/assets/images/game/player45.png");
         }
     }
 }
@@ -296,25 +296,23 @@ function processCommand(cmd, data) {
 }
 
 function checkWin() {
-    getData().then(() => {
-        let status = data.gameStatusID
-        if (status === stat_gamewinner) {
-            $('#testAudio').get(0).pause();
-            let audio = $('#winAudio').get(0);
-            audio.loop = true;
-            audio.play();
-            swal({
-                icon: "info",
-                text: "Congratulations " + data.string.gamewinner + "!\nPress OK to start a new game.",
-                title: "We have winner!"
-            })
-                .then(() => {
-                    audio.pause()
-                    $('#testAudio').get(0).play()
-                    processCommand("reset", "")
-                });
-        }
-    })
+    let status = data.gameStatusID
+    if (status === stat_gamewinner) {
+        $('#testAudio').get(0).pause();
+        let audio = $('#winAudio').get(0);
+        audio.loop = true;
+        audio.play();
+        swal({
+            icon: "info",
+            text: "Congratulations " + data.string.gamewinner + "!\nPress OK to start a new game.",
+            title: "We have winner!"
+        })
+            .then(() => {
+                audio.pause()
+                $('#testAudio').get(0).play()
+                processCommand("reset", "")
+            });
+    }
 }
 
 function startGame() {
@@ -350,6 +348,7 @@ function addPlayer() {
         processCommand("addPlayer", player_name)
     }
 }
+
 function startDiceAudio() {
     let audio = $('#diceAudio').get(0);
     audio.loop = true;
@@ -359,49 +358,49 @@ function startDiceAudio() {
 
 // On Click Events
 function refreshOnClickEvents() {
-    $('#resetButton').click(function() {
+    $('#resetButton').click(function () {
         resetGame()
     });
-    $('#startButton').click(function() {
+    $('#startButton').click(function () {
         startGame()
     });
-    $('#diceButton').click(function() {
+    $('#diceButton').click(function () {
         startDiceAudio()
     });
-    $('#rollModal').click(function() {
+    $('#rollModal').click(function () {
         rollDice()
     });
-    $('#selectFig1Button').click(function() {
+    $('#selectFig1Button').click(function () {
         selectFig(1)
     });
-    $('#selectFig2Button').click(function() {
+    $('#selectFig2Button').click(function () {
         selectFig(2)
     });
-    $('#selectFig3Button').click(function() {
+    $('#selectFig3Button').click(function () {
         selectFig(3)
     });
-    $('#selectFig4Button').click(function() {
+    $('#selectFig4Button').click(function () {
         selectFig(4)
     });
-    $('#selectFig5Button').click(function() {
+    $('#selectFig5Button').click(function () {
         selectFig(5)
     });
-    $('#figMoveUpButton').click(function() {
+    $('#figMoveUpButton').click(function () {
         figMove("w")
     });
-    $('#figMoveLeftButton').click(function() {
+    $('#figMoveLeftButton').click(function () {
         figMove("a")
     });
-    $('#figMoveDownButton').click(function() {
+    $('#figMoveDownButton').click(function () {
         figMove("s")
     });
-    $('#figMoveRightButton').click(function() {
+    $('#figMoveRightButton').click(function () {
         figMove("d")
     });
-    $('#skipMoveButton').click(function() {
+    $('#skipMoveButton').click(function () {
         skipMove()
     });
-    $('#addPlayerButton').click(function() {
+    $('#addPlayerButton').click(function () {
         addPlayer()
     });
 }
