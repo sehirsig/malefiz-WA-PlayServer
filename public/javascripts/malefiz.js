@@ -116,11 +116,11 @@ function updateInfoPanel() {
                         <p class="text-center">${data.string.players}</p>`;
     }
     if (status === stat_playing) {
-        parent.innerHTML = parent.innerHTML + `<p class="text-center">${data.string.currentplayer}</p>
-                    <p class="text-center">${data.string.diceRolled}</p>`;
+        parent.innerHTML = parent.innerHTML + `<p class="text-center">${data.string.currentplayer}</p>`;
     }
     if (status === stat_choosefig) {
-        parent.innerHTML = parent.innerHTML + `<p class="text-center">${data.string.diceRolled}</p>`;
+        parent.innerHTML = parent.innerHTML + `<p class="text-center">${data.string.currentplayer}</p>
+                        <p class="text-center">${data.string.diceRolled}</p>`;
     }
     if (status === stat_moving) {
         parent.innerHTML = parent.innerHTML + `<p class="text-center">${data.string.currentplayer}</p>
@@ -359,49 +359,49 @@ function startDiceAudio() {
 
 // On Click Events
 function refreshOnClickEvents() {
-    $('#resetButton').on("click", function() {
+    $('#resetButton').click(function() {
         resetGame()
     });
-    $('#startButton').on("click", function() {
+    $('#startButton').click(function() {
         startGame()
     });
-    $('#diceButton').on("click", function() {
+    $('#diceButton').click(function() {
         startDiceAudio()
     });
-    $('#rollModal').on("click", function() {
+    $('#rollModal').click(function() {
         rollDice()
     });
-    $('#selectFig1Button').on("click", function() {
+    $('#selectFig1Button').click(function() {
         selectFig(1)
     });
-    $('#selectFig2Button').on("click", function() {
+    $('#selectFig2Button').click(function() {
         selectFig(2)
     });
-    $('#selectFig3Button').on("click", function() {
+    $('#selectFig3Button').click(function() {
         selectFig(3)
     });
-    $('#selectFig4Button').on("click", function() {
+    $('#selectFig4Button').click(function() {
         selectFig(4)
     });
-    $('#selectFig5Button').on("click", function() {
+    $('#selectFig5Button').click(function() {
         selectFig(5)
     });
-    $('#figMoveUpButton').on("click", function() {
+    $('#figMoveUpButton').click(function() {
         figMove("w")
     });
-    $('#figMoveLeftButton').on("click", function() {
+    $('#figMoveLeftButton').click(function() {
         figMove("a")
     });
-    $('#figMoveDownButton').on("click", function() {
+    $('#figMoveDownButton').click(function() {
         figMove("s")
     });
-    $('#figMoveRightButton').on("click", function() {
+    $('#figMoveRightButton').click(function() {
         figMove("d")
     });
-    $('#skipMoveButton').on("click", function() {
+    $('#skipMoveButton').click(function() {
         skipMove()
     });
-    $('#addPlayerButton').on("click", function() {
+    $('#addPlayerButton').click(function() {
         addPlayer()
     });
 }
