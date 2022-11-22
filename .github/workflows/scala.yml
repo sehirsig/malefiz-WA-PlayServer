@@ -2,9 +2,9 @@ name: Scala CI
 
 on:
   push:
-    branches: [ development ]
+    branches: [ WA-08-Comet_WebSockets ]
   pull_request:
-    branches: [ development ]
+    branches: [ WA-08-Comet_WebSockets ]
 
 jobs:
   build:
