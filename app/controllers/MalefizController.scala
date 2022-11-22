@@ -6,7 +6,7 @@ import de.htwg.se.malefiz.Malefiz
 import de.htwg.se.malefiz.controller.controllerComponent.GameStatus
 import de.htwg.se.malefiz.controller.controllerComponent.GameStatus._
 import models._
-import play.api.libs.json.{JsValue, Json}
+import play.api.libs.json.{JsObject, JsValue, Json, Writes}
 
 
 @Singleton
@@ -111,31 +111,42 @@ class MalefizController @Inject()(cc: ControllerComponents) extends AbstractCont
 
   def gamewinner() = gameController.gameWon._2
 
+  case class Strings()
+  implicit val stringsWrites: Writes[Strings] = new Writes[Strings] {
+    def writes(strings:Strings): JsObject = Json.obj(
+      "gameMessage" -> gameMessage(),
+      "atLeast2Players" -> atLeast2Players(),
+      "players" -> players(),
+      "currentplayer" -> currentplayer(),
+      "diceRolled" -> diceRolled(),
+      "gamewinner" -> gamewinner()
+    )
+  }
+
+  case class Gamefield()
+  implicit val gamefieldWrites: Writes[Gamefield] = new Writes[Gamefield] {
+    def writes(gamefield: Gamefield): JsValue = Json.toJson(
+      for {
+        row <- 0 until gameController.gameboard.getStandardXYsize._1
+        col <- 0 until gameController.gameboard.getStandardXYsize._2
+      } yield {
+        Json.obj(
+          "row" -> row,
+          "col" -> col,
+          "cell" -> Json.toJson(gameController.gameboard.cellString(row, col))
+        )
+      }
+    )
+  }
+
   def status = Action {
     Ok(Json.obj(
-      "rows" -> Json.toJson(
-        for {
-          row <- 0 until gameController.gameboard.getStandardXYsize._1
-          col <- 0 until gameController.gameboard.getStandardXYsize._2
-        } yield {
-          Json.obj(
-            "row" -> row,
-            "col" -> col,
-            "cell" -> Json.toJson(gameController.gameboard.cellString(row, col))
-          )
-        }
-      ),
+      "rows" -> Gamefield(),
       "row_size" -> gameController.gameboard.getStandardXYsize._1,
       "col_size" -> gameController.gameboard.getStandardXYsize._2,
       "gameStatusID" -> getStatusID(),
-      "string" -> Json.obj(
-        "gameMessage" -> gameMessage(),
-        "atLeast2Players" -> atLeast2Players(),
-        "players" -> players(),
-        "currentplayer" -> currentplayer(),
-        "diceRolled" -> diceRolled(),
-        "gamewinner" -> gamewinner())
-    ))
+      "string" -> Strings())
+    )
   }
 
   def getStatusID(): Int = {
@@ -196,29 +207,12 @@ class MalefizController @Inject()(cc: ControllerComponents) extends AbstractCont
         BadRequest(result)
       } else {
         Ok(Json.obj(
-          "rows" -> Json.toJson(
-            for {
-              row <- 0 until gameController.gameboard.getStandardXYsize._1
-              col <- 0 until gameController.gameboard.getStandardXYsize._2
-            } yield {
-              Json.obj(
-                "row" -> row,
-                "col" -> col,
-                "cell" -> Json.toJson(gameController.gameboard.cellString(row, col))
-              )
-            }
-          ),
+          "rows" -> Gamefield(),
           "row_size" -> gameController.gameboard.getStandardXYsize._1,
           "col_size" -> gameController.gameboard.getStandardXYsize._2,
           "gameStatusID" -> getStatusID(),
-          "string" -> Json.obj(
-            "gameMessage" -> gameMessage(),
-            "atLeast2Players" -> atLeast2Players(),
-            "players" -> players(),
-            "currentplayer" -> currentplayer(),
-            "diceRolled" -> diceRolled(),
-            "gamewinner" -> gamewinner())
-        ))
+          "string" -> Strings())
+        )
       }
     }
   }
@@ -229,10 +223,6 @@ class MalefizController @Inject()(cc: ControllerComponents) extends AbstractCont
     GET  / about
     POST / command
     GET  / status
-    GET  / save
-    GET  / load
-    GET  / undo
-    GET  / redo
     GET  / errors / notfound
     """
   }
