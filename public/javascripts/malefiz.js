@@ -130,6 +130,9 @@ function updateInfoPanel() {
         parent.innerHTML = parent.innerHTML + `<p class="text-center">${data.string.atLeast2Players}</p>
                     <p class="text-center">${data.string.players}</p>`;
     }
+    if (status === stat_gamewinner) {
+        parent.innerHTML = parent.innerHTML + `<p class="text-center">${data.string.gamewinner}</p>`;
+    }
     parent.innerHTML = parent.innerHTML + "</div>";
 }
 
