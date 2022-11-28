@@ -292,7 +292,7 @@ let sUserAdd = "<div class=\"row m-1\">\n" +
     "                                <div class=\"col text-center\">\n" +
     "                                    <input type=\"text\" class=\"form-control text-center\" placeholder=\"Username\" aria-label=\"Username\" aria-describedby=\"basic-addon1\" id=\"name\">\n" +
     "                                    <button type=\"button\" class=\"btn btn-success input-normal-button\" id=\"addPlayerButton\">\n" +
-    "                                        Add Player</button>\n" +
+    "                                        Join Game</button>\n" +
     "                                </div>\n" +
     "                            </div>"
 

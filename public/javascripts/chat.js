@@ -29,8 +29,8 @@ function connect() {
         complete : function(response) {
             // send a new ajax request when this request is finished
             if (!self.noerror) {
-                // if a connection problem occurs, try to reconnect each 5 seconds
-                setTimeout(function(){ connect(); }, 5000);
+                // if a connection problem occu0rs, try to reconnect each 5 seconds
+                setTimeout(function(){ connect(); }, 500);
             }else {
                 // persistent connection
                 connect();
@@ -52,7 +52,6 @@ function sendMessage() {
         contentType: "application/json",
         success : function(response) {
             timestamp = response.timestamp;
-            $('#chat-area').append('<p class="dark-bg">' + message + '</p>');
         }
     });
 

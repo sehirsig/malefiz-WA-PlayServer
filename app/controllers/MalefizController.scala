@@ -66,16 +66,11 @@ class MalefizController @Inject()(cc: ControllerComponents)(implicit system: Act
 
       val req = request.body.asJson
       val ts = req.get("timestamp").toString()
-      if (!(ts.equals("\"" + timestamp.toString + "\""))) {
-        Ok(Json.obj(
-          "timestamp" -> timestamp.toString,
-          "msg" -> lastMsg) //Num of current player 1 - 4
-        )
-      } else {
-        BadRequest(Json.obj(
-          "timestamp" -> "-",
-          "msg" -> "-"))
-      }
+      while (ts.equals("\"" + timestamp.toString + "\"")) {}
+      Ok(Json.obj(
+        "timestamp" -> timestamp.toString,
+        "msg" -> lastMsg) //Num of current player 1 - 4
+      )
     }
   }
 
