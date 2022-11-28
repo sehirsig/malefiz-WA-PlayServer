@@ -118,6 +118,7 @@ function updateGameBoard() {
 }
 
 let playerNum = -1
+let secretId = ""
 
 function updateInfoPanel() {
     let status = data.gameStatusID
@@ -310,7 +311,7 @@ function resetGame() {
         });
 }
 
-function post(method, url, returnData) {
+function post(method, url, returnData, cmd) {
     return $.ajax({
         method: method,
         url: url,
@@ -320,6 +321,9 @@ function post(method, url, returnData) {
 
         success: function (response) {
             data = response;
+            if (cmd === "addPlayer") {
+                secretId = data.secretId
+            }
         },
         error: function (response) {
             console.log("Error")
@@ -332,8 +336,8 @@ function processCommand(cmd, returnData) {
     if (cmd === "addPlayer") {
         playerNum = data.player_count + 1 //Get his player number
     }
-    post("POST", "/command", {"cmd": cmd, "data": returnData}).then(() => {
-        //updateGame();
+    post("POST", "/command", {"cmd": cmd, "data": returnData, "secretId": secretId.toString()}, cmd).then(() => {
+        //updateGame(); //Return players special secret ID
     })
 }
 

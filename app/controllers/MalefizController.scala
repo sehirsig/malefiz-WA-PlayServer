@@ -87,6 +87,7 @@ class MalefizController @Inject()(cc: ControllerComponents)(implicit system: Act
   }
 
   def resetGame = {
+    secretArray.empty
     gameController.resetGame()
   }
 
@@ -173,38 +174,45 @@ class MalefizController @Inject()(cc: ControllerComponents)(implicit system: Act
     }
   }
 
-  def processCommand(cmd: String, data: String): String = {
-    if (cmd.equals("\"start\"")) {
-      start
-    } else if (cmd.equals("\"rollDice\"")) {
-      rollDice
-    } else if (cmd.equals("\"selectFig\"")) {
-      val result = selectFigure(data.replace("\"", "").toInt)
-      return result
-    } else if (cmd.equals("\"figMove\"")) {
-      move(data.replace("\"", ""))
-    } else if (cmd.equals("\"skip\"")) {
-      skip
-    } else if (cmd.equals("\"addPlayer\"")) {
+  def processCommand(cmd: String, data: String, secretId: String): String = {
+    if (cmd.equals("\"addPlayer\"")) {
       addplayer(data.replace("\"", ""))
-    } else if (cmd.equals("\"reset\"")) {
-      resetGame
-    } else if (cmd.equals("\"save\"")) {
-      saveGame
-    } else if (cmd.equals("\"load\"")) {
-      loadGame
-    } else if (cmd.equals("\"undo\"")) {
-      undoGame
-    } else if (cmd.equals("\"redo\"")) {
-      redoGame
+      secretArray(gameController.game.players.size - 1) = scala.util.Random.nextInt(9999999).toString
+    }
+    if ("\"" + secretArray(gameController.playerStatus.getCurrentPlayer - 1) + "\"" == secretId) {
+      if (cmd.equals("\"start\"")) {
+        start
+      } else if (cmd.equals("\"rollDice\"")) {
+        rollDice
+      } else if (cmd.equals("\"selectFig\"")) {
+        val result = selectFigure(data.replace("\"", "").toInt)
+        return result
+      } else if (cmd.equals("\"figMove\"")) {
+        move(data.replace("\"", ""))
+      } else if (cmd.equals("\"skip\"")) {
+        skip
+      } else if (cmd.equals("\"reset\"")) {
+        resetGame
+      } else if (cmd.equals("\"save\"")) {
+        saveGame
+      } else if (cmd.equals("\"load\"")) {
+        loadGame
+      } else if (cmd.equals("\"undo\"")) {
+        undoGame
+      } else if (cmd.equals("\"redo\"")) {
+        redoGame
+      }
     }
     "Ok"
   }
 
+  var secretArray = Array("", "", "", "")
+
   def processRequest = Action {
     implicit request => {
       val req = request.body.asJson
-      val result = processCommand(req.get("cmd").toString(), req.get("data").toString())
+      val result = processCommand(req.get("cmd").toString(), req.get("data").toString(), req.get("secretId").toString())
+      // Secret ID Erstellen und zurückschicken
       if (result.contains("Error")) {
         BadRequest(result)
       } else {
@@ -215,7 +223,8 @@ class MalefizController @Inject()(cc: ControllerComponents)(implicit system: Act
           "gameStatusID" -> getStatusID(),
           "string" -> Strings(),
           "turn_id" -> currentPlayerNum(),
-          "player_count" -> gameController.game.players.size)
+          "player_count" -> gameController.game.players.size,
+          "secretId" -> secretArray(gameController.game.players.size - 1))
         )
       }
     }
