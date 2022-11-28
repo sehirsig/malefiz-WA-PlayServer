@@ -15,9 +15,7 @@ POST    /command                    controllers.MalefizController.processRequest
 #Get all json Data with /status
 GET     /status                     controllers.MalefizController.status
 
-GET     /addDEBUG                   controllers.MalefizController.debugWinTest
-
-GET     /addROLL                    controllers.MalefizController.debugRoll
+GET     /websocket                  controllers.MalefizController.socket
 
 GET     /errors/notfound            controllers.ErrorController.notFound
 

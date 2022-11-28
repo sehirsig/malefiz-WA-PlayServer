@@ -1,25 +1,30 @@
 package controllers
 
+import akka.actor.{Actor, ActorRef, ActorSystem, Props}
+import akka.stream.Materializer
+
 import javax.inject._
 import play.api.mvc._
 import de.htwg.se.malefiz.Malefiz
-import de.htwg.se.malefiz.controller.controllerComponent.GameStatus
+import de.htwg.se.malefiz.controller.controllerComponent._
 import de.htwg.se.malefiz.controller.controllerComponent.GameStatus._
-import models._
 import play.api.libs.json.{JsObject, JsValue, Json, Writes}
+import play.api.libs.streams.ActorFlow
+
+import scala.swing.Reactor
 
 
 @Singleton
-class MalefizController @Inject()(cc: ControllerComponents) extends AbstractController(cc) {
+class MalefizController @Inject()(cc: ControllerComponents)(implicit system: ActorSystem, mat: Materializer) extends AbstractController(cc) {
   val gameController = Malefiz.controller
 
   def malefizAsText = gameController.boardToString()
 
   def addText = {
     val gameMessage = GameStatus.gameMessage(gameController.gameStatus)
-    val atLeast2Players = "You need to add at least 2 Players."
+    val atLeast2Players = "You need to be at least 2 Players."
     val players = "Current Players: " + gameController.game.players.mkString(" ")
-    val currentplayer = "Turn of Player: " + gameController.playerStatus.getCurrentPlayer.toString
+    val currentplayer = "Turn of Player " + gameController.playerStatus.getCurrentPlayer.toString
     val diceRolled = "You rolled a " + gameController.savedGame.lastFullDice + "." + " Moves left: " + gameController.moveCounter
 
     Ok(views.html.malefiz.gameboard(this, malefizAsText, gameMessage, diceRolled, currentplayer, atLeast2Players, players))
@@ -29,20 +34,6 @@ class MalefizController @Inject()(cc: ControllerComponents) extends AbstractCont
 
   def about = Action {
     Ok(views.html.index())
-  }
-
-  def debugWinTest = Action {
-    gameController.addPlayerDEBUGWINTEST("Herbert")
-    gameController.addPlayerDEBUGWINTEST("Gustav")
-    gameController.startGame()
-    gameController.debugDice()
-    gameController.selectFigure(1)
-    addText
-  }
-
-  def debugRoll = Action {
-    gameController.debugDice()
-    addText
   }
 
   def home = Action {
@@ -111,6 +102,15 @@ class MalefizController @Inject()(cc: ControllerComponents) extends AbstractCont
 
   def gamewinner() = gameController.gameWon._2
 
+  def currentPlayerNum() = {
+    val num = gameController.playerStatus.getCurrentPlayer
+    if (num < 1 || num > 4) {
+      0
+    } else {
+      num
+    }
+  }
+
   case class Strings()
   implicit val stringsWrites: Writes[Strings] = new Writes[Strings] {
     def writes(strings:Strings): JsObject = Json.obj(
@@ -145,7 +145,9 @@ class MalefizController @Inject()(cc: ControllerComponents) extends AbstractCont
       "row_size" -> gameController.gameboard.getStandardXYsize._1,
       "col_size" -> gameController.gameboard.getStandardXYsize._2,
       "gameStatusID" -> getStatusID(),
-      "string" -> Strings())
+      "string" -> Strings(),
+      "turn_id" -> currentPlayerNum(),
+      "player_count" -> gameController.game.players.size) //Num of current player 1 - 4
     )
   }
 
@@ -211,19 +213,57 @@ class MalefizController @Inject()(cc: ControllerComponents) extends AbstractCont
           "row_size" -> gameController.gameboard.getStandardXYsize._1,
           "col_size" -> gameController.gameboard.getStandardXYsize._2,
           "gameStatusID" -> getStatusID(),
-          "string" -> Strings())
+          "string" -> Strings(),
+          "turn_id" -> currentPlayerNum(),
+          "player_count" -> gameController.game.players.size)
         )
       }
     }
   }
 
-  def allRoutes = {
-    """
-    GET  /
-    GET  / about
-    POST / command
-    GET  / status
-    GET  / errors / notfound
-    """
+  def controllerToJson(reset:Int = 0) = {
+    (Json.obj(
+      "rows" -> Gamefield(),
+      "row_size" -> gameController.gameboard.getStandardXYsize._1,
+      "col_size" -> gameController.gameboard.getStandardXYsize._2,
+      "gameStatusID" -> getStatusID(),
+      "string" -> Strings(),
+      "turn_id" -> currentPlayerNum(),
+      "player_count" -> gameController.game.players.size,
+      "reset" -> reset)).toString
+  }
+
+  def socket = WebSocket.accept[String, String] { request =>
+    ActorFlow.actorRef { out =>
+      MalefizSocketActor.props(out)
+    }
+  }
+
+  object MalefizSocketActor {
+    def props(out: ActorRef) = {
+      Props(new MalefizSocketActor(out))
+    }
+  }
+
+  class MalefizSocketActor(out: ActorRef) extends Actor with Reactor {
+    listenTo(gameController)
+
+    def receive = {
+      case msg: String =>
+        out ! controllerToJson()
+    }
+
+    reactions += {
+      case event: RollDice => out ! controllerToJson()
+      case event: Moving => out ! controllerToJson()
+      case event: ChooseFig => out ! controllerToJson()
+      //case event: SettingUp => out ! ("Update") //Überspringen, da bei Add player sofort auf Start Up wechselt
+      case event: StartUp => out ! controllerToJson()
+      case event: StartGame => out ! controllerToJson()
+      case event: WonGame => out ! controllerToJson()
+      case event: GameReset => out ! controllerToJson(1)
+      case event: GameSaved => out ! controllerToJson()
+      case event: GameLoaded => out ! controllerToJson()
+    }
   }
 }

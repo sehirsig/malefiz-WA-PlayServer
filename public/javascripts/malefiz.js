@@ -1,12 +1,7 @@
 $(document).ready(function () {
-        getData().then(() => {
-            checkWin();
-            updateInfoPanel();
-            updateInputPanel();
-            updateGameBoard();
-            $("#testAudio").get(0).play();
-            refreshOnClickEvents();
-        })
+        updateGame();
+        $("#testAudio").get(0).play();
+        connectWebSocket();
     }
 )
 
@@ -33,6 +28,24 @@ function getData() {
             data = response;
         }
     });
+}
+
+function updateGame() {
+    getData().then(() => {
+        checkWin();
+        updateInfoPanel();
+        updateInputPanel();
+        updateGameBoard();
+        refreshOnClickEvents();
+    })
+}
+
+function updateGameNoAjax() {
+    checkWin();
+    updateInfoPanel();
+    updateInputPanel();
+    updateGameBoard();
+    refreshOnClickEvents();
 }
 
 function updateGameBoard() {
@@ -104,27 +117,40 @@ function updateGameBoard() {
     }
 }
 
+let playerNum = -1
+
 function updateInfoPanel() {
     let status = data.gameStatusID
     const parent = $('#information-panel').get(0);
     parent.innerHTML = ""
-    if (status === stat_ready1) {
-        parent.innerHTML = parent.innerHTML + `<p class="text-center">${data.string.gameMessage}</p>`;
+    if (playerNum > 0) {
+        parent.innerHTML = parent.innerHTML + `<p class="text-center">You are Player ${playerNum}</p>`
     }
-    if (status === stat_ready2) {
+    if (status === stat_ready1 && playerNum === 1) {
+        parent.innerHTML = parent.innerHTML + `<p class="text-center">${data.string.gameMessage}</p>`;
+    } else if (status === stat_ready1 && playerNum !== 1) {
+        parent.innerHTML = parent.innerHTML + `<p class="text-center">Wait for Player 1 to start </p>`;
+    }
+    if (status === stat_ready2 && playerNum === 1) {
         parent.innerHTML = parent.innerHTML + `<p class="text-center">${data.string.gameMessage}</p>
                         <p class="text-center">${data.string.players}</p>`;
+    } else if (status === stat_ready2 && playerNum !== 1) {
+
     }
-    if (status === stat_playing) {
-        parent.innerHTML = parent.innerHTML + `<p class="text-center">${data.string.currentplayer}</p>`;
-    }
-    if (status === stat_choosefig) {
-        parent.innerHTML = parent.innerHTML + `<p class="text-center">${data.string.currentplayer}</p>
+    if (playerNum === data.turn_id) {
+        if (status === stat_playing) {
+            parent.innerHTML = parent.innerHTML + `<p class="text-center">${data.string.currentplayer}</p>`;
+        }
+        if (status === stat_choosefig) {
+            parent.innerHTML = parent.innerHTML + `<p class="text-center">${data.string.currentplayer}</p>
                         <p class="text-center">${data.string.diceRolled}</p>`;
-    }
-    if (status === stat_moving) {
-        parent.innerHTML = parent.innerHTML + `<p class="text-center">${data.string.currentplayer}</p>
+        }
+        if (status === stat_moving) {
+            parent.innerHTML = parent.innerHTML + `<p class="text-center">${data.string.currentplayer}</p>
                     <p class="text-center">${data.string.diceRolled}</p>`;
+        }
+    } else if (0 < data.turn_id && (status === stat_playing || status === stat_choosefig || status === stat_moving) && 0 < playerNum) {
+        parent.innerHTML = parent.innerHTML + `<p class="text-center">Wait for Player ${data.turn_id} to end his turn</p>`;
     }
     if (status === stat_welcome || status === stat_ready1 || status === stat_idle) {
         parent.innerHTML = parent.innerHTML + `<p class="text-center">${data.string.atLeast2Players}</p>
@@ -133,6 +159,9 @@ function updateInfoPanel() {
     if (status === stat_gamewinner) {
         parent.innerHTML = parent.innerHTML + `<p class="text-center">${data.string.gamewinner}</p>`;
     }
+    if (playerNum === -1 && data.player_count >= 4) {
+        parent.innerHTML = parent.innerHTML + "<p class=\"text-center text-light\">Wait for this game to end.</p>"
+    }
     parent.innerHTML = parent.innerHTML + "</div>";
 }
 
@@ -140,25 +169,38 @@ function updateInputPanel() {
     let status = data.gameStatusID
 
     const parent = $('#input-panel-group').get(0);
-    parent.innerHTML = sResetButton +
-        "<div class=\"row justify-content-center\">";
-    if (status === stat_ready1) {
+
+    parent.innerHTML = "";
+    if (playerNum === 1) {
+        parent.innerHTML = sResetButton;
+    }
+
+    parent.innerHTML = parent.innerHTML + "<div class=\"row justify-content-center\">";
+    if (status === stat_ready1 && playerNum === 1) {
         parent.innerHTML = parent.innerHTML + sStartGame;
     }
-    if (status === stat_ready2) {
+    if (status === stat_ready2 && playerNum === 1) {
         parent.innerHTML = parent.innerHTML + sStartGame + "</div>";
     }
-    if (status === stat_playing) {
-        parent.innerHTML = parent.innerHTML + sRollDice + "</div>";
+    if (playerNum === data.turn_id) {
+        if (status === stat_playing) {
+            parent.innerHTML = parent.innerHTML + sRollDice + "</div>";
+        }
+        if (status === stat_choosefig) {
+            parent.innerHTML = parent.innerHTML + sChooseFig + "</div>";
+        }
+        if (status === stat_moving) {
+            parent.innerHTML = parent.innerHTML + sMoving + "</div>";
+        }
     }
-    if (status === stat_choosefig) {
-        parent.innerHTML = parent.innerHTML + sChooseFig + "</div>";
-    }
-    if (status === stat_moving) {
-        parent.innerHTML = parent.innerHTML + sMoving + "</div>";
-    }
-    if (status === stat_welcome || status === stat_ready1 || status === stat_idle) {
-        parent.innerHTML = parent.innerHTML + sUserAdd + "</div>";
+    if (playerNum === -1 && data.player_count < 4) {
+        if (status === stat_welcome || status === stat_ready1 || status === stat_idle) {
+            parent.innerHTML = parent.innerHTML + sUserAdd + "</div>";
+        }
+    } else if (playerNum === -1 && data.player_count >= 4) {
+        parent.innerHTML = parent.innerHTML + "<p class=\"text-center text-light\">...</p>"
+    } else if (playerNum > 0 && playerNum !== data.turn_id) {
+        parent.innerHTML = parent.innerHTML + "<p class=\"text-center text-light\">Wait for your turn.</p>"
     }
 }
 
@@ -268,11 +310,11 @@ function resetGame() {
         });
 }
 
-function post(method, url, data) {
+function post(method, url, returnData) {
     return $.ajax({
         method: method,
         url: url,
-        data: JSON.stringify(data),
+        data: JSON.stringify(returnData),
         dataType: "json",
         contentType: "application/json",
 
@@ -286,15 +328,12 @@ function post(method, url, data) {
     });
 }
 
-function processCommand(cmd, data) {
-    post("POST", "/command", {"cmd": cmd, "data": data}).then(() => {
-        getData().then(() => {
-            checkWin();
-            updateInfoPanel();
-            updateInputPanel();
-            updateGameBoard();
-            refreshOnClickEvents()
-        })
+function processCommand(cmd, returnData) {
+    if (cmd === "addPlayer") {
+        playerNum = data.player_count + 1 //Get his player number
+    }
+    post("POST", "/command", {"cmd": cmd, "data": returnData}).then(() => {
+        //updateGame();
     })
 }
 
@@ -406,4 +445,46 @@ function refreshOnClickEvents() {
     $('#addPlayerButton').click(function () {
         addPlayer()
     });
+}
+
+// Websockets
+var websocket = new WebSocket("ws://localhost:9000/websocket");
+window.onbeforeunload = function () {
+    websocket.onclose = function () {
+        if (playerNum > 0 && playerNum < 5 && data.player_count > 0) {
+            processCommand("reset", "")
+        }
+    };
+    websocket.close();
+};
+
+function connectWebSocket() {
+
+    websocket.onopen = function (event) {
+        websocket.send("Trying to connect to Server");
+    }
+
+    websocket.onclose = function () {
+        if (playerNum > 0 && playerNum < 5) {
+            processCommand("reset", "")
+        }
+    };
+
+    websocket.onerror = function (error) {
+    };
+
+    websocket.onmessage = function (e) {
+        if (typeof e.data === "string") {
+            data = JSON.parse(e.data)
+            if (data.reset === 1) {
+                playerNum = -1
+                swal({
+                    icon: "warning",
+                    text: "Game has been reset! (Player left or game master chose to)",
+                    title: "Error!"
+                })
+            }
+            updateGameNoAjax()
+        }
+    };
 }
