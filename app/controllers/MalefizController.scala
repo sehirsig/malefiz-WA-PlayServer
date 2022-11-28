@@ -87,8 +87,8 @@ class MalefizController @Inject()(cc: ControllerComponents)(implicit system: Act
   }
 
   def resetGame = {
-    secretArray.empty
     gameController.resetGame()
+    secretArray.empty
   }
 
   def gameMessage() = GameStatus.gameMessage(gameController.gameStatus)
@@ -201,6 +201,10 @@ class MalefizController @Inject()(cc: ControllerComponents)(implicit system: Act
         undoGame
       } else if (cmd.equals("\"redo\"")) {
         redoGame
+      }
+    } else if (secretArray.contains(secretId.replace("\"", ""))) {
+      if (cmd.equals("\"reset\"")) {
+        resetGame
       }
     }
     "Ok"
