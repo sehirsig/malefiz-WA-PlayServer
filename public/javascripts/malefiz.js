@@ -130,7 +130,7 @@ function updateInfoPanel() {
     if (status === stat_ready1 && playerNum === 1) {
         parent.innerHTML = parent.innerHTML + `<p class="text-center">${data.string.gameMessage}</p>`;
     } else if (status === stat_ready1 && playerNum !== 1) {
-        parent.innerHTML = parent.innerHTML + `<p class="text-center">Wait for Player 1 to start </p>`;
+        parent.innerHTML = parent.innerHTML + `<p class="text-center">Wait for Player 1 to start <svg class="spinner" viewBox="0 0 50 50"> <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle> </svg> </p>`;
     }
     if (status === stat_ready2 && playerNum === 1) {
         parent.innerHTML = parent.innerHTML + `<p class="text-center">${data.string.gameMessage}</p>
@@ -151,7 +151,7 @@ function updateInfoPanel() {
                     <p class="text-center">${data.string.diceRolled}</p>`;
         }
     } else if (0 < data.turn_id && (status === stat_playing || status === stat_choosefig || status === stat_moving) && 0 < playerNum) {
-        parent.innerHTML = parent.innerHTML + `<p class="text-center">Wait for Player ${data.turn_id} to end his turn</p>`;
+        parent.innerHTML = parent.innerHTML + `<p class="text-center">Wait for Player ${data.turn_id} to end his turn <svg class="spinner" viewBox="0 0 50 50"> <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle> </svg></p>`;
     }
     if (status === stat_welcome || status === stat_ready1 || status === stat_idle) {
         if (data.player_count < 2) {
