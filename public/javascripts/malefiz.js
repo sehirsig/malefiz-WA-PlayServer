@@ -136,7 +136,7 @@ function updateInfoPanel() {
         parent.innerHTML = parent.innerHTML + `<p class="text-center">${data.string.gameMessage}</p>
                         <p class="text-center">${data.string.players}</p>`;
     } else if (status === stat_ready2 && playerNum !== 1) {
-
+        parent.innerHTML = parent.innerHTML + `<p class="text-center">Wait for Player 1 to start </p>`;
     }
     if (playerNum === data.turn_id) {
         if (status === stat_playing) {
@@ -154,8 +154,12 @@ function updateInfoPanel() {
         parent.innerHTML = parent.innerHTML + `<p class="text-center">Wait for Player ${data.turn_id} to end his turn</p>`;
     }
     if (status === stat_welcome || status === stat_ready1 || status === stat_idle) {
-        parent.innerHTML = parent.innerHTML + `<p class="text-center">${data.string.atLeast2Players}</p>
+        if (data.player_count < 2) {
+            parent.innerHTML = parent.innerHTML + `<p class="text-center">${data.string.atLeast2Players}</p>
                     <p class="text-center">${data.string.players}</p>`;
+        } else {
+            parent.innerHTML = parent.innerHTML + `<p class="text-center">${data.string.players}</p>`;
+        }
     }
     if (status === stat_gamewinner) {
         parent.innerHTML = parent.innerHTML + `<p class="text-center">${data.string.gamewinner}</p>`;
