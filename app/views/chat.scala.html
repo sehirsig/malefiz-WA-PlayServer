@@ -1,0 +1,19 @@
+@()
+
+@main("HTWG Chat") {
+        <script src='@routes.Assets.versioned("javascripts/chat.js")' type="text/javascript"></script>
+        <div id="page-wrap" class="text-center">
+
+            <h2>HTWG Comet Chat</h2>
+
+            <div id="chat-area"></div>
+
+            <form id="send-message-form">
+                <p>Your message: </p>
+                <textarea id="send-message-box" maxlength = '100'></textarea>
+            </form>
+
+            <button id="sendMsg" onclick="sendMessage()">Send Message</button>
+            <p id="userId">Your ID: </p>
+        </div>
+}

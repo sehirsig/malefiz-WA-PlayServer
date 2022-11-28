@@ -17,6 +17,14 @@ GET     /status                     controllers.MalefizController.status
 
 GET     /websocket                  controllers.MalefizController.socket
 
+GET     /chat                       controllers.MalefizController.chat
+
++nocsrf
+POST     /getChat                    controllers.MalefizController.getChat
+
++nocsrf
+POST    /sendChat                   controllers.MalefizController.receiveMsg
+
 GET     /errors/notfound            controllers.ErrorController.notFound
 
 GET     /errors/badrequest          controllers.ErrorController.badRequest
