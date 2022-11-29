@@ -52,7 +52,6 @@ class MalefizController @Inject()(cc: ControllerComponents)(implicit system: Act
       println("received")
       val req = request.body.asJson
       val msg = req.get("msg").toString()
-      println(msg)
       timestamp += 1
       lastMsg = msg
       Ok(Json.obj(
@@ -307,9 +306,6 @@ class MalefizController @Inject()(cc: ControllerComponents)(implicit system: Act
   }
 
   def wsCommand(cmd:String, data:String, secretId:String): String = {
-    println("Data: " + cmd)
-    println("SID: " + secretId)
-    println("has to be: " + secretArray(gameController.playerStatus.getCurrentPlayer - 1))
     if (cmd.equals("addPlayer")) {
       addplayer(data)
       secretArray(gameController.game.players.size - 1) = scala.util.Random.nextInt(9999999).toString
@@ -318,7 +314,6 @@ class MalefizController @Inject()(cc: ControllerComponents)(implicit system: Act
       if (cmd.equals("start")) {
         start
       } else if (cmd.equals("rollDice")) {
-        println("Ja")
         rollDice
       } else if (cmd.equals("selectFig")) {
         val result = selectFigure(data.toInt)
@@ -356,7 +351,6 @@ class MalefizController @Inject()(cc: ControllerComponents)(implicit system: Act
           val cmd = split_msg(0)
           val data = split_msg(1)
           val secredId = split_msg(2)
-          println("Message: " + msg)
           if (wsCommand(cmd, data, secredId).contains("Error")) {
             out ! controllerToJson()
           } else {
