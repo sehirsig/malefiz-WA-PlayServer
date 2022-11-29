@@ -479,10 +479,8 @@ width=0,height=0,left=-500,top=-500`;
 let websocket = new WebSocket("ws://localhost:9000/websocket");
 window.onbeforeunload = function () {
     websocket.onclose = function () {
-        if (playerNum > 0 && playerNum < 5 && data.player_count > 0) {
+        if (playerNum > 0 && playerNum < 5) {
             processCommand("reset", "")
-            //alert("Test")
-            //resetGame()
         }
     };
     websocket.close();
@@ -497,7 +495,6 @@ function connectWebSocket() {
     websocket.onclose = function () {
         if (playerNum > 0 && playerNum < 5) {
             processCommand("reset", "")
-            //resetGame()
         }
     };
 
