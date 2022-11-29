@@ -277,7 +277,21 @@ class MalefizController @Inject()(cc: ControllerComponents)(implicit system: Act
       "string" -> Strings(),
       "turn_id" -> currentPlayerNum(),
       "player_count" -> gameController.game.players.size,
-      "reset" -> reset)).toString
+      "reset" -> reset,
+      "secretId" -> "")).toString
+  }
+
+  def controllerToJsonSID(reset: Int = 0) = {
+    (Json.obj(
+      "rows" -> Gamefield(),
+      "row_size" -> gameController.gameboard.getStandardXYsize._1,
+      "col_size" -> gameController.gameboard.getStandardXYsize._2,
+      "gameStatusID" -> getStatusID(),
+      "string" -> Strings(),
+      "turn_id" -> currentPlayerNum(),
+      "player_count" -> gameController.game.players.size,
+      "reset" -> reset,
+      "secretId" -> secretArray(gameController.game.players.size - 1))).toString
   }
 
   def socket = WebSocket.accept[String, String] { request =>
@@ -292,12 +306,67 @@ class MalefizController @Inject()(cc: ControllerComponents)(implicit system: Act
     }
   }
 
+  def wsCommand(cmd:String, data:String, secretId:String): String = {
+    println("Data: " + cmd)
+    println("SID: " + secretId)
+    println("has to be: " + secretArray(gameController.playerStatus.getCurrentPlayer - 1))
+    if (cmd.equals("addPlayer")) {
+      addplayer(data)
+      secretArray(gameController.game.players.size - 1) = scala.util.Random.nextInt(9999999).toString
+    }
+    if (secretArray(gameController.playerStatus.getCurrentPlayer - 1) == secretId) {
+      if (cmd.equals("start")) {
+        start
+      } else if (cmd.equals("rollDice")) {
+        println("Ja")
+        rollDice
+      } else if (cmd.equals("selectFig")) {
+        val result = selectFigure(data.toInt)
+        return result
+      } else if (cmd.equals("figMove")) {
+        move(data)
+      } else if (cmd.equals("skip")) {
+        skip
+      } else if (cmd.equals("reset")) {
+        resetGame
+      } else if (cmd.equals("save")) {
+        saveGame
+      } else if (cmd.equals("load")) {
+        loadGame
+      } else if (cmd.equals("undo")) {
+        undoGame
+      } else if (cmd.equals("redo")) {
+        redoGame
+      }
+    } else if (secretArray.contains(secretId)) {
+      if (cmd.equals("reset")) {
+        resetGame
+      }
+    }
+    "Ok"
+  }
+
   class MalefizSocketActor(out: ActorRef) extends Actor with Reactor {
     listenTo(gameController)
 
     def receive = {
       case msg: String =>
-        out ! controllerToJson()
+        val split_msg = msg.split('|')
+        if (split_msg.length == 3) {
+          val cmd = split_msg(0)
+          val data = split_msg(1)
+          val secredId = split_msg(2)
+          println("Message: " + msg)
+          if (wsCommand(cmd, data, secredId).contains("Error")) {
+            out ! controllerToJson()
+          } else {
+            if (cmd.equals("addPlayer")) {
+              out ! controllerToJsonSID()
+            } else {
+              out ! controllerToJson()
+            }
+          }
+        }
     }
 
     reactions += {

@@ -118,7 +118,7 @@ function updateGameBoard() {
 }
 
 let playerNum = -1
-let secretId = ""
+let secretId = " "
 
 function updateInfoPanel() {
     let status = data.gameStatusID
@@ -164,7 +164,7 @@ function updateInfoPanel() {
     if (status === stat_gamewinner) {
         parent.innerHTML = parent.innerHTML + `<p class="text-center">${data.string.gamewinner}</p>`;
     }
-    if (playerNum === -1 && data.player_count >= 4) {
+    if (playerNum === -1 && (status !== stat_welcome && status !== stat_ready1 && status !== stat_ready2 && status !== stat_idle)) {
         parent.innerHTML = parent.innerHTML + "<p class=\"text-center text-light\">Wait for this game to end.</p>"
     }
     parent.innerHTML = parent.innerHTML + "</div>";
@@ -202,9 +202,11 @@ function updateInputPanel() {
         if (status === stat_welcome || status === stat_ready1 || status === stat_idle) {
             parent.innerHTML = parent.innerHTML + sUserAdd + "</div>";
         }
-    } else if (playerNum === -1 && data.player_count >= 4) {
-        parent.innerHTML = parent.innerHTML + "<p class=\"text-center text-light\">...</p>"
-    } else if (playerNum > 0 && playerNum !== data.turn_id) {
+    }
+    if (playerNum === -1 && (status !== stat_welcome && status !== stat_ready1 && status !== stat_ready2 && status !== stat_idle)) {
+        parent.innerHTML = parent.innerHTML + "<p class=\"text-center text-light\"><svg class=\"spinner\" viewBox=\"0 0 50 50\"> <circle class=\"path\" cx=\"25\" cy=\"25\" r=\"20\" fill=\"none\" stroke-width=\"5\"></circle> </svg></p>"
+    }
+    if (playerNum > 0 && playerNum !== data.turn_id) {
         parent.innerHTML = parent.innerHTML + "<p class=\"text-center text-light\">Wait for your turn.</p>"
     }
 }
@@ -310,7 +312,8 @@ function resetGame() {
     })
         .then((willDelete) => {
             if (willDelete) {
-                processCommand("reset", "")
+                //processCommand("reset", "")
+                processCmdWS("reset", " ")
             }
         });
 }
@@ -360,30 +363,36 @@ function checkWin() {
             .then(() => {
                 audio.pause()
                 $('#testAudio').get(0).play()
-                processCommand("reset", "")
+                //processCommand("reset", "")
+                processCmdWS("reset", " ")
             });
     }
 }
 
 function startGame() {
-    processCommand("start", "")
+    //processCommand("start", "")
+    processCmdWS("start", " ")
 }
 
 function rollDice() {
     $('#rollModal').modal('hide');  //Close Modal
-    processCommand("rollDice", "")
+    //processCommand("rollDice", "")
+    processCmdWS("rollDice", " ")
 }
 
 function selectFig(num) {
-    processCommand("selectFig", num)
+    //processCommand("selectFig", num)
+    processCmdWS("selectFig", num)
 }
 
 function figMove(direction) {
-    processCommand("figMove", direction)
+    //processCommand("figMove", direction)
+    processCmdWS("figMove", direction)
 }
 
 function skipMove() {
-    processCommand("skip", "")
+    //processCommand("skip", "")
+    processCmdWS("skip", " ")
 }
 
 function addPlayer() {
@@ -395,8 +404,14 @@ function addPlayer() {
             title: "Error!"
         })
     } else {
-        processCommand("addPlayer", player_name)
+        playerNum = data.player_count + 1
+        processCmdWS("addPlayer", player_name)
+        //processCommand("addPlayer", player_name)
     }
+}
+
+function processCmdWS(cmd, data) {
+    websocket.send(cmd + "|" + data + "|" + secretId)
 }
 
 function startDiceAudio() {
@@ -461,11 +476,13 @@ width=0,height=0,left=-500,top=-500`;
 }
 
 // Websockets
-var websocket = new WebSocket("ws://localhost:9000/websocket");
+let websocket = new WebSocket("ws://localhost:9000/websocket");
 window.onbeforeunload = function () {
     websocket.onclose = function () {
         if (playerNum > 0 && playerNum < 5 && data.player_count > 0) {
             processCommand("reset", "")
+            //alert("Test")
+            //resetGame()
         }
     };
     websocket.close();
@@ -480,6 +497,7 @@ function connectWebSocket() {
     websocket.onclose = function () {
         if (playerNum > 0 && playerNum < 5) {
             processCommand("reset", "")
+            //resetGame()
         }
     };
 
@@ -496,6 +514,9 @@ function connectWebSocket() {
                     text: "Game has been reset! (Player left or game master chose to)",
                     title: "Error!"
                 })
+            }
+            if (data.secretId.length > 1) {
+                secretId = data.secretId
             }
             updateGameNoAjax()
         }
