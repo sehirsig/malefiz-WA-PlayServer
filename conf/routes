@@ -20,7 +20,7 @@ GET     /websocket                  controllers.MalefizController.socket
 GET     /chat                       controllers.MalefizController.chat
 
 +nocsrf
-POST     /getChat                   controllers.MalefizController.getChat
+POST    /getChat                    controllers.MalefizController.getChat
 
 +nocsrf
 POST    /sendChat                   controllers.MalefizController.receiveMsg
