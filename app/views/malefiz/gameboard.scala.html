@@ -1,4 +1,4 @@
-@(controller: controllers.MalefizController, game: String, gameMessage: String, diceRolled: String, currentplayer: String, atLeast2: String, players: String)
+@()
 
 @main("HTWG Malefiz") {
     <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/game.css")">
@@ -52,9 +52,9 @@
             </div>
             <div class="col-lg-8">
                 <div class="container p-0 m-1" id="gamepanel">
-                @for(i <- 0 until controller.gameController.gameboard.getStandardXYsize._1) {
+                @for(i <- 0 until 18) {
                     <div class="row justify-content-center">
-                    @for(j <- 0 until controller.gameController.gameboard.getStandardXYsize._2) {
+                    @for(j <- 0 until 19) {
                         <div class="col p-0 m-0">
                             <img class="game-field" id="field{@i}_{@j}"/>
                         </div>

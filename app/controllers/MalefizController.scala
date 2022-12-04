@@ -20,16 +20,6 @@ class MalefizController @Inject()(cc: ControllerComponents)(implicit system: Act
 
   def malefizAsText = gameController.boardToString()
 
-  def addText = {
-    val gameMessage = GameStatus.gameMessage(gameController.gameStatus)
-    val atLeast2Players = "You need to be at least 2 Players."
-    val players = "Current Players: " + gameController.game.players.mkString(" ")
-    val currentplayer = "Turn of Player " + gameController.playerStatus.getCurrentPlayer.toString
-    val diceRolled = "You rolled a " + gameController.savedGame.lastFullDice + "." + " Moves left: " + gameController.moveCounter
-
-    Ok(views.html.malefiz.gameboard(this, malefizAsText, gameMessage, diceRolled, currentplayer, atLeast2Players, players))
-  }
-
   def badRequest(errorMessage: String) = BadRequest(errorMessage + "\nPlease return to the last site")
 
   def about = Action {
@@ -37,7 +27,7 @@ class MalefizController @Inject()(cc: ControllerComponents)(implicit system: Act
   }
 
   def home = Action {
-    addText
+    Ok(views.html.malefiz.gameboard())
   }
 
   def chat = Action {
@@ -213,27 +203,18 @@ class MalefizController @Inject()(cc: ControllerComponents)(implicit system: Act
       secretArray(gameController.game.players.size - 1) = scala.util.Random.nextInt(9999999).toString
     }
     if ("\"" + secretArray(gameController.playerStatus.getCurrentPlayer - 1) + "\"" == secretId) {
-      if (cmd.equals("\"start\"")) {
-        start
-      } else if (cmd.equals("\"rollDice\"")) {
-        rollDice
-      } else if (cmd.equals("\"selectFig\"")) {
-        val result = selectFigure(data.replace("\"", "").toInt)
-        return result
-      } else if (cmd.equals("\"figMove\"")) {
-        move(data.replace("\"", ""))
-      } else if (cmd.equals("\"skip\"")) {
-        skip
-      } else if (cmd.equals("\"reset\"")) {
-        resetGame
-      } else if (cmd.equals("\"save\"")) {
-        saveGame
-      } else if (cmd.equals("\"load\"")) {
-        loadGame
-      } else if (cmd.equals("\"undo\"")) {
-        undoGame
-      } else if (cmd.equals("\"redo\"")) {
-        redoGame
+      cmd match {
+        case "\"start\"" => start
+        case "\"rollDice\"" => rollDice
+        case "\"selectFig\"" => return selectFigure(data.toInt)
+        case "\"figMove\"" => move(data)
+        case "\"skip\"" => skip
+        case "\"reset\"" => resetGame
+        case "\"save\"" => saveGame
+        case "\"load\"" => loadGame
+        case "\"undo\"" => undoGame
+        case "\"redo\"" => redoGame
+        case _ =>
       }
     } else if (secretArray.contains(secretId.replace("\"", ""))) {
       if (cmd.equals("\"reset\"")) {
@@ -311,27 +292,18 @@ class MalefizController @Inject()(cc: ControllerComponents)(implicit system: Act
       secretArray(gameController.game.players.size - 1) = scala.util.Random.nextInt(9999999).toString
     }
     if (secretArray(gameController.playerStatus.getCurrentPlayer - 1) == secretId) {
-      if (cmd.equals("start")) {
-        start
-      } else if (cmd.equals("rollDice")) {
-        rollDice
-      } else if (cmd.equals("selectFig")) {
-        val result = selectFigure(data.toInt)
-        return result
-      } else if (cmd.equals("figMove")) {
-        move(data)
-      } else if (cmd.equals("skip")) {
-        skip
-      } else if (cmd.equals("reset")) {
-        resetGame
-      } else if (cmd.equals("save")) {
-        saveGame
-      } else if (cmd.equals("load")) {
-        loadGame
-      } else if (cmd.equals("undo")) {
-        undoGame
-      } else if (cmd.equals("redo")) {
-        redoGame
+      cmd match {
+        case "start" => start
+        case "rollDice" => rollDice
+        case "selectFig" => return selectFigure(data.toInt)
+        case "figMove" => move(data)
+        case "skip" => skip
+        case "reset" => resetGame
+        case "save" => saveGame
+        case "load" => loadGame
+        case "undo" => undoGame
+        case "redo" => redoGame
+        case _ =>
       }
     } else if (secretArray.contains(secretId)) {
       if (cmd.equals("reset")) {
@@ -350,8 +322,8 @@ class MalefizController @Inject()(cc: ControllerComponents)(implicit system: Act
         if (split_msg.length == 3) {
           val cmd = split_msg(0)
           val data = split_msg(1)
-          val secredId = split_msg(2)
-          if (wsCommand(cmd, data, secredId).contains("Error")) {
+          val secretId = split_msg(2)
+          if (wsCommand(cmd, data, secretId).contains("Error")) {
             out ! controllerToJson()
           } else {
             if (cmd.equals("addPlayer")) {
