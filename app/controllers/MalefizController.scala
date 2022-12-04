@@ -18,8 +18,6 @@ import scala.swing.Reactor
 class MalefizController @Inject()(cc: ControllerComponents)(implicit system: ActorSystem, mat: Materializer) extends AbstractController(cc) {
   val gameController = Malefiz.controller
 
-  def malefizAsText = gameController.boardToString()
-
   def badRequest(errorMessage: String) = BadRequest(errorMessage + "\nPlease return to the last site")
 
   def about = Action {

@@ -476,7 +476,7 @@ width=0,height=0,left=-500,top=-500`;
 }
 
 // Websockets
-let websocket = new WebSocket("ws://localhost:9000/websocket");
+let websocket = new WebSocket("ws://" + location.hostname + ":9000/websocket");
 window.onbeforeunload = function () {
     websocket.onclose = function () {
         if (playerNum > 0 && playerNum < 5) {

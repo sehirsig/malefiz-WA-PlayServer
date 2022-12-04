@@ -44,28 +44,18 @@
             </div>
         </div>
     </nav>
-    <div class="container">
+    <div id="malefiz-game" class="container">
         <div class="row">
             <div class="col-lg-4">
-                <div class="container m-1" id="information-panel"></div>
-                <div class="container m-1" id="input-panel-group"></div>
+                <info-panel></info-panel>
             </div>
             <div class="col-lg-8">
-                <div class="container p-0 m-1" id="gamepanel">
-                @for(i <- 0 until 18) {
-                    <div class="row justify-content-center">
-                    @for(j <- 0 until 19) {
-                        <div class="col p-0 m-0">
-                            <img class="game-field" id="field{@i}_{@j}"/>
-                        </div>
-                    }
-                    </div>
-                }
-                </div>
+                <gameboard></gameboard>
             </div>
         </div>
     </div>
     <audio loop id="winAudio" type="audio/mpeg" src="@routes.Assets.versioned("audio/win.mp3")"></audio>
     <audio loop id="testAudio" type="audio/mpeg" src="@routes.Assets.versioned("audio/testmusic1.mp3")" preload="auto"></audio>
     <script src='@routes.Assets.versioned("javascripts/malefiz.js")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("javascripts/malefizVue.js")'></script>
 }
