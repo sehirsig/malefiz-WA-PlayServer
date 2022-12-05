@@ -218,6 +218,8 @@ class MalefizController @Inject()(cc: ControllerComponents)(implicit system: Act
       if (cmd.equals("\"reset\"")) {
         resetGame
       }
+    } else if (cmd.equals("\"reset\"")) { // Nur drinnen weil beforeunload nicht funktioniert
+      resetGame
     }
     "Ok"
   }
@@ -307,6 +309,8 @@ class MalefizController @Inject()(cc: ControllerComponents)(implicit system: Act
       if (cmd.equals("reset")) {
         resetGame
       }
+    } else if (cmd.equals("reset")) { // Nur drinnen weil beforeunload nicht funktioniert
+      resetGame
     }
     "Ok"
   }
@@ -316,6 +320,7 @@ class MalefizController @Inject()(cc: ControllerComponents)(implicit system: Act
 
     def receive = {
       case msg: String =>
+        System.out.println("Received: " + msg)
         val split_msg = msg.split('|')
         if (split_msg.length == 3) {
           val cmd = split_msg(0)
