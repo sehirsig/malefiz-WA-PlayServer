@@ -298,7 +298,7 @@ app.component('info-panel', {
             <p v-if="(($root.status === $root.stat_choosefig || $root.status === $root.stat_moving) && ($root.playerNum === $root.turn_id))" class="text-center">
             {{ $root.diceRolled }}
             </p>
-            <p v-if="(0 < $root.turn_id && ($root.status === $root.stat_playing || $root.status === $root.stat_choosefig || $root.status === $root.stat_moving) && 0 < $root.playerNum)" class="text-center">
+            <p v-if="((0 < $root.turn_id) && ($root.playerNum !== $root.turn_id) && ($root.status === $root.stat_playing || $root.status === $root.stat_choosefig || $root.status === $root.stat_moving) && 0 < $root.playerNum)" class="text-center">
                 Wait for Player {{ $root.turn_id }} to end his turn<svg class="spinner" viewBox="0 0 50 50"><circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle></svg>
             </p>
             <p v-if="(($root.status === $root.stat_welcome || $root.status === $root.stat_ready1 || $root.status === $root.stat_idle) && ($root.player_count < 2))" class="text-center">
@@ -317,8 +317,8 @@ app.component('info-panel', {
         <div class="container m-1" id="input-panel-group">
             <div class="row justify-content-center"> 
                 <div class="row justify-content-center">
-                    <div class="row m-1\\">
-                        <div class="col text-center\\">
+                    <div class="row m-1">
+                        <div class="col text-center">
                             <button type="button" class="btn btn-danger input-critical-button" v-on:click="resetGame()">
                                 Reset Game &#8634
                             </button>
