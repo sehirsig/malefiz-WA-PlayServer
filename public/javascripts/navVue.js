@@ -14,10 +14,6 @@ appNav.component('malefiz-nav', {
                     <a v-else class="nav-link hoverable text-center" id="navHome">Home</a>
                     <a v-if="selected === 'about'" class="nav-link active hoverable text-center" aria-current="page" id="navAbout">About</a>
                     <a v-else class="nav-link hoverable text-center" id="navAbout">About</a>
-                    <button type="button" class="btn btn-dark hoverable" id="chatButton">
-                        <i class="bi bi-chat-dots"></i>
-                        Chat
-                    </button>
                     <button type="button" class="btn btn-dark hoverable" data-bs-toggle="modal" data-bs-target="#infoModal" >
                         <i class="bi bi-info-circle"></i>
                         Game Instructions

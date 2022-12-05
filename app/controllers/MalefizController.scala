@@ -28,39 +28,6 @@ class MalefizController @Inject()(cc: ControllerComponents)(implicit system: Act
     Ok(views.html.malefiz.gameboard())
   }
 
-  def chat = Action {
-    Ok(views.html.chat())
-  }
-
-  var timestamp = 0
-  var lastMsg = ""
-
-  def receiveMsg = Action {
-    implicit request => {
-      println("received")
-      val req = request.body.asJson
-      val msg = req.get("msg").toString()
-      timestamp += 1
-      lastMsg = msg
-      Ok(Json.obj(
-        "timestamp" -> timestamp.toString)
-      )
-    }
-  }
-
-  def getChat = Action {
-    implicit request => {
-
-      val req = request.body.asJson
-      val ts = req.get("timestamp").toString()
-      while (ts.equals("\"" + timestamp.toString + "\"")) {}
-      Ok(Json.obj(
-        "timestamp" -> timestamp.toString,
-        "msg" -> lastMsg) //Num of current player 1 - 4
-      )
-    }
-  }
-
   def addplayer(name: String) = {
     gameController.addPlayer()
     gameController.addPlayerName(name)
