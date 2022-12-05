@@ -8,9 +8,6 @@ const app = Vue.createApp({
         return {
             websocketVUE: new WebSocket("ws://" + location.hostname + ":9000/websocket"),
             data: {},
-            rows: [],
-            row_size: -1,
-            col_size: -1,
             status: 0, //status kann auch gelöscht und mit data.status aufgerufen werden. (Das wären offline daten.
             gameMessage: " ",
             atLeast2Players: " ",
@@ -23,17 +20,6 @@ const app = Vue.createApp({
             reset: 0,
             secretId: " ",
             playerNum: -1,
-            stat_welcome: 0,
-            stat_loaded: 1,
-            stat_saved: 2,
-            stat_gamewinner: 3,
-            stat_choosefig: 4,
-            stat_idle: 5,
-            stat_ready1: 6,
-            stat_ready2: 7,
-            stat_playing: 13,
-            stat_moving: 14,
-            stat_entername: 15,
         }
     },
     methods: {
@@ -78,11 +64,6 @@ const app = Vue.createApp({
                     this.updateGameBoard()
                 }
             };
-        },
-        startDiceAudio() {
-            let audio = $('#diceAudio').get(0);
-            audio.loop = true;
-            audio.play();
         },
         processCmdWS(cmd, data) {
             this.websocketVUE.send(cmd + "|" + data + "|" + this.secretId)
@@ -225,6 +206,18 @@ const app = Vue.createApp({
     },
 })
 
+app.config.globalProperties.stat_welcome = 0
+app.config.globalProperties.stat_loaded = 1
+app.config.globalProperties.stat_saved = 2
+app.config.globalProperties.stat_gamewinner = 3
+app.config.globalProperties.stat_choosefig = 4
+app.config.globalProperties.stat_idle = 5
+app.config.globalProperties.stat_ready1 = 6
+app.config.globalProperties.stat_ready2 = 7
+app.config.globalProperties.stat_playing = 13
+app.config.globalProperties.stat_moving = 14
+app.config.globalProperties.stat_entername = 15
+
 app.component('info-panel', {
     methods: {
         startGame() {
@@ -270,49 +263,54 @@ app.component('info-panel', {
                 this.$root.processCmdWS("addPlayer", player_name)
             }
         },
+        startDiceAudio() {
+            let audio = $('#diceAudio').get(0);
+            audio.loop = true;
+            audio.play();
+        },
     },
     template: `
         <div class="container m-1" id="information-panel">
             <p v-if="($root.playerNum > 0)" class="text-center">
                 You are Player {{ $root.playerNum }}
             </p>
-            <p v-if="($root.status === $root.stat_ready1 && $root.playerNum === 1)" class="text-center">
+            <p v-if="($root.status === stat_ready1 && $root.playerNum === 1)" class="text-center">
                 {{ $root.gameMessage }}
             </p>
-            <p v-if="($root.status === $root.stat_ready1 && $root.playerNum !== 1)" class="text-center">
+            <p v-if="($root.status === stat_ready1 && $root.playerNum !== 1)" class="text-center">
                 Wait for Player 1 to start <svg class="spinner" viewBox="0 0 50 50"> <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle></svg>
             </p>
-            <p v-if="($root.status === $root.stat_ready2 && $root.playerNum === 1)" class="text-center">
+            <p v-if="($root.status === stat_ready2 && $root.playerNum === 1)" class="text-center">
                 {{ $root.gameMessage }}
             </p>
-            <p v-if="($root.status === $root.stat_ready2 && $root.playerNum === 1)" class="text-center">
+            <p v-if="($root.status === stat_ready2 && $root.playerNum === 1)" class="text-center">
                 {{ $root.players }}
             </p>
-            <p v-if="($root.status === $root.stat_ready2 && $root.playerNum !== 1)" class="text-center">
+            <p v-if="($root.status === stat_ready2 && $root.playerNum !== 1)" class="text-center">
                 Wait for Player 1 to start
             </p>
-            <p v-if="(($root.status === $root.stat_playing) && ($root.playerNum === $root.turn_id))" class="text-center">
+            <p v-if="(($root.status === stat_playing) && ($root.playerNum === $root.turn_id))" class="text-center">
             {{ $root.currentplayer }}
             </p>
-            <p v-if="(($root.status === $root.stat_choosefig || $root.status === $root.stat_moving) && ($root.playerNum === $root.turn_id))" class="text-center">
+            <p v-if="(($root.status === stat_choosefig || $root.status === stat_moving) && ($root.playerNum === $root.turn_id))" class="text-center">
             {{ $root.currentplayer }}
             </p>
-            <p v-if="(($root.status === $root.stat_choosefig || $root.status === $root.stat_moving) && ($root.playerNum === $root.turn_id))" class="text-center">
+            <p v-if="(($root.status === stat_choosefig || $root.status === stat_moving) && ($root.playerNum === $root.turn_id))" class="text-center">
             {{ $root.diceRolled }}
             </p>
-            <p v-if="((0 < $root.turn_id) && ($root.playerNum !== $root.turn_id) && ($root.status === $root.stat_playing || $root.status === $root.stat_choosefig || $root.status === $root.stat_moving) && 0 < $root.playerNum)" class="text-center">
+            <p v-if="((0 < $root.turn_id) && ($root.playerNum !== $root.turn_id) && ($root.status === stat_playing || $root.status === stat_choosefig || $root.status === stat_moving) && 0 < $root.playerNum)" class="text-center">
                 Wait for Player {{ $root.turn_id }} to end his turn<svg class="spinner" viewBox="0 0 50 50"><circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle></svg>
             </p>
-            <p v-if="(($root.status === $root.stat_welcome || $root.status === $root.stat_ready1 || $root.status === $root.stat_idle) && ($root.player_count < 2))" class="text-center">
+            <p v-if="(($root.status === stat_welcome || $root.status === stat_ready1 || $root.status === stat_idle) && ($root.player_count < 2))" class="text-center">
                 {{ $root.atLeast2Players }}
             </p>
-            <p v-if="($root.status === $root.stat_welcome || $root.status === $root.stat_ready1 || $root.status === $root.stat_idle)" class="text-center">
+            <p v-if="($root.status === stat_welcome || $root.status === stat_ready1 || $root.status === stat_idle)" class="text-center">
                 {{ $root.players }}
             </p>
-            <p v-if="($root.status === $root.stat_gamewinner)" class="text-center">
+            <p v-if="($root.status === stat_gamewinner)" class="text-center">
                 We have a winner ! Congratulations {{ $root.gamewinner }} !
             </p>
-            <p v-if="($root.playerNum === -1 && ($root.status !== $root.stat_welcome && $root.status !== $root.stat_ready1 && $root.status !== $root.stat_ready2 && $root.status !== $root.stat_idle))" class="text-center text-light">
+            <p v-if="($root.playerNum === -1 && ($root.status !== stat_welcome && $root.status !== stat_ready1 && $root.status !== stat_ready2 && $root.status !== stat_idle))" class="text-center text-light">
                 Wait for this game to end.
             </p>
         </div>
@@ -327,14 +325,14 @@ app.component('info-panel', {
                         </div>
                     </div>
                 </div>
-                <div v-if="(($root.status === $root.stat_ready1 || $root.status === $root.stat_ready2) && $root.playerNum === 1)" class="row m-1">
+                <div v-if="(($root.status === stat_ready1 || $root.status === stat_ready2) && $root.playerNum === 1)" class="row m-1">
                     <div class="col text-center">
                         <button type="button" class="btn btn-warning btn-block input-warning-button" v-on:click="startGame()">
                             Start Game</button>
                     </div>
                 </div>
                 <div v-if="($root.playerNum === $root.turn_id)">
-                    <div v-if="($root.status === $root.stat_playing)" class="row m-1">
+                    <div v-if="($root.status === stat_playing)" class="row m-1">
                         <div class="col">
                             <button type="button" v-on:click="startDiceAudio()" class="btn btn-success btn-block input-normal-button" data-bs-toggle="modal" data-bs-target="#rollModal">
                                 Roll Dice</button>
@@ -360,7 +358,7 @@ app.component('info-panel', {
                             </div>
                         </div>
                     </div>
-                    <div v-if="($root.status === $root.stat_choosefig)" class="row m-1">
+                    <div v-if="($root.status === stat_choosefig)" class="row m-1">
                         <div class="col btn-group justify-content-center" role="group" aria-label="First group">
                             <button type="button" class="btn btn-secondary input-normal-button" v-on:click="selectFig(1)">
                                 1</button>
@@ -374,13 +372,13 @@ app.component('info-panel', {
                                 5</button>
                         </div>
                     </div>
-                    <div v-if="($root.status === $root.stat_moving)" class="row m-1">
+                    <div v-if="($root.status === stat_moving)" class="row m-1">
                         <div class="col">
                             <button type="button" class="btn btn-secondary input-normal-button" v-on:click="figMove('w')">
                                 &#9650</button>
                         </div>
                     </div>
-                    <div v-if="($root.status === $root.stat_moving)" class="row m-1">
+                    <div v-if="($root.status === stat_moving)" class="row m-1">
                         <div class="col btn-group justify-content-center" role="group" aria-label="First group">
                             <button type="button" class="btn btn-secondary input-normal-button" v-on:click="figMove('a')">
                                 &#9668</button>
@@ -390,21 +388,21 @@ app.component('info-panel', {
                                 &#9658</button>
                         </div>
                     </div>
-                    <div v-if="($root.status === $root.stat_moving)" class="row m-1">
+                    <div v-if="($root.status === stat_moving)" class="row m-1">
                         <div class="col">
                             <button type="button" class="btn btn-warning input-warning-button" v-on:click="skipMove">
                                 Skip</button>
                         </div>
                     </div>
                 </div>
-                <div v-if="(($root.playerNum === -1 && $root.player_count < 4) && ($root.status === $root.stat_welcome || $root.status === $root.stat_ready1 || $root.status === $root.stat_idle))" class="row m-1">
+                <div v-if="(($root.playerNum === -1 && $root.player_count < 4) && ($root.status === stat_welcome || $root.status === stat_ready1 || $root.status === stat_idle))" class="row m-1">
                     <div class="col text-center">
                         <input type="text" class="form-control text-center" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" id="name">
                         <button type="button" class="btn btn-success input-normal-button" v-on:click="addPlayer()">
                             Join Game</button>
                     </div>
                 </div>
-                <p v-if="($root.playerNum === -1 && ($root.status !== $root.stat_welcome && $root.status !== $root.stat_ready1 && $root.status !== $root.stat_ready2 && $root.status !== $root.stat_idle))" class="text-center text-light">
+                <p v-if="($root.playerNum === -1 && ($root.status !== stat_welcome && $root.status !== stat_ready1 && $root.status !== stat_ready2 && $root.status !== stat_idle))" class="text-center text-light">
                     <svg class="spinner" viewBox="0 0 50 50"> <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle></svg>
                 </p>
                 <p v-if="($root.playerNum > 0 && $root.playerNum !== $root.turn_id)" class="text-center text-light">
