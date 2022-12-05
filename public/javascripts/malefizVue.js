@@ -74,6 +74,7 @@ const app = Vue.createApp({
                     this.turn_id = this.data.turn_id
                     this.player_count = this.data.player_count
                     this.reset = this.data.reset
+                    this.checkWin()
                     this.updateGameBoard()
                 }
             };
@@ -308,7 +309,7 @@ app.component('info-panel', {
                 {{ $root.players }}
             </p>
             <p v-if="($root.status === $root.stat_gamewinner)" class="text-center">
-                {{ $root.gamewinner }}
+                We have a winner ! Congratulations {{ $root.gamewinner }} !
             </p>
             <p v-if="($root.playerNum === -1 && ($root.status !== $root.stat_welcome && $root.status !== $root.stat_ready1 && $root.status !== $root.stat_ready2 && $root.status !== $root.stat_idle))" class="text-center text-light">
                 Wait for this game to end.
