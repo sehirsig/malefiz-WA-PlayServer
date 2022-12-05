@@ -43,7 +43,7 @@ const app = Vue.createApp({
             }
 
             this.websocketVUE.onclose = (event) => {
-                this.processCommand("reset", "")
+                this.processCommand("reset", " ")
             };
 
             this.websocketVUE.onerror = (event) => {
@@ -213,6 +213,7 @@ const app = Vue.createApp({
                     that.turn_id = response.turn_id
                     that.player_count = response.player_count
                     that.reset = response.reset
+                    that.checkWin()
                     that.updateGameBoard()
                 }
             });
