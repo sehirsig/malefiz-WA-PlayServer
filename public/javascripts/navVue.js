@@ -1,6 +1,12 @@
 const appNav = Vue.createApp({})
 
 appNav.component('malefiz-nav', {
+    data() {
+        return {
+            homeLink: "/",
+            aboutLink: "/about"
+        }
+    },
     props: ['selected'],
     template: `
         <div class="container-fluid">
@@ -10,10 +16,10 @@ appNav.component('malefiz-nav', {
             </button>
             <div class="collapse navbar-collapse justify-content-center" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
-                    <a v-if="selected === 'home'" class="nav-link active hoverable text-center" aria-current="page" id="navHome">Home</a>
-                    <a v-else class="nav-link hoverable text-center" id="navHome">Home</a>
-                    <a v-if="selected === 'about'" class="nav-link active hoverable text-center" aria-current="page" id="navAbout">About</a>
-                    <a v-else class="nav-link hoverable text-center" id="navAbout">About</a>
+                    <a v-if="selected === 'home'" class="nav-link active hoverable text-center" aria-current="page" :href="homeLink">Home</a>
+                    <a v-else class="nav-link hoverable text-center" :href="homeLink">Home</a>
+                    <a v-if="selected === 'about'" class="nav-link active hoverable text-center" aria-current="page" :href="aboutLink">About</a>
+                    <a v-else class="nav-link hoverable text-center" :href="aboutLink">About</a>
                     <button type="button" class="btn btn-dark hoverable" data-bs-toggle="modal" data-bs-target="#infoModal" >
                         <i class="bi bi-info-circle"></i>
                         Game Instructions

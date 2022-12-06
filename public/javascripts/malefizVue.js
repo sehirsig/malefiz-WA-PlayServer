@@ -1,8 +1,3 @@
-$(document).ready(function () {
-        $("#testAudio").get(0).play();
-    }
-)
-
 const app = Vue.createApp({
     data() {
         return {
@@ -91,7 +86,7 @@ const app = Vue.createApp({
         },
         checkWin() {
             if (this.status === this.stat_gamewinner) {
-                $('#testAudio').get(0).pause();
+                $('#backgroundAudio').get(0).pause();
                 let audio = $('#winAudio').get(0);
                 audio.loop = true;
                 audio.play();
@@ -102,7 +97,7 @@ const app = Vue.createApp({
                 })
                     .then(() => {
                         audio.pause()
-                        $('#testAudio').get(0).play()
+                        $('#backgroundAudio').get(0).play()
                         this.processCmdWS("reset", " ")
                     });
             }
@@ -198,6 +193,9 @@ const app = Vue.createApp({
                     that.updateGameBoard()
                 }
             });
+        },
+        startBackgroundMusic() {
+            $("#backgroundAudio").get(0).play();
         }
     },
     created() {
@@ -411,7 +409,7 @@ app.component('info-panel', {
             </div>
         </div>
         <audio loop id="winAudio" type="audio/mpeg" src="/assets/audio/win.mp3"></audio>
-        <audio loop id="testAudio" type="audio/mpeg" src="/assets/audio/backgroundaudio.mp3" preload="auto"></audio>
+        <audio loop id="backgroundAudio" type="audio/mpeg" src="/assets/audio/backgroundaudio.mp3" preload="auto"></audio>
     `
 })
 
