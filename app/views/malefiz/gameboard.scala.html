@@ -2,20 +2,19 @@
 
 @main("HTWG Malefiz") {
     <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/game.css")">
-    <nav id="malefiznavbar" class="navbar navbar-dark navbar-expand-lg bg-dark">
-        <malefiz-nav selected="home"></malefiz-nav>
-    </nav>
 
-    <div id="malefiz-game" class="container">
-        <div class="row">
-            <div class="col-lg-4">
-                <info-panel></info-panel>
-            </div>
-            <div class="col-lg-8">
-                <gameboard></gameboard>
+    <div id="malefiz-game">
+        <malefiz-nav selected="home"></malefiz-nav>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4">
+                    <info-panel></info-panel>
+                </div>
+                <div class="col-lg-8">
+                    <gameboard></gameboard>
+                </div>
             </div>
         </div>
     </div>
-    <script src='@routes.Assets.versioned("javascripts/navVue.js")'></script>
     <script src='@routes.Assets.versioned("javascripts/malefizVue.js")'></script>
 }

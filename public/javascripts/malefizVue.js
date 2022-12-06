@@ -1,4 +1,18 @@
-const app = Vue.createApp({
+const app = Vue.createApp({})
+
+app.config.globalProperties.stat_welcome = 0
+app.config.globalProperties.stat_loaded = 1
+app.config.globalProperties.stat_saved = 2
+app.config.globalProperties.stat_gamewinner = 3
+app.config.globalProperties.stat_choosefig = 4
+app.config.globalProperties.stat_idle = 5
+app.config.globalProperties.stat_ready1 = 6
+app.config.globalProperties.stat_ready2 = 7
+app.config.globalProperties.stat_playing = 13
+app.config.globalProperties.stat_moving = 14
+app.config.globalProperties.stat_entername = 15
+
+app.component('info-panel', {
     data() {
         return {
             websocketVUE: new WebSocket("ws://" + location.hostname + ":9000/websocket"),
@@ -196,30 +210,9 @@ const app = Vue.createApp({
         },
         startBackgroundMusic() {
             $("#backgroundAudio").get(0).play();
-        }
-    },
-    created() {
-        this.getData();
-        this.connectWebSocket();
-    },
-})
-
-app.config.globalProperties.stat_welcome = 0
-app.config.globalProperties.stat_loaded = 1
-app.config.globalProperties.stat_saved = 2
-app.config.globalProperties.stat_gamewinner = 3
-app.config.globalProperties.stat_choosefig = 4
-app.config.globalProperties.stat_idle = 5
-app.config.globalProperties.stat_ready1 = 6
-app.config.globalProperties.stat_ready2 = 7
-app.config.globalProperties.stat_playing = 13
-app.config.globalProperties.stat_moving = 14
-app.config.globalProperties.stat_entername = 15
-
-app.component('info-panel', {
-    methods: {
+        },
         startGame() {
-            this.$root.processCmdWS("start", " ")
+            this.processCmdWS("start", " ")
         },
         resetGame() {
             swal({
@@ -231,22 +224,22 @@ app.component('info-panel', {
             })
                 .then((willDelete) => {
                     if (willDelete) {
-                        this.$root.processCmdWS("reset", " ")
+                        this.processCmdWS("reset", " ")
                     }
                 });
         },
         rollDice() {
             $('#rollModal').modal('hide');
-            this.$root.processCmdWS("rollDice", " ")
+            this.processCmdWS("rollDice", " ")
         },
         selectFig(num) {
-            this.$root.processCmdWS("selectFig", num)
+            this.processCmdWS("selectFig", num)
         },
         figMove(direction) {
-            this.$root.processCmdWS("figMove", direction)
+            this.processCmdWS("figMove", direction)
         },
         skipMove() {
-            this.$root.processCmdWS("skip", " ")
+            this.processCmdWS("skip", " ")
         },
         addPlayer() {
             const player_name = $('#name').get(0).value;
@@ -257,8 +250,8 @@ app.component('info-panel', {
                     title: "Error!"
                 })
             } else {
-                this.$root.playerNum = this.$root.player_count + 1
-                this.$root.processCmdWS("addPlayer", player_name)
+                this.playerNum = this.player_count + 1
+                this.processCmdWS("addPlayer", player_name)
             }
         },
         startDiceAudio() {
@@ -267,48 +260,52 @@ app.component('info-panel', {
             audio.play();
         },
     },
+    created() {
+        this.getData();
+        this.connectWebSocket();
+    },
     template: `
         <div class="container m-1" id="information-panel">
-            <p v-if="($root.playerNum > 0)" class="text-center">
-                You are Player {{ $root.playerNum }}
+            <p v-if="(playerNum > 0)" class="text-center">
+                You are Player {{ playerNum }}
             </p>
-            <p v-if="($root.status === stat_ready1 && $root.playerNum === 1)" class="text-center">
-                {{ $root.gameMessage }}
+            <p v-if="(status === stat_ready1 && playerNum === 1)" class="text-center">
+                {{ gameMessage }}
             </p>
-            <p v-if="($root.status === stat_ready1 && $root.playerNum !== 1)" class="text-center">
+            <p v-if="(status === stat_ready1 && playerNum !== 1)" class="text-center">
                 Wait for Player 1 to start <svg class="spinner" viewBox="0 0 50 50"> <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle></svg>
             </p>
-            <p v-if="($root.status === stat_ready2 && $root.playerNum === 1)" class="text-center">
-                {{ $root.gameMessage }}
+            <p v-if="(status === stat_ready2 && playerNum === 1)" class="text-center">
+                {{ gameMessage }}
             </p>
-            <p v-if="($root.status === stat_ready2 && $root.playerNum === 1)" class="text-center">
-                {{ $root.players }}
+            <p v-if="(status === stat_ready2 && playerNum === 1)" class="text-center">
+                {{ players }}
             </p>
-            <p v-if="($root.status === stat_ready2 && $root.playerNum !== 1)" class="text-center">
+            <p v-if="(status === stat_ready2 && playerNum !== 1)" class="text-center">
                 Wait for Player 1 to start
             </p>
-            <p v-if="(($root.status === stat_playing) && ($root.playerNum === $root.turn_id))" class="text-center">
-            {{ $root.currentplayer }}
+            <p v-if="((status === stat_playing) && (playerNum === turn_id))" class="text-center">
+            {{ currentplayer }}
             </p>
-            <p v-if="(($root.status === stat_choosefig || $root.status === stat_moving) && ($root.playerNum === $root.turn_id))" class="text-center">
-            {{ $root.currentplayer }}
+            <p v-if="((status === stat_choosefig || status === stat_moving) && (playerNum === turn_id))" class="text-center">
+            {{ currentplayer }}
             </p>
-            <p v-if="(($root.status === stat_choosefig || $root.status === stat_moving) && ($root.playerNum === $root.turn_id))" class="text-center">
-            {{ $root.diceRolled }}
+            <p v-if="((status === stat_choosefig || status === stat_moving) && (playerNum === turn_id))" class="text-center">
+            {{ diceRolled }}
             </p>
-            <p v-if="((0 < $root.turn_id) && ($root.playerNum !== $root.turn_id) && ($root.status === stat_playing || $root.status === stat_choosefig || $root.status === stat_moving) && 0 < $root.playerNum)" class="text-center">
-                Wait for Player {{ $root.turn_id }} to end his turn<svg class="spinner" viewBox="0 0 50 50"><circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle></svg>
+            <p v-if="((0 < turn_id) && (playerNum !== turn_id) && (status === stat_playing || status === stat_choosefig || status === stat_moving) && 0 < playerNum)" class="text-center">
+                Wait for Player {{ turn_id }} to end his turn<svg class="spinner" viewBox="0 0 50 50"><circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle></svg>
             </p>
-            <p v-if="(($root.status === stat_welcome || $root.status === stat_ready1 || $root.status === stat_idle) && ($root.player_count < 2))" class="text-center">
-                {{ $root.atLeast2Players }}
+            <p v-if="((status === stat_welcome || status === stat_ready1 || status === stat_idle) && (player_count < 2))" class="text-center">
+                {{ atLeast2Players }}
             </p>
-            <p v-if="($root.status === stat_welcome || $root.status === stat_ready1 || $root.status === stat_idle)" class="text-center">
-                {{ $root.players }}
+            <p v-if="(status === stat_welcome || status === stat_ready1 || status === stat_idle)" class="text-center">
+                {{ players }}
             </p>
-            <p v-if="($root.status === stat_gamewinner)" class="text-center">
-                We have a winner ! Congratulations {{ $root.gamewinner }} !
+            <p v-if="(status === stat_gamewinner)" class="text-center">
+                We have a winner ! Congratulations {{ gamewinner }} !
             </p>
-            <p v-if="($root.playerNum === -1 && ($root.status !== stat_welcome && $root.status !== stat_ready1 && $root.status !== stat_ready2 && $root.status !== stat_idle))" class="text-center text-light">
+            <p v-if="(playerNum === -1 && (status !== stat_welcome && status !== stat_ready1 && status !== stat_ready2 && status !== stat_idle))" class="text-center text-light">
                 Wait for this game to end.
             </p>
         </div>
@@ -323,14 +320,14 @@ app.component('info-panel', {
                         </div>
                     </div>
                 </div>
-                <div v-if="(($root.status === stat_ready1 || $root.status === stat_ready2) && $root.playerNum === 1)" class="row m-1">
+                <div v-if="((status === stat_ready1 || status === stat_ready2) && playerNum === 1)" class="row m-1">
                     <div class="col text-center">
                         <button type="button" class="btn btn-warning btn-block input-warning-button" v-on:click="startGame()">
                             Start Game</button>
                     </div>
                 </div>
-                <div v-if="($root.playerNum === $root.turn_id)">
-                    <div v-if="($root.status === stat_playing)" class="row m-1">
+                <div v-if="(playerNum === turn_id)">
+                    <div v-if="(status === stat_playing)" class="row m-1">
                         <div class="col">
                             <button type="button" v-on:click="startDiceAudio()" class="btn btn-success btn-block input-normal-button" data-bs-toggle="modal" data-bs-target="#rollModal">
                                 Roll Dice</button>
@@ -356,7 +353,7 @@ app.component('info-panel', {
                             </div>
                         </div>
                     </div>
-                    <div v-if="($root.status === stat_choosefig)" class="row m-1">
+                    <div v-if="(status === stat_choosefig)" class="row m-1">
                         <div class="col btn-group justify-content-center" role="group" aria-label="First group">
                             <button type="button" class="btn btn-secondary input-normal-button" v-on:click="selectFig(1)">
                                 1</button>
@@ -370,13 +367,13 @@ app.component('info-panel', {
                                 5</button>
                         </div>
                     </div>
-                    <div v-if="($root.status === stat_moving)" class="row m-1">
+                    <div v-if="(status === stat_moving)" class="row m-1">
                         <div class="col">
                             <button type="button" class="btn btn-secondary input-normal-button" v-on:click="figMove('w')">
                                 &#9650</button>
                         </div>
                     </div>
-                    <div v-if="($root.status === stat_moving)" class="row m-1">
+                    <div v-if="(status === stat_moving)" class="row m-1">
                         <div class="col btn-group justify-content-center" role="group" aria-label="First group">
                             <button type="button" class="btn btn-secondary input-normal-button" v-on:click="figMove('a')">
                                 &#9668</button>
@@ -386,24 +383,24 @@ app.component('info-panel', {
                                 &#9658</button>
                         </div>
                     </div>
-                    <div v-if="($root.status === stat_moving)" class="row m-1">
+                    <div v-if="(status === stat_moving)" class="row m-1">
                         <div class="col">
                             <button type="button" class="btn btn-warning input-warning-button" v-on:click="skipMove">
                                 Skip</button>
                         </div>
                     </div>
                 </div>
-                <div v-if="(($root.playerNum === -1 && $root.player_count < 4) && ($root.status === stat_welcome || $root.status === stat_ready1 || $root.status === stat_idle))" class="row m-1">
+                <div v-if="((playerNum === -1 && player_count < 4) && (status === stat_welcome || status === stat_ready1 || status === stat_idle))" class="row m-1">
                     <div class="col text-center">
                         <input type="text" class="form-control text-center" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" id="name">
                         <button type="button" class="btn btn-success input-normal-button" v-on:click="addPlayer()">
                             Join Game</button>
                     </div>
                 </div>
-                <p v-if="($root.playerNum === -1 && ($root.status !== stat_welcome && $root.status !== stat_ready1 && $root.status !== stat_ready2 && $root.status !== stat_idle))" class="text-center text-light">
+                <p v-if="(playerNum === -1 && (status !== stat_welcome && status !== stat_ready1 && status !== stat_ready2 && status !== stat_idle))" class="text-center text-light">
                     <svg class="spinner" viewBox="0 0 50 50"> <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle></svg>
                 </p>
-                <p v-if="($root.playerNum > 0 && $root.playerNum !== $root.turn_id)" class="text-center text-light">
+                <p v-if="(playerNum > 0 && playerNum !== turn_id)" class="text-center text-light">
                     Wait for your turn.
                 </p>
             </div>
@@ -423,6 +420,59 @@ app.component('gameboard', {
                 </div>
             </div>
         </div>
+    `
+})
+
+
+app.component('malefiz-nav', {
+    data() {
+        return {
+            homeLink: "/",
+            aboutLink: "/about"
+        }
+    },
+    props: ['selected'],
+    template: `
+ <nav class="navbar navbar-dark navbar-expand-lg bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" id="navBrand">Malefiz</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a v-if="selected === 'home'" class="nav-link active hoverable text-center" aria-current="page" :href="homeLink">Home</a>
+                    <a v-else class="nav-link hoverable text-center" :href="homeLink">Home</a>
+                    <a v-if="selected === 'about'" class="nav-link active hoverable text-center" aria-current="page" :href="aboutLink">About</a>
+                    <a v-else class="nav-link hoverable text-center" :href="aboutLink">About</a>
+                    <button type="button" class="btn btn-dark hoverable" data-bs-toggle="modal" data-bs-target="#infoModal" >
+                        <i class="bi bi-info-circle"></i>
+                        Game Instructions
+                    </button>
+                    <div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true" data-backdrop="false">
+                        <div class="modal-dialog modal-dialog-centered" role="document" >
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="infoModalLabel">Game Instructions</h5>
+                                </div>
+                                <div class="modal-body">
+                                    <h3>Game Rules</h3>
+                                    <em>Malefiz is a board game for 2 to 4 players. Each player has 5 figures to play with. Every figure starts in their base, at the bottom of the board. The beginning player rolls the dice. The thrown number has to be pulled completly. While walking with the figure, change of direction is not allowed. If a player lands on an enemys figure, the enemy has to put his figure back to his base. Figures are allowed to jump over other figures, but not over barricades. If a player lands on the barricade (with the exact number), the barricade gets set anywhere on the game board, all black fields are allowed, except the lowest row.
+                                    </em>
+                                    <h4>Goal Of The Game</h4>
+                                    <em>The player reaching the top of the gameboard first (with the exact number rolled with the dice) with one figure wins the game.
+                                    </em>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
     `
 })
 
