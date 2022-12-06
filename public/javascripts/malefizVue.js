@@ -408,7 +408,10 @@ app.component('info-panel', {
                 <p v-if="($root.playerNum > 0 && $root.playerNum !== $root.turn_id)" class="text-center text-light">
                     Wait for your turn.
                 </p>
-            </div> </div>
+            </div>
+        </div>
+        <audio loop id="winAudio" type="audio/mpeg" src="/assets/audio/win.mp3"></audio>
+        <audio loop id="testAudio" type="audio/mpeg" src="/assets/audio/backgroundaudio.mp3" preload="auto"></audio>
     `
 })
 
