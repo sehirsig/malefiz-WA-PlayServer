@@ -2,9 +2,9 @@ name: Scala CI
 
 on:
   push:
-    branches: [ WA-09-VueJS ]
+    branches: [ development ]
   pull_request:
-    branches: [ WA-09-VueJS ]
+    branches: [ development ]
 
 jobs:
   build:
