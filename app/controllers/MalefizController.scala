@@ -302,6 +302,8 @@ class MalefizController @Inject()(cc: ControllerComponents)(implicit system: Act
               out ! controllerToJson()
             }
           }
+        } else {
+          out ! controllerToJson()
         }
     }
 
