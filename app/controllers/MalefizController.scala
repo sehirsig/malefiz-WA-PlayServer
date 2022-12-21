@@ -136,7 +136,8 @@ class MalefizController @Inject()(cc: ControllerComponents)(implicit system: Act
       "gameStatusID" -> getStatusID(),
       "string" -> Strings(),
       "turn_id" -> currentPlayerNum(),
-      "player_count" -> gameController.game.players.size) //Num of current player 1 - 4
+      "player_count" -> gameController.game.players.size,
+      "secretId" -> "") //Num of current player 1 - 4
     )
   }
 
@@ -209,7 +210,7 @@ class MalefizController @Inject()(cc: ControllerComponents)(implicit system: Act
           "string" -> Strings(),
           "turn_id" -> currentPlayerNum(),
           "player_count" -> gameController.game.players.size,
-          "secretId" -> secretArray(gameController.game.players.size - 1))
+          "secretId" -> {if (req.get("cmd").toString().equals("\"addPlayer\"")) {secretArray(gameController.game.players.size - 1)} else {""}})
         )
       }
     }
