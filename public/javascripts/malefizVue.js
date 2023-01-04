@@ -15,7 +15,7 @@ app.config.globalProperties.stat_entername = 15
 app.component('info-panel', {
     data() {
         return {
-            websocketVUE: new WebSocket("ws://" + location.hostname + ":9000/websocket"),
+            websocketVUE: new WebSocket("wss://" + location.hostname + ":9000/websocket"),
             data: {},
             status: 0, //status kann auch gelöscht und mit data.status aufgerufen werden. (Das wären offline daten.
             gameMessage: " ",
