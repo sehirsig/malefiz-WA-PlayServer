@@ -25,7 +25,7 @@ class MalefizController @Inject()(cc: ControllerComponents)(implicit system: Act
   }
 
   def home = Action {
-    Ok(views.html.malefiz.gameboard())
+    Ok(views.html.malefiz.backend())
   }
 
   def addplayer(name: String) = {
