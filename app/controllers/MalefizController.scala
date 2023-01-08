@@ -1,29 +1,22 @@
 package controllers
 
+import akka.actor.{Actor, ActorRef, ActorSystem, Props}
+import akka.stream.Materializer
+
 import javax.inject._
 import play.api.mvc._
 import de.htwg.se.malefiz.Malefiz
-import de.htwg.se.malefiz.controller.controllerComponent.GameStatus
+import de.htwg.se.malefiz.controller.controllerComponent._
 import de.htwg.se.malefiz.controller.controllerComponent.GameStatus._
-import models._
 import play.api.libs.json.{JsObject, JsValue, Json, Writes}
+import play.api.libs.streams.ActorFlow
+
+import scala.swing.Reactor
 
 
 @Singleton
-class MalefizController @Inject()(cc: ControllerComponents) extends AbstractController(cc) {
+class MalefizController @Inject()(cc: ControllerComponents)(implicit system: ActorSystem, mat: Materializer) extends AbstractController(cc) {
   val gameController = Malefiz.controller
-
-  def malefizAsText = gameController.boardToString()
-
-  def addText = {
-    val gameMessage = GameStatus.gameMessage(gameController.gameStatus)
-    val atLeast2Players = "You need to add at least 2 Players."
-    val players = "Current Players: " + gameController.game.players.mkString(" ")
-    val currentplayer = "Turn of Player: " + gameController.playerStatus.getCurrentPlayer.toString
-    val diceRolled = "You rolled a " + gameController.savedGame.lastFullDice + "." + " Moves left: " + gameController.moveCounter
-
-    Ok(views.html.malefiz.gameboard(this, malefizAsText, gameMessage, diceRolled, currentplayer, atLeast2Players, players))
-  }
 
   def badRequest(errorMessage: String) = BadRequest(errorMessage + "\nPlease return to the last site")
 
@@ -31,22 +24,8 @@ class MalefizController @Inject()(cc: ControllerComponents) extends AbstractCont
     Ok(views.html.index())
   }
 
-  def debugWinTest = Action {
-    gameController.addPlayerDEBUGWINTEST("Herbert")
-    gameController.addPlayerDEBUGWINTEST("Gustav")
-    gameController.startGame()
-    gameController.debugDice()
-    gameController.selectFigure(1)
-    addText
-  }
-
-  def debugRoll = Action {
-    gameController.debugDice()
-    addText
-  }
-
   def home = Action {
-    addText
+    Ok(views.html.malefiz.backend())
   }
 
   def addplayer(name: String) = {
@@ -97,6 +76,7 @@ class MalefizController @Inject()(cc: ControllerComponents) extends AbstractCont
 
   def resetGame = {
     gameController.resetGame()
+    secretArray.empty
   }
 
   def gameMessage() = GameStatus.gameMessage(gameController.gameStatus)
@@ -110,6 +90,15 @@ class MalefizController @Inject()(cc: ControllerComponents) extends AbstractCont
   def diceRolled() = "You rolled a " + gameController.savedGame.lastFullDice + "." + " Moves left: " + gameController.moveCounter
 
   def gamewinner() = gameController.gameWon._2
+
+  def currentPlayerNum() = {
+    val num = gameController.playerStatus.getCurrentPlayer
+    if (num < 1 || num > 4) {
+      0
+    } else {
+      num
+    }
+  }
 
   case class Strings()
   implicit val stringsWrites: Writes[Strings] = new Writes[Strings] {
@@ -145,7 +134,10 @@ class MalefizController @Inject()(cc: ControllerComponents) extends AbstractCont
       "row_size" -> gameController.gameboard.getStandardXYsize._1,
       "col_size" -> gameController.gameboard.getStandardXYsize._2,
       "gameStatusID" -> getStatusID(),
-      "string" -> Strings())
+      "string" -> Strings(),
+      "turn_id" -> currentPlayerNum(),
+      "player_count" -> gameController.game.players.size,
+      "secretId" -> "") //Num of current player 1 - 4
     )
   }
 
@@ -171,38 +163,42 @@ class MalefizController @Inject()(cc: ControllerComponents) extends AbstractCont
     }
   }
 
-  def processCommand(cmd: String, data: String): String = {
-    if (cmd.equals("\"start\"")) {
-      start
-    } else if (cmd.equals("\"rollDice\"")) {
-      rollDice
-    } else if (cmd.equals("\"selectFig\"")) {
-      val result = selectFigure(data.replace("\"", "").toInt)
-      return result
-    } else if (cmd.equals("\"figMove\"")) {
-      move(data.replace("\"", ""))
-    } else if (cmd.equals("\"skip\"")) {
-      skip
-    } else if (cmd.equals("\"addPlayer\"")) {
+  def processCommand(cmd: String, data: String, secretId: String): String = {
+    if (cmd.equals("\"addPlayer\"")) {
       addplayer(data.replace("\"", ""))
-    } else if (cmd.equals("\"reset\"")) {
+      secretArray(gameController.game.players.size - 1) = scala.util.Random.nextInt(9999999).toString
+    }
+    if ("\"" + secretArray(gameController.playerStatus.getCurrentPlayer - 1) + "\"" == secretId) {
+      cmd match {
+        case "\"start\"" => start
+        case "\"rollDice\"" => rollDice
+        case "\"selectFig\"" => return selectFigure(data.toInt)
+        case "\"figMove\"" => move(data)
+        case "\"skip\"" => skip
+        case "\"reset\"" => resetGame
+        case "\"save\"" => saveGame
+        case "\"load\"" => loadGame
+        case "\"undo\"" => undoGame
+        case "\"redo\"" => redoGame
+        case _ =>
+      }
+    } else if (secretArray.contains(secretId.replace("\"", ""))) {
+      if (cmd.equals("\"reset\"")) {
+        resetGame
+      }
+    } else if (cmd.equals("\"reset\"")) { // Nur drinnen weil beforeunload nicht funktioniert
       resetGame
-    } else if (cmd.equals("\"save\"")) {
-      saveGame
-    } else if (cmd.equals("\"load\"")) {
-      loadGame
-    } else if (cmd.equals("\"undo\"")) {
-      undoGame
-    } else if (cmd.equals("\"redo\"")) {
-      redoGame
     }
     "Ok"
   }
 
+  var secretArray = Array("", "", "", "")
+
   def processRequest = Action {
     implicit request => {
       val req = request.body.asJson
-      val result = processCommand(req.get("cmd").toString(), req.get("data").toString())
+      val result = processCommand(req.get("cmd").toString(), req.get("data").toString(), req.get("secretId").toString())
+      // Secret ID Erstellen und zurückschicken
       if (result.contains("Error")) {
         BadRequest(result)
       } else {
@@ -211,19 +207,118 @@ class MalefizController @Inject()(cc: ControllerComponents) extends AbstractCont
           "row_size" -> gameController.gameboard.getStandardXYsize._1,
           "col_size" -> gameController.gameboard.getStandardXYsize._2,
           "gameStatusID" -> getStatusID(),
-          "string" -> Strings())
+          "string" -> Strings(),
+          "turn_id" -> currentPlayerNum(),
+          "player_count" -> gameController.game.players.size,
+          "secretId" -> {if (req.get("cmd").toString().equals("\"addPlayer\"")) {secretArray(gameController.game.players.size - 1)} else {""}})
         )
       }
     }
   }
 
-  def allRoutes = {
-    """
-    GET  /
-    GET  / about
-    POST / command
-    GET  / status
-    GET  / errors / notfound
-    """
+  def controllerToJson(reset:Int = 0) = {
+    (Json.obj(
+      "rows" -> Gamefield(),
+      "row_size" -> gameController.gameboard.getStandardXYsize._1,
+      "col_size" -> gameController.gameboard.getStandardXYsize._2,
+      "gameStatusID" -> getStatusID(),
+      "string" -> Strings(),
+      "turn_id" -> currentPlayerNum(),
+      "player_count" -> gameController.game.players.size,
+      "reset" -> reset,
+      "secretId" -> "")).toString
+  }
+
+  def controllerToJsonSID(reset: Int = 0) = {
+    (Json.obj(
+      "rows" -> Gamefield(),
+      "row_size" -> gameController.gameboard.getStandardXYsize._1,
+      "col_size" -> gameController.gameboard.getStandardXYsize._2,
+      "gameStatusID" -> getStatusID(),
+      "string" -> Strings(),
+      "turn_id" -> currentPlayerNum(),
+      "player_count" -> gameController.game.players.size,
+      "reset" -> reset,
+      "secretId" -> secretArray(gameController.game.players.size - 1))).toString
+  }
+
+  def socket = WebSocket.accept[String, String] { request =>
+    ActorFlow.actorRef { out =>
+      MalefizSocketActor.props(out)
+    }
+  }
+
+  object MalefizSocketActor {
+    def props(out: ActorRef) = {
+      Props(new MalefizSocketActor(out))
+    }
+  }
+
+  def wsCommand(cmd:String, data:String, secretId:String): String = {
+    if (cmd.equals("addPlayer")) {
+      addplayer(data)
+      secretArray(gameController.game.players.size - 1) = scala.util.Random.nextInt(9999999).toString
+    }
+    if (secretArray(gameController.playerStatus.getCurrentPlayer - 1) == secretId) {
+      cmd match {
+        case "start" => start
+        case "rollDice" => rollDice
+        case "selectFig" => return selectFigure(data.toInt)
+        case "figMove" => move(data)
+        case "skip" => skip
+        case "reset" => resetGame
+        case "save" => saveGame
+        case "load" => loadGame
+        case "undo" => undoGame
+        case "redo" => redoGame
+        case _ =>
+      }
+    } else if (secretArray.contains(secretId)) {
+      if (cmd.equals("reset")) {
+        resetGame
+      }
+    } else if (cmd.equals("reset")) { // Nur drinnen weil beforeunload nicht funktioniert
+      resetGame
+    }
+    "Ok"
+  }
+
+  class MalefizSocketActor(out: ActorRef) extends Actor with Reactor {
+    listenTo(gameController)
+
+    def receive = {
+      case msg: String =>
+        System.out.println("Received: " + msg)
+        val split_msg = msg.split('|')
+        if (split_msg.length == 3) {
+          val cmd = split_msg(0)
+          val data = split_msg(1)
+          val secretId = split_msg(2)
+          if (wsCommand(cmd, data, secretId).contains("Error")) {
+            out ! controllerToJson()
+          } else {
+            if (cmd.equals("addPlayer")) {
+              out ! controllerToJsonSID()
+            } else {
+              out ! controllerToJson()
+            }
+          }
+        } else {
+          out ! controllerToJson()
+        }
+    }
+
+    reactions += {
+      case event: RollDice => out ! controllerToJson()
+      case event: Moving => out ! controllerToJson()
+      case event: ChooseFig => out ! controllerToJson()
+      //case event: SettingUp => out ! ("Update") //Überspringen, da bei Add player sofort auf Start Up wechselt
+      case event: StartUp => out ! controllerToJson()
+      case event: StartGame => out ! controllerToJson()
+      case event: WonGame => out ! controllerToJson()
+      case event: GameReset => out ! controllerToJson(1)
+      case event: GameSaved => out ! controllerToJson()
+      case event: GameLoaded => out ! controllerToJson()
+    }
   }
 }
