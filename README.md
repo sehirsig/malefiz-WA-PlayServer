@@ -2,7 +2,7 @@
 # Scala Project Play Server - Malefiz Game
 ## Game Project For The Lecture WA
 
-[![Scala CI](https://github.com/sehirsig/malefiz-WA-PlayServer/actions/workflows/scala.yml/badge.svg?branch=master&kill_cache=1)](https://github.com/sehirsig/malefiz-WA-Play/actions/workflows/scala.yml)
+[![Scala CI](https://github.com/sehirsig/malefiz-WA-PlayServer/actions/workflows/scala.yml/badge.svg?branch=development&kill_cache=1)](https://github.com/sehirsig/malefiz-WA-Play/actions/workflows/scala.yml)
 
 ![gamepicture](https://user-images.githubusercontent.com/81407658/114448533-f96ce480-9bd3-11eb-93a7-74dc0941f6c1.jpg)
 
