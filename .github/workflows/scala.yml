@@ -2,9 +2,9 @@ name: Scala CI
 
 on:
   push:
-    branches: [ WA-12-Deployment ]
+    branches: [ development ]
   pull_request:
-    branches: [ WA-12-Deployment ]
+    branches: [ development ]
 
 jobs:
   build:
