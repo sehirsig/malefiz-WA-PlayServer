@@ -13,8 +13,8 @@ Malefiz is a board game for 2 to 4 players. Each player has 5 figures to play wi
 ## Goal Of The Game
 The player reaching the top of the gameboard first (with the exact number rolled with the dice) with one figure wins the game.
 
-## Vue Frontend
-This is the Player Backend Server of our Malefiz Game. The Frontend Vue Server is [here](https://github.com/sehirsig/malefiz-WA-Vue).
+## Play Server Backend
+This is the Backend Play Server of our Malefiz Game. The Frontend Vue Server is [here](https://github.com/sehirsig/malefiz-WA-Vue).
 
 # Presentation Link
 [Google Presentation](https://docs.google.com/)
