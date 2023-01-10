@@ -4,11 +4,17 @@
     <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/game.css")">
     <div id="malefiz-game">
         <malefiz-nav selected="home"></malefiz-nav>
+        @header()
         <div class="container">
-            <h1 class="m-5">Welcome! This is the backend server for our malefiz scala game project at the HTWG Constance. (6 Semester Software Engineering)</h1>
-            <a href="https://malefiz-wa-playserver.herokuapp.com/" class="link-primary h1 m-5">Backend Server</a>
-            <br>
-            <a href="https://sehirsig.github.io/malefiz-WA-Vue/" class="link-secondary h1 m-5">Frontend Server</a>
+            <div class="card mx-auto" style="width: 35rem;">
+                <img class="card-img-top" src="https://user-images.githubusercontent.com/81407658/114448533-f96ce480-9bd3-11eb-93a7-74dc0941f6c1.jpg" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">Malefiz Backend Server</h5>
+                    <p class="card-text">Welcome! This is the backend server for our malefiz scala game project at the HTWG Constance. (6 Semester Software Engineering)</p>
+                    <a href="https://sehirsig.github.io/malefiz-WA-Vue/" class="btn btn-primary m-1">Go to our Vue Frontend</a>
+                    <a href="https://github.com/sehirsig/malefiz-WA-PlayServer" class="btn btn-success m-1">Go to our Github</a>
+                </div>
+            </div>
         </div>
     </div>
     <script src='@routes.Assets.versioned("javascripts/malefizVue.js")'></script>
